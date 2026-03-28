@@ -77,6 +77,7 @@ public class DataBaseConnection{
         resultSet.close();
         statement.close();
         connection.close();
+        System.out.println(connection + " Closed.");
     }
 
  

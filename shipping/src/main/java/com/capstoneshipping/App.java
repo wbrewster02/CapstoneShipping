@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class App 
 {
-    public static void main( String[] args )
+    public static void main( String[] args ) throws SQLException
     {
         DataBaseConnection dataBase = new DataBaseConnection();
         ResultSet resultSet = null;
@@ -26,5 +26,6 @@ public class App
         } catch(SQLException e){
             System.err.println(e);
         }
+        dataBase.CloseConnections();
     }
 }
