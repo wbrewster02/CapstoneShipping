@@ -1,0 +1,1 @@
+// this file will handle DataBase configuration variables through a .properties file located in the resources folder.

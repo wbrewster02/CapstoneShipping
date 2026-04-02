@@ -1,4 +1,4 @@
-package com.capstoneshipping;
+package com.capstoneshipping.DataBase;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,14 +14,14 @@ import java.lang.Class;
  
  
  
- 
-public class DataBaseConnection{
+// Creates a single DB Connection for the program.
+public class DB_Connection{
 
     private static Connection connection = null;
     private Statement statement = null;
     private ResultSet resultSet = null;
     
-    public DataBaseConnection(){
+    public DB_Connection(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -60,15 +60,29 @@ public class DataBaseConnection{
     }
 
     public ResultSet Execute(String query) throws SQLException{
-        if (connection == null) {
-            throw new SQLException("Cannot execute query: database connection is not initialized.");
-        }
-
+ 
         this.statement = connection.createStatement();
         this.resultSet = statement.executeQuery(query);
 
         return resultSet;
 
+    }
+
+    class customer_Accessor{
+        protected ResultSet customerResultSet;
+        
+        public customer_Accessor() throws SQLException{
+            customerResultSet = retrieve_table();
+        }
+
+        public ResultSet retrieve_table() throws SQLException{
+            return Execute("SELECT * FROM Customer");
+        }
+
+        // public ResultSet filterBy_ID(){
+
+        //     return customerResultSet.f
+        // }
     }
     
 
