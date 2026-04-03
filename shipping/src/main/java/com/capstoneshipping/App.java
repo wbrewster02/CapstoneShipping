@@ -3,15 +3,17 @@ package com.capstoneshipping;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.capstoneshipping.DataBase.*;
+
 
 public class App 
 {
     public static void main( String[] args ) throws SQLException
     {
-        DataBaseConnection dataBase = new DataBaseConnection();
+        DB_Connection dataBase = new DB_Connection();
         ResultSet resultSet = null;
 
-        try{
+        try{  
             resultSet = dataBase.Execute("SELECT * FROM Customer");
             while (resultSet.next()){
                 int id = resultSet.getInt("Customer_ID");
