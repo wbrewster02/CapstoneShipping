@@ -1,5 +1,8 @@
 package com.capstoneshipping.DataBase;
+import java.util.logging.*;
 
-public class DB_Logger {
+// this class Logs key events such as: Errors, 
+// Database queries, database connections, accessed info.
+public class DB_Logger extends LogManager {
     
 }
