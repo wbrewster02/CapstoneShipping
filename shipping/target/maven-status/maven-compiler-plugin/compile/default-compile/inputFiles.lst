@@ -1,2 +1,12 @@
-c:\Users\Daniel\Documents\Scripts_And_Projects\workspace\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\App.java
-c:\Users\Daniel\Documents\Scripts_And_Projects\workspace\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBaseConnection.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\App.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\dao\OrderDAO.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\dao\OrderDAOImpl.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Config.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Connection.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Constants.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_ExceptionHandler.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Logger.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Queries.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\Graphics\MainView.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\Graphics\OrderView.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\model\Order.java
