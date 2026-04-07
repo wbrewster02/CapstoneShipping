@@ -46,9 +46,9 @@ public class OrderDAOImpl implements OrderDAO {
                         null, // Placeholder for orderStatus
                         null, // Placeholder for fulfillmentStatus
                         null  // Placeholder for fulfilledAt
-                        // rs.getString("Order_Status"),
-                        // rs.getString("Fulfillment_Status"),
-                        // rs.getTimestamp("Fulfilled_At") != null ? rs.getTimestamp("Fulfilled_At").toLocalDateTime() : null
+                        // rs.getString("Order_Status"), use -> (DB_Constants.ORDER_STATUS) instead
+                        // rs.getString("Fulfillment_Status"), use -> (DB_Constants.FULFILLMENT_STATUS) instead
+                        // rs.getTimestamp("Fulfilled_At") != null ? rs.getTimestamp("Fulfilled_At").toLocalDateTime() : null use -> (DB_Constants.FULFILLED_AT) instead
                     );
 
                     orders.add(order);
