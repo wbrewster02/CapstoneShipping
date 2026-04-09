@@ -11,3 +11,6 @@ Thumbs.db
 
 # db credentials
 db.properties
+
+# Ignore target directory
+.shipping/target/

@@ -10,6 +10,13 @@ Team Members:
 Description:
 Handles order fulfillment, shipment tracking, and delivery status updates using a shared database.
 
+File Structure:
+- shipping\src\main\java\com\capstoneshipping, Contains main files.
+- capstoneshipping\DataBase package, Contains Logic pertaining to DataBase connection, data acquisition, logging, etc.
+- capstoneshipping\Graphics package, Contains Logic pertaining to GUI Elements.
+- capstoneshipping\model package, Contains Data models that reflects Data from the Mysql Database.
+- capstoneshipping\app.java, Initiates program.
+
 Dependencies:
 
 https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
