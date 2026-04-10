@@ -97,4 +97,16 @@ public class DB_Constants {
     public static final String DISCOUNT_START_DATE = "start_date";
     public static final String DISCOUNT_END_DATE   = "end_date";
 
+    // ORDER_HISTORY_COLUMNS
+
+    
+    // SHIPPING_HISTORY_COLUMNS
+
+
+
+    //Additional columns that may be needed for OrderDAO methods. 
+    //public static final String ORDER_STATUS = "order_status";
+    //public static final String FULFILLMENT_STATUS = "fulfillment_status";
+    //public static final String FULFILLED_AT = "Fulfilled_At";
+
 }
