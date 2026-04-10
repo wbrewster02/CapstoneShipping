@@ -51,29 +51,29 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    // public String getOrderStatus() {
-    //     return orderStatus;
-    // }
+    public String getOrderStatus() {
+        return orderStatus;
+    }
 
-    // public void setOrderStatus(String orderStatus) {
-    //     this.orderStatus = orderStatus;
-    // }
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
+    }
 
-    // public String getFulfillmentStatus() {
-    //     return fulfillmentStatus;
-    // }
+    public String getFulfillmentStatus() {
+        return fulfillmentStatus;
+    }
 
-    // public void setFulfillmentStatus(String fulfillmentStatus) {
-    //     this.fulfillmentStatus = fulfillmentStatus;
-    // }
+    public void setFulfillmentStatus(String fulfillmentStatus) {
+        this.fulfillmentStatus = fulfillmentStatus;
+    }
 
-    // public LocalDateTime getFulfilledAt() {
-    //     return fulfilledAt;
-    // }
+    public LocalDateTime getFulfilledAt() {
+        return fulfilledAt;
+    }
 
-    // public void setFulfilledAt(LocalDateTime fulfilledAt) {
-    //     this.fulfilledAt = fulfilledAt;
-    // }
+    public void setFulfilledAt(LocalDateTime fulfilledAt) {
+        this.fulfilledAt = fulfilledAt;
+    }
 }
 
 

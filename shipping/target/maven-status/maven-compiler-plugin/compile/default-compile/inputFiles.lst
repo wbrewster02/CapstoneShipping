@@ -9,4 +9,8 @@ C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\caps
 C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\DataBase\DB_Queries.java
 C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\Graphics\MainView.java
 C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\Graphics\OrderView.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\Graphics\SearchableView.java
 C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\model\Order.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\model\OrderHistory.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\model\Shipping.java
+C:\Users\wbrew\CapstoneShipping\CapstoneShipping\shipping\src\main\java\com\capstoneshipping\model\ShippingHistory.java
