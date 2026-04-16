@@ -41,14 +41,10 @@ public class OrderDAOImpl implements OrderDAO {
                         rs.getInt(DB_Constants.ORDER_ID),
                         rs.getInt(DB_Constants.CUSTOMER_ID),
                         rs.getTimestamp(DB_Constants.ORDER_DATE).toLocalDateTime(),
-
-
-                        null, // Placeholder for orderStatus
-                        null, // Placeholder for fulfillmentStatus
-                        null  // Placeholder for fulfilledAt
-                        // rs.getString("Order_Status"), use -> (DB_Constants.ORDER_STATUS) instead
-                        // rs.getString("Fulfillment_Status"), use -> (DB_Constants.FULFILLMENT_STATUS) instead
-                        // rs.getTimestamp("Fulfilled_At") != null ? rs.getTimestamp("Fulfilled_At").toLocalDateTime() : null use -> (DB_Constants.FULFILLED_AT) instead
+                        //constants need to be added to DB_Constants for the following fields:
+                        rs.getString("Order_Status"), //use -> (DB_Constants.ORDER_STATUS) instead
+                        rs.getString("Fulfillment_Status"), //use -> (DB_Constants.FULFILLMENT_STATUS) instead
+                        rs.getTimestamp("Fulfilled_At") != null ? rs.getTimestamp("Fulfilled_At").toLocalDateTime() : null //use -> (DB_Constants.FULFILLED_AT) instead
                     );
 
                     orders.add(order);
@@ -60,15 +56,16 @@ public class OrderDAOImpl implements OrderDAO {
             return orders;
     }
 
-    @Override
-    public List<Order> getOrdersByOrderStatus(String orderStatus) {
-        return new ArrayList<>();
-    }
+    //Check OrderDAO for clarity on why these methods are currently unused and commented out.
+    // @Override
+    // public List<Order> getOrdersByOrderStatus(String orderStatus) {
+    //     return new ArrayList<>();
+    // }
 
-    @Override
-    public List<Order> getOrdersByFulfillmentStatus(String fulfillmentStatus) {
-        return new ArrayList<>();
-    }
+    // @Override
+    // public List<Order> getOrdersByFulfillmentStatus(String fulfillmentStatus) {
+    //     return new ArrayList<>();
+    // }
 
     @Override
     public void updateOrderStatus(int orderId, String newStatus) {
