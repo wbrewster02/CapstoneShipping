@@ -4,6 +4,10 @@
 
 package com.capstoneshipping.Graphics;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import com.capstoneshipping.dao.OrderDAOImpl;
 import com.capstoneshipping.model.Order;
 
@@ -11,12 +15,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 
+import javafx.scene.Scene;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-
-import java.util.List;
+import javafx.stage.Stage;
 
 
 public class OrderView extends BorderPane implements SearchableView {
@@ -28,6 +34,9 @@ public class OrderView extends BorderPane implements SearchableView {
     private ObservableList<Order> masterList;
     private FilteredList<Order> filteredList;
 
+    private static final DateTimeFormatter FORMATTER =
+        DateTimeFormatter.ofPattern("M/d/yyyy h:mm a");
+
     public OrderView() {
         tableView = new TableView<>();
         orderDAO = new OrderDAOImpl();
@@ -38,8 +47,23 @@ public class OrderView extends BorderPane implements SearchableView {
         TableColumn<Order, Integer> customerIdCol = new TableColumn<>("Customer ID");
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
 
-        TableColumn<Order, Object> orderDateCol = new TableColumn<>("Order Date");
+        //TableColumn<Order, Object> orderDateCol = new TableColumn<>("Order Date"); //here
+        //orderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        TableColumn<Order, LocalDateTime> orderDateCol = new TableColumn<>("Order Date");
         orderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
+        orderDateCol.setCellFactory(col -> new TableCell<Order, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(FORMATTER));
+                }
+            }
+        });
+
 
         TableColumn<Order, String> orderStatusCol = new TableColumn<>("Order Status");
         orderStatusCol.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
@@ -47,8 +71,22 @@ public class OrderView extends BorderPane implements SearchableView {
         TableColumn<Order, String> fulfillmentStatusCol = new TableColumn<>("Fulfillment Status");
         fulfillmentStatusCol.setCellValueFactory(new PropertyValueFactory<>("fulfillmentStatus"));
 
-        TableColumn<Order, Object> fulfilledAtCol = new TableColumn<>("Fulfilled At");
+        //TableColumn<Order, Object> fulfilledAtCol = new TableColumn<>("Fulfilled At"); //here
+        //fulfilledAtCol.setCellValueFactory(new PropertyValueFactory<>("fulfilledAt"));
+        TableColumn<Order, LocalDateTime> fulfilledAtCol = new TableColumn<>("Fulfilled At");
         fulfilledAtCol.setCellValueFactory(new PropertyValueFactory<>("fulfilledAt"));
+        fulfilledAtCol.setCellFactory(col -> new TableCell<Order, LocalDateTime>() {
+            @Override
+            protected void updateItem(LocalDateTime item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    setText(item.format(FORMATTER));
+                }
+            }
+        });
 
         tableView.getColumns().addAll(
                 orderIdCol,
@@ -58,6 +96,25 @@ public class OrderView extends BorderPane implements SearchableView {
                 fulfillmentStatusCol,
                 fulfilledAtCol
         );
+
+
+        //---------------------- Selecting a row and opening details view ----------------------
+        tableView.setRowFactory(tv -> {
+            TableRow<Order> row = new TableRow<>();
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && !row.isEmpty()) {
+                    Order selectedOrder = row.getItem();
+                    System.out.println(selectedOrder.getOrderId());
+                    openOrderDetails(selectedOrder);
+                }
+            });
+
+            return row;
+        });
+        //----------------------
+
+        
 
         loadOrders();
 
@@ -95,8 +152,10 @@ public class OrderView extends BorderPane implements SearchableView {
             if (selectedField == null || selectedField.isEmpty()) {
                 return (order.getOrderId() + "").contains(lowerCaseFilter)
                         || (order.getCustomerId() + "").contains(lowerCaseFilter)
-                        || (order.getOrderStatus() != null && order.getOrderStatus().toLowerCase().contains(lowerCaseFilter))
-                        || (order.getFulfillmentStatus() != null && order.getFulfillmentStatus().toLowerCase().contains(lowerCaseFilter));
+                        || (order.getOrderStatus() != null && 
+                            order.getOrderStatus().toString().toLowerCase().contains(lowerCaseFilter))
+                        || (order.getFulfillmentStatus() != null && 
+                            order.getFulfillmentStatus().toString().toLowerCase().contains(lowerCaseFilter));
             }
 
             // Field specific filtering
@@ -109,18 +168,29 @@ public class OrderView extends BorderPane implements SearchableView {
 
                 case "Order Status":
                     return order.getOrderStatus() != null &&
-                            order.getOrderStatus().toLowerCase().contains(lowerCaseFilter);
+                            order.getOrderStatus().toString().toLowerCase().contains(lowerCaseFilter);
 
                 case "Fulfillment Status":
                     return order.getFulfillmentStatus() != null &&
-                            order.getFulfillmentStatus().toLowerCase().contains(lowerCaseFilter);
+                            order.getFulfillmentStatus().toString().toLowerCase().contains(lowerCaseFilter);
 
                 default:
                     return true;
             }
         });
     }
-        
+    //----------------------- Method to open order details view ----------------------
+    private void openOrderDetails(Order order) {
+        Stage stage = new Stage();
+
+        OrderDetailView view = new OrderDetailView(order, stage, () -> tableView.refresh(), orderDAO); 
+        // Pass a callback to refresh the table after updates
+
+        stage.setTitle("Order Details - #" + order.getOrderId());
+        stage.setScene(new Scene(view, 400, 300));
+        stage.show();
+    }
+    //----------------------   
 
 }
 

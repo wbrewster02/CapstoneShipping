@@ -4,7 +4,7 @@
 
 package com.capstoneshipping.Graphics;
 
-import com.capstoneshipping.model.Order; //may not need import.
+//import com.capstoneshipping.model.Order; //may not need import.
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;

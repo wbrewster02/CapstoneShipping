@@ -13,4 +13,4 @@ Thumbs.db
 db.properties
 
 # Ignore target directory
-.shipping/target/
+shipping/target/

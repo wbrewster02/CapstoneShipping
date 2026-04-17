@@ -62,6 +62,9 @@ public class DB_Constants {
     public static final String ORDER_ID          = "Order_ID";
     public static final String ORDER_CUSTOMER_ID = "Customer_ID";
     public static final String ORDER_DATE        = "order_date";
+    public static final String ORDER_STATUS = "order_status";
+    public static final String FULFILLMENT_STATUS = "fulfillment_status";
+    public static final String FULFILLED_AT = "Fulfilled_At";
 
 
     // ORDER_ITEM_COLUMNS
@@ -104,7 +107,7 @@ public class DB_Constants {
 
 
 
-    //Additional columns that may be needed for OrderDAO methods. 
+    //Additional columns that may be needed for OrderDAO methods. Placed in order table. 
     //public static final String ORDER_STATUS = "order_status";
     //public static final String FULFILLMENT_STATUS = "fulfillment_status";
     //public static final String FULFILLED_AT = "Fulfilled_At";
