@@ -26,17 +26,23 @@ import javafx.scene.layout.BackgroundPosition;
 import tools.jackson.databind.*;
 import tools.jackson.core.type.TypeReference;
 
+
+// Login View Handles UI Layout and UI Elements for Login View.
 public class LoginView extends VBox {
+
+    // Stores Hashed Employee Credentials
     private ArrayList<Employee> Credentials = new ArrayList<>();
+    
     private static DB_Connection database;
-    private ViewController controller;
-
+    
+    // ViewController Handles Javafx Scene/layout changes.
+    private ViewController viewController;
+    
     public LoginView(ViewController controller) {
-
-        this.controller = controller;
-        setAlignment(Pos.CENTER);
-
-        Image bgImage = new Image(getClass().getClassLoader().getResourceAsStream("Background.png"));
+        // Elevate Retail Logo Background Image.
+        Image bgImage = new Image(
+            getClass().getClassLoader().getResourceAsStream("background.png")
+        );
         
         BackgroundImage background = new BackgroundImage(
             bgImage,
@@ -47,38 +53,50 @@ public class LoginView extends VBox {
         );
         setBackground(new Background(background));
         setAlignment(Pos.CENTER);
+        
+        // JavaFx ViewController
+        this.viewController = controller;
+        
+        // Labels: title, subtitle, error: invalid login/login != "".
+        Label titleLabel = new Label("Capstone Shipping");
+        Label subtitleLabel = new Label("Employee sign in.");
+        Label errorLabel = new Label();
+        
 
+        // Vertical box container that holds UI Elements for Login View.
         VBox form = new VBox(12);
         form.setAlignment(Pos.CENTER);
         form.setPadding(new Insets(40));
         form.setMaxWidth(360);
 
-        Label titleLabel = new Label("Capstone Shipping");
-
-        Label subtitleLabel = new Label("Employee sign in.");
         
+        // Username field.
         TextField usernameField = new TextField();
         usernameField.setPromptText("Username");
         usernameField.setMaxWidth(Double.MAX_VALUE);
         usernameField.setPrefHeight(40);
         
+        
+        // Password field.
         PasswordField passwordField = new PasswordField();
         passwordField.setPromptText("Password");
         passwordField.setMaxWidth(Double.MAX_VALUE);
         passwordField.setPrefHeight(40);
         
+
+        // Login Button.
         Button loginBtn = new Button("Sign In");
         loginBtn.setMaxWidth(Double.MAX_VALUE);
         loginBtn.setPrefHeight(42);
-
-        Label errorLabel = new Label();
-
-
+        
         loginBtn.setOnAction(e -> {
             getCredentials();
             loginEmployee(usernameField, passwordField, errorLabel);
         });
         
+
+        
+        // Add UI Elements to form Vbox and window Layout.
         form.getChildren().addAll(
             titleLabel,
             subtitleLabel,
@@ -89,49 +107,63 @@ public class LoginView extends VBox {
         );
         getChildren().add(form);
 
-    } // End of Constructor
+    } // End of Constructor.
     
+
+    // Handles Employee Login Logic, Initializes DB Connection and Switches to MainView Via Graphics.ViewController.showMainView() method.
     private void loginEmployee(TextField user, PasswordField pass, Label error) {
         
         // grab values
         String username = user.getText().trim();
         String password = pass.getText();
         
-        // validate not empty
+        // Validate not empty
         if (username.isEmpty() || password.isEmpty()) {
             error.setText("Please fill in all fields.");
             return;
         }
         
-        // check credentials // change logic to a sep file
+        // Validate credentials
         for (Employee employee : Credentials){
-            
+
+            // Validate Login, Pending Changes for hashed password validation.
             if (employee.getUsername().equals(username)) {
+                // Authenticate/validate password
                 if (employee.getPassword().equals(password)){
+
+                    // If DB_Connection does not exist: (it shouldn't) assign new DB Connection.
                     if (database == null){
-                        database = new DB_Connection(); // Initialize database connection
+                        // Initialize database connection
+                        database = new DB_Connection(); 
                     }
-                    
+
+                    // Reset Text/Error fields.
                     user.setText("");
                     pass.setText("");
                     error.setText("");
 
-                    this.controller.showMainView();
+                    // Switch to MainView.
+                    this.viewController.showMainView();
                     return;
                 }
             } 
-
+            // Loop Termination signifies invalid user/password combination.
             error.setText("Invalid username or password.");
         }
     }
 
+    // Retrieves Credentials from resources/credentials.json
     private void getCredentials(){
+        
+        // ObjectMapper maps Json values to appropriate class models.
         ObjectMapper mapper = new ObjectMapper();
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("Credentials.json")) {
+        
+        // Retrieve file.
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("credentials.json")) {
             if (in == null) {
                 throw new FileNotFoundException("Credentials not found on classpath.");
             }
-
+            // Maps data to class model.
             ArrayList<Employee> employees = mapper.readValue(in, new TypeReference<ArrayList<Employee>>() {});
             this.Credentials.addAll(employees);
 

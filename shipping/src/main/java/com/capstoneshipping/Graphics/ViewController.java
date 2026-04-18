@@ -33,7 +33,7 @@ public class ViewController {
         this.mainView = new MainView(this);          
         showLoginView();
 
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("Background.png"));
+        Image image = new Image(getClass().getClassLoader().getResourceAsStream("background.png"));
         stage.getIcons().add(image);
 
         primaryStage.show();
@@ -46,6 +46,9 @@ public class ViewController {
         primaryStage.setResizable(false);
     }
     public void logout() {
+        // reset views.
+        this.mainView = null;
+        this.orderView = null;
         
         // Clear the DB connection
         DB_Connection.resetConnection();
@@ -82,7 +85,11 @@ public class ViewController {
         return orderView;
     }
     
-    public MainView getMainView() { 
+    public MainView getMainView() {
+        if (mainView == null) {
+            mainView = new MainView(this);
+        }
+
         return mainView;
     }
 }
