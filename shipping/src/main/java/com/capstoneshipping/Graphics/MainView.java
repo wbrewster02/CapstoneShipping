@@ -1,20 +1,18 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// Graphics.MainView version: 1.0
-// Date Modified: 4/3/2026
+// Graphics.MainView version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping.Graphics;
 
-import com.capstoneshipping.model.Order; //may not need import.
-
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
-
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import javafx.geometry.Insets;
 
 
 public class MainView extends BorderPane {
@@ -23,14 +21,20 @@ public class MainView extends BorderPane {
         private final Button orderHistoryBtn;
         private final Button shippingBtn;
         private final Button shippingHistoryBtn;
+        private final Button logoutBtn;
         private final ChoiceBox<String> choiceBox;
         private final TextField searchField;
 
-    public MainView() {
+        private ViewController viewController;
+
+    public MainView(ViewController viewController) {
+        this.viewController = viewController;
+
         ordersBtn = new Button("Orders");
         orderHistoryBtn = new Button("Order History");
         shippingBtn = new Button("Shipping");
         shippingHistoryBtn = new Button("Shipping History");
+        logoutBtn = new Button("Logout");
 
         choiceBox = new ChoiceBox<>();
         choiceBox.getItems().addAll(
@@ -47,11 +51,16 @@ public class MainView extends BorderPane {
         //BorderPane to place the main content in the center and everything else at the top.
         //left inside the constructor, local layount variables. We can adjust the spacing and padding as needed.
         HBox buttonBar = new HBox(10);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
         buttonBar.getChildren().addAll(
             ordersBtn,
             orderHistoryBtn,
             shippingBtn,
-            shippingHistoryBtn
+            shippingHistoryBtn,
+            spacer,
+            logoutBtn
         );
 
         HBox searchBar = new HBox(10);
@@ -66,29 +75,32 @@ public class MainView extends BorderPane {
 
         setTop(topContainer);
 
-        
+
 
 
         //Default view = Orders
-        OrderView orderView = new OrderView();
-        setCenter(orderView);
-
+        setCenter(this.viewController.getOrderView());
         // Button action (only Orders works for now)
-        ordersBtn.setOnAction(e -> setCenter(new OrderView()));
+        ordersBtn.setOnAction(e -> setCenter(this.viewController.getOrderView()));
+        logoutBtn.setOnAction(e -> this.viewController.logout());
 
+        // orderHistoryBtn.setOnAction(e -> setCenter(viewController.getOrderHistoryView()));
+        // shippingBtn.setOnAction(e -> setCenter(viewController.getShippingView()));
+        // shippingHistoryBtn.setOnAction(e -> setCenter(viewController.getShippingHistoryView()));
+        
         // Optional: disable others for now
-        orderHistoryBtn.setDisable(true);
-        shippingBtn.setDisable(true);
-        shippingHistoryBtn.setDisable(true);
-
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            //System.out.println("Search text changed: " + newVal); //debugging line to confirm listener is working
-            orderView.applySearch(choiceBox.getValue(), newVal);
+            OrderView ov = this.viewController.getOrderView();
+            if (ov != null) {
+                ov.applySearch(choiceBox.getValue(), newVal);
+            }
         });
 
         choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            //System.out.println("Search field changed: " + newVal); //debugging line to confirm listener is working
-            orderView.applySearch(newVal, searchField.getText());
+            OrderView ov = this.viewController.getOrderView();
+            if (ov != null) {
+                ov.applySearch(newVal, searchField.getText());
+            }
         });
     }
 }

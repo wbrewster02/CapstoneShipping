@@ -1,6 +1,6 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// Graphics.OrderView version: 1.0
-// Date Modified: 4/3/2026
+// Graphics.OrderView version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping.Graphics;
 
@@ -15,7 +15,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-
 import java.util.List;
 
 
@@ -28,7 +27,11 @@ public class OrderView extends BorderPane implements SearchableView {
     private ObservableList<Order> masterList;
     private FilteredList<Order> filteredList;
 
-    public OrderView() {
+    private ViewController viewController;
+
+    public OrderView(ViewController viewController) {
+        this.viewController = viewController;
+
         tableView = new TableView<>();
         orderDAO = new OrderDAOImpl();
 
@@ -51,25 +54,26 @@ public class OrderView extends BorderPane implements SearchableView {
         fulfilledAtCol.setCellValueFactory(new PropertyValueFactory<>("fulfilledAt"));
 
         tableView.getColumns().addAll(
+            List.of(
                 orderIdCol,
                 customerIdCol,
                 orderDateCol,
                 orderStatusCol,
                 fulfillmentStatusCol,
                 fulfilledAtCol
+            )
         );
-
-        loadOrders();
 
         setCenter(tableView);
     }
 
-    private void loadOrders() {
-        List<Order> orders = orderDAO.getAllOrders(); // all orders from DB using DAO
+    public void loadOrders() {
 
+        List<Order> orders = orderDAO.getAllOrders(); // all orders from DB using DAO
+        
         masterList = FXCollections.observableArrayList(orders); // Wrap the list of orders in an ObservableList for JavaFX
         filteredList = new FilteredList<>(masterList, p -> true); //no filter applied, so all orders are shown
-
+        
         tableView.setItems(filteredList);
 
         // ObservableList<Order> orderList = FXCollections.observableArrayList(orders);

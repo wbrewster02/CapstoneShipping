@@ -1,6 +1,6 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// DataBase.DB_Config version: 1.0
-// Date Modified: 4/3/2026
+// DataBase.DB_Config version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping.DataBase;
 

@@ -19,6 +19,10 @@ File Structure:
 
 Dependencies:
 
+https://mvnrepository.com/artifact/tools.jackson.core/jackson-core
+
+https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind
+
 https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 
 https://mvnrepository.com/artifact/org.openjfx/javafx

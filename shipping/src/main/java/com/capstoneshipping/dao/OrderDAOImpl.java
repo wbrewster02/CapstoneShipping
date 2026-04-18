@@ -1,6 +1,6 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// dao.OrderDAOImpl version: 1.0
-// Date Modified: 4/3/2026
+// dao.OrderDAOImpl version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping.dao;
 
@@ -20,12 +20,14 @@ public class OrderDAOImpl implements OrderDAO {
     private Connection connection;
 
     public OrderDAOImpl() {
-        this.connection = DB_Connection.getConnection();
     }
 
     @Override
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
+        if (this.connection == null){
+            this.connection = DB_Connection.getConnection();
+        }
         // Order is a reserved keyword in SQL, so we need to escape it with brackets. If it fails to work, try backticks (`Order`) instead.
         // MUST use backticks
 

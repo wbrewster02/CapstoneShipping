@@ -1,10 +1,9 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// DataBase.DB_Connection version: 1.0
-// Date Modified: 4/3/2026
+// DataBase.DB_Connection version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping.DataBase;
 
-import java.net.ConnectException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -45,11 +44,25 @@ public class DB_Connection{
         if (connection != null){
             return connection;
         }
-        return null;
+        
+        new DB_Connection();
+        
+        return connection;
+    }
+    public static void resetConnection() {
+        try {
+            if (!connection.isClosed()) {
+                CloseConnections();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            connection = null;
+        }
     }
 
     // Close opened connections.   
-    public void CloseConnections() throws SQLException {
+    public static void CloseConnections() throws SQLException {
         // Close Connection if != null
         if (connection != null){
             connection.close();
