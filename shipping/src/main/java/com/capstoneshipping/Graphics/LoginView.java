@@ -26,7 +26,7 @@ import javafx.scene.layout.BackgroundPosition;
 import tools.jackson.databind.*;
 import tools.jackson.core.type.TypeReference;
 
-
+// Login Data Pulled from json to simulate database: database does not contain employee Tables.
 // Login View Handles UI Layout and UI Elements for Login View.
 public class LoginView extends VBox {
 
