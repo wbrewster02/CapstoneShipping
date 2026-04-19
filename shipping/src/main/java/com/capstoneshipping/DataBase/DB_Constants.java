@@ -102,11 +102,11 @@ public class DB_Constants {
     
     // SHIPPING_HISTORY_COLUMNS
 
+    
 
-
-    //Additional columns that may be needed for OrderDAO methods. 
-    //public static final String ORDER_STATUS = "order_status";
-    //public static final String FULFILLMENT_STATUS = "fulfillment_status";
-    //public static final String FULFILLED_AT = "Fulfilled_At";
+    //Additional columns that may be needed for OrderDAO methods. Placed in order table. 
+    public static final String ORDER_STATUS = "order_status";
+    public static final String FULFILLMENT_STATUS = "fulfillment_status";
+    public static final String FULFILLED_AT = "Fulfilled_At";
 
 }

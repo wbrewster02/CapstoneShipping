@@ -10,6 +10,16 @@ public class DB_Queries {
     // ORDER_QUERIES
     public static final String GET_ALL_ORDERS = 
         "SELECT * FROM " + DB_Constants.ORDER_TABLE;
+
+    public static final String UPDATE_ORDER_STATUS =
+        "UPDATE `Order` SET Order_Status = ? WHERE Order_ID = ?";
+
+    public static final String UPDATE_FULFILLMENT_STATUS =
+        "UPDATE `Order` SET Fulfillment_Status = ? WHERE Order_ID = ?";
+
+    public static final String UPDATE_FULFILLED_AT =
+        "UPDATE `Order` SET Fulfilled_At = ? WHERE Order_ID = ?";
+    
     //
 
     // CUSTOMER_QUERIES.

@@ -18,13 +18,26 @@ File Structure:
 - capstoneshipping\app.java, Initiates program.
 
 Dependencies:
+    - Password Hashing and Decrpyting.
+Source: https://mvnrepository.com/artifact/org.mindrot/jbcrypt
+    
+    - Json Accessor/Parser for Password Storage.
+Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-core
 
-https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
+    - Json Accessor/Parser for Password Storage.
+Source: https://mvnrepository.com/artifact/tools.jackson.core/jackson-databind
 
-https://mvnrepository.com/artifact/org.openjfx/javafx
+    - Mysql Jdbc
+Source: https://mvnrepository.com/artifact/com.mysql/mysql-connector-j
 
-https://mvnrepository.com/artifact/org.openjfx/javafx
+    - JavaFX UI Dependency
+Source: https://mvnrepository.com/artifact/org.openjfx/javafx
 
-https://mvnrepository.com/artifact/org.openjfx/javafx
+    - JavaFX UI Dependency
+Source: https://mvnrepository.com/artifact/org.openjfx/javafx
 
-https://mvnrepository.com/artifact/org.openjfx/javafx-controls
+    - JavaFX UI Dependency
+Source: https://mvnrepository.com/artifact/org.openjfx/javafx
+
+    - JavaFX UI Dependency
+Source: https://mvnrepository.com/artifact/org.openjfx/javafx-controls
