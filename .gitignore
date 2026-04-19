@@ -13,7 +13,7 @@ Thumbs.db
 db.properties
 
 # Application Employee Credentials
-Credentials.json
+credentials.json
 
 # Ignore target directory
 /shipping/target/
