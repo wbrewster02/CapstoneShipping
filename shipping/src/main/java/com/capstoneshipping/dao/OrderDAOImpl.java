@@ -45,10 +45,10 @@ public class OrderDAOImpl implements OrderDAO {
                 rs.getInt(DB_Constants.ORDER_ID),
                 rs.getInt(DB_Constants.CUSTOMER_ID),
                 rs.getTimestamp(DB_Constants.ORDER_DATE).toLocalDateTime(),
-                mapOrderStatus(rs.getString("Order_Status")),
-                mapFulfillmentStatus(rs.getString("Fulfillment_Status")),
-                rs.getTimestamp("Fulfilled_At") != null
-                    ? rs.getTimestamp("Fulfilled_At").toLocalDateTime()
+                mapOrderStatus(rs.getString(DB_Constants.ORDER_STATUS)),
+                mapFulfillmentStatus(rs.getString(DB_Constants.FULFILLMENT_STATUS)),
+                rs.getTimestamp(DB_Constants.FULFILLED_AT) != null
+                    ? rs.getTimestamp(DB_Constants.FULFILLED_AT).toLocalDateTime()
                     : null
                 );
                 orders.add(order);
