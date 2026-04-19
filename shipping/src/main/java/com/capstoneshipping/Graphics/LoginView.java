@@ -1,6 +1,6 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// Graphics.LoginView version: 1.0
-// Date Modified: 4/17/2026
+// Graphics.LoginView version: 1.1
+// Date Modified: 4/19/2026
 
 package com.capstoneshipping.Graphics;
 

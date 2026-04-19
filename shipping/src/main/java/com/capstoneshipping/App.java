@@ -1,6 +1,6 @@
 // Daniel Munoz, William Brewster, Mikenzie Adkins.
-// capstoneshipping.App version: 1.0
-// Date Modified: 4/3/2026
+// capstoneshipping.App version: 1.1
+// Date Modified: 4/17/2026
 
 package com.capstoneshipping;
 import com.capstoneshipping.DataBase.*;
@@ -14,12 +14,13 @@ public class App extends Application
 
     @Override
     public void start(Stage primaryStage){
-        new ViewController(primaryStage);
+        ViewController viewController = new ViewController(primaryStage);
                 
         primaryStage.setTitle("Capstone Shipping - Orders");
 
         primaryStage.setOnCloseRequest(e -> {
         try {
+            viewController.logout();
             DB_Connection.CloseConnections();
         } catch (Exception ex) {
             ex.printStackTrace();

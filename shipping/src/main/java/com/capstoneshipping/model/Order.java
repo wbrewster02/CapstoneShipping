@@ -10,15 +10,19 @@ public class Order {
     private int orderId;
     private int customerId;
     private LocalDateTime orderDate;
-    private String orderStatus;
-    private String fulfillmentStatus;
+
+    private OrderStatus orderStatus;
+    private FulfillmentStatus fulfillmentStatus;
+
+    //private String orderStatus;
+    //private String fulfillmentStatus;
     private LocalDateTime fulfilledAt;
 
     public Order() {
         
     }
 
-    public Order(int orderId, int customerId, LocalDateTime orderDate, String orderStatus, String fulfillmentStatus, LocalDateTime fulfilledAt) {
+    public Order(int orderId, int customerId, LocalDateTime orderDate, OrderStatus orderStatus, FulfillmentStatus fulfillmentStatus, LocalDateTime fulfilledAt) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -51,19 +55,19 @@ public class Order {
         this.orderDate = orderDate;
     }
 
-    public String getOrderStatus() {
+    public OrderStatus getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
     }
 
-    public String getFulfillmentStatus() {
+    public FulfillmentStatus getFulfillmentStatus() {
         return fulfillmentStatus;
     }
 
-    public void setFulfillmentStatus(String fulfillmentStatus) {
+    public void setFulfillmentStatus(FulfillmentStatus fulfillmentStatus) {
         this.fulfillmentStatus = fulfillmentStatus;
     }
 
@@ -74,16 +78,17 @@ public class Order {
     public void setFulfilledAt(LocalDateTime fulfilledAt) {
         this.fulfilledAt = fulfilledAt;
     }
-    
-    @Override
-    public String toString() {
-        return "Order{" +
-                "orderId=" + orderId +
-                ", customerId=" + customerId +
-                ", orderDate=" + orderDate +
-                ", orderStatus='" + orderStatus + '\'' +
-                ", fulfillmentStatus='" + fulfillmentStatus + '\'' +
-                ", fulfilledAt=" + fulfilledAt +
-                '}';
-    }
 }
+
+
+// @Override
+// public String toString() {
+//     return "Order{" +
+//             "orderId=" + orderId +
+//             ", customerId=" + customerId +
+//             ", orderDate=" + orderDate +
+//             ", orderStatus='" + orderStatus + '\'' +
+//             ", fulfillmentStatus='" + fulfillmentStatus + '\'' +
+//             ", fulfilledAt=" + fulfilledAt +
+//             '}';
+// }

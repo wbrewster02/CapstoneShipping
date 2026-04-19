@@ -1,3 +1,7 @@
+// Daniel Munoz, William Brewster, Mikenzie Adkins.
+// model.Shipping version: 1.0
+// Date Modified: 4/19/2026
+
 package com.capstoneshipping.model;
 
 import java.time.LocalDateTime;
