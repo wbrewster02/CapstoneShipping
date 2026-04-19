@@ -49,9 +49,7 @@ public class ViewController {
 
         // Views assignment.
         this.loginView = new LoginView(this);
-        this.orderView = new OrderView(this);
-        this.mainView = new MainView(this);
-        
+
         showLoginView();
 
         // Icon Image set to Elevate Retail logo.
