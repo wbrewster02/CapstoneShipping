@@ -28,6 +28,9 @@ public class ViewController {
     private OrderView orderView;
     private OrderDetailView orderDetailView;
 
+    // Icon Image
+    private Image image;
+
     public ViewController(Stage stage) {
         // javafx stage/Layout Assignment.
         this.primaryStage = stage;
@@ -39,7 +42,7 @@ public class ViewController {
         Scene scene = new Scene(layout, 400, 200);
 
         // Create Order Scene.
-        Scene orderDetailScene = new Scene(orderDetailLayout, 300, 400);
+        Scene orderDetailScene = new Scene(orderDetailLayout, 300, 300);
 
         primaryStage.setScene(scene);
         orderDetailStage.setScene(orderDetailScene);
@@ -52,7 +55,7 @@ public class ViewController {
         showLoginView();
 
         // Icon Image set to Elevate Retail logo.
-        Image image = new Image(getClass().getClassLoader().getResourceAsStream("background.png"));
+        this.image = new Image(getClass().getClassLoader().getResourceAsStream("background.png"));
         stage.getIcons().add(image);
 
     }
@@ -107,11 +110,15 @@ public class ViewController {
         if (orderDetailView == null){
             orderDetailView = new OrderDetailView(this, order, orderDetailStage, () -> this.orderView.getTableView().refresh(), orderView.getOrderDAO());
         }
-
+        
         orderDetailLayout.setCenter(this.orderDetailView);
+        
+        orderDetailStage.getIcons().add(this.image);
         
         orderDetailStage.setTitle("Order Details - #" + order.getOrderId());
         
+        orderDetailStage.setResizable(false);
+
         orderDetailStage.show();
 
         // Reset Order Detail View.

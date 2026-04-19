@@ -51,7 +51,7 @@ public class DB_Connection{
     }
     public static void resetConnection() {
         try {
-            if (connection == null) {
+            if (connection != null) {
                 CloseConnections();
             }
         } catch (SQLException e) {
