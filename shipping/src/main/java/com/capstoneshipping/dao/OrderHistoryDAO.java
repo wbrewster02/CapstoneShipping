@@ -1,16 +1,16 @@
-package com.capstoneshipping.dao;
+// package com.capstoneshipping.dao;
 
-import java.time.LocalDateTime;
-import java.util.List;
+// import java.time.LocalDateTime;
+// import java.util.List;
 
-import com.capstoneshipping.model.FulfillmentStatus;
-import com.capstoneshipping.model.Order;
-import com.capstoneshipping.model.OrderStatus;
+// import com.capstoneshipping.model.FulfillmentStatus;
+// import com.capstoneshipping.model.Order;
+// import com.capstoneshipping.model.OrderStatus;
 
-public interface OrderHistoryDAO {
+// public interface OrderHistoryDAO {
     
-    //Get all orders
-    List<Order> getAllOrders();
+//     //Get all orders
+//     List<Order> getAllOrders();
 
-}
+// }
 
