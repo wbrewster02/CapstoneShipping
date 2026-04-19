@@ -190,6 +190,8 @@ public class OrderView extends BorderPane implements SearchableView {
     public OrderDAOImpl getOrderDAO(){
         return this.orderDAO;
     }
+
+
 }
 
 

@@ -1,0 +1,26 @@
+tableView.setRowFactory(tv -> {
+    TableRow<YourClass> row = new TableRow<>();
+    row.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 2 && !row.isEmpty()) {
+            YourClass selectedItem = row.getItem();
+            showDetailsWindow(selectedItem);
+        }
+    });
+    return row;
+});
+
+
+
+private void showDetailsWindow(YourClass item) {
+    Stage stage = new Stage(); //Stage is comparable to TableView I think.
+    stage.setTitle("Details");
+
+    Label nameLabel = new Label("Name: " + item.getName());
+    Label statusLabel = new Label("Status: " + item.getStatus());
+
+    VBox layout = new VBox(10, nameLabel, statusLabel);
+    layout.setPadding(new Insets(10));
+
+    stage.setScene(new Scene(layout, 300, 200));
+    stage.show();
+}
