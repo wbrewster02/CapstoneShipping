@@ -83,8 +83,8 @@ public class MainView extends BorderPane {
         // Button action (only Orders works for now)
         ordersBtn.setOnAction(e -> setCenter(this.viewController.getOrderView()));
         logoutBtn.setOnAction(e -> this.viewController.logout());
-
-        // orderHistoryBtn.setOnAction(e -> setCenter(viewController.getOrderHistoryView()));
+        orderHistoryBtn.setOnAction(e -> setCenter(this.viewController.getOrderHistoryView()));
+        
         // shippingBtn.setOnAction(e -> setCenter(viewController.getShippingView()));
         // shippingHistoryBtn.setOnAction(e -> setCenter(viewController.getShippingHistoryView()));
         

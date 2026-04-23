@@ -15,6 +15,7 @@ public class DB_Constants {
     public static final String INVENTORY_TABLE          = "Inventory";
     public static final String SHOPPING_CART_TABLE      = "Shopping_Cart";
     public static final String SHOPPING_CART_ITEM_TABLE = "Shopping_Cart_Item";
+    public static final String ORDER_HISTORY_TABLE      = "Order_History";
     public static final String ORDER_TABLE              = "`Order`";
     public static final String ORDER_ITEM_TABLE         = "Order_Item";
     public static final String PAYMENT_TABLE            = "Payment";
@@ -56,14 +57,28 @@ public class DB_Constants {
     public static final String SHOPPING_CART_ID          = "Cart_ID";
     public static final String SHOPPING_CART_CUSTOMER_ID = "Customer_ID";
     public static final String SHOPPING_CART_CREATED_ART = "created_at";
-
-
+    
+    
     // ORDER_COLUMNS
-    public static final String ORDER_ID          = "Order_ID";
-    public static final String ORDER_CUSTOMER_ID = "Customer_ID";
-    public static final String ORDER_DATE        = "order_date";
+    public static final String ORDER_ID           = "Order_ID";
+    public static final String ORDER_CUSTOMER_ID  = "Customer_ID";
+    public static final String ORDER_DATE         = "order_date";
+    public static final String ORDER_STATUS       = "order_status";
+    public static final String FULFILLMENT_STATUS = "fulfillment_status";
+    public static final String FULFILLED_AT       = "Fulfilled_At";
+    
 
+    // ORDER_HISTORY_COLUMNS
+    public static final String ORDER_HISTORY_ID                       = "Order_History_ID";
+    public static final String ORDER_HISTORY_ORDER_ID                 = "Order_ID";
+    public static final String ORDER_HISTORY_OLD_ORDER_STATUS         = "Old_Order_Status";
+    public static final String ORDER_HISTORY_NEW_ORDER_STATUS         = "New_Order_Status";
+    public static final String ORDER_HISTORY_OLD_FULFILLMENT_STATUS   = "Old_Fulfillment_Status";
+    public static final String ORDER_HISTORY_NEW_FULFILLMENT_STATUS   = "New_Fulfillment_Status";
+    public static final String ORDER_HISTORY_CHANGED_AT               = "Changed_At";
+    public static final String ORDER_HISTORY_NOTES                    = "Notes";
 
+    
     // ORDER_ITEM_COLUMNS
     public static final String ORDER_ITEM_ORDER_ID     = "Order_ID";
     public static final String ORDER_ITEM_INVENTORY_ID = "Inventory_ID";
@@ -97,16 +112,11 @@ public class DB_Constants {
     public static final String DISCOUNT_START_DATE = "start_date";
     public static final String DISCOUNT_END_DATE   = "end_date";
 
-    // ORDER_HISTORY_COLUMNS
-
     
     // SHIPPING_HISTORY_COLUMNS
 
     
 
     //Additional columns that may be needed for OrderDAO methods. Placed in order table. 
-    public static final String ORDER_STATUS = "order_status";
-    public static final String FULFILLMENT_STATUS = "fulfillment_status";
-    public static final String FULFILLED_AT = "Fulfilled_At";
 
 }

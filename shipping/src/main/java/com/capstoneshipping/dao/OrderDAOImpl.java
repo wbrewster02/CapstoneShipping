@@ -56,6 +56,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
  
             stmt.close();
+            rs.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
