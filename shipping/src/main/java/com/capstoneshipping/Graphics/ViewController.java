@@ -26,6 +26,7 @@ public class ViewController {
     private LoginView loginView;
     private MainView mainView;
     private OrderView orderView;
+    private OrderHistoryView orderHistoryView;
     private OrderDetailView orderDetailView;
 
     // Icon Image
@@ -102,6 +103,21 @@ public class ViewController {
         primaryStage.setWidth(800);
         primaryStage.setHeight(600);
     }
+    public void showOrderHistory(){
+        if (mainView == null){
+            mainView = new MainView(this);
+        }
+        if (orderHistoryView == null){
+            orderHistoryView = new OrderHistoryView(this);
+        }
+        orderHistoryView.loadOrders();
+
+        mainView.setCenter(orderHistoryView);
+        layout.setCenter(mainView);
+
+        primaryStage.setWidth(1200);
+        primaryStage.setHeight(800);
+    }
 
     public void openOrderDetailView(Order order){
         // Creates new Order Detail View Each time method is called, allows for Detail View to properly update.
@@ -131,6 +147,13 @@ public class ViewController {
 
         orderView.loadOrders();
         return orderView;
+    }
+    public OrderHistoryView getOrderHistoryView(){
+        if (orderHistoryView == null) {
+            orderHistoryView = new OrderHistoryView(this);
+        }
+
+        return orderHistoryView;
     }
     
     public MainView getMainView() {

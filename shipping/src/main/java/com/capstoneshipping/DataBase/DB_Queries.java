@@ -40,5 +40,9 @@ public class DB_Queries {
         " WHERE " + DB_Constants.SHOPPING_CART_CUSTOMER_ID + " = ?";
         // Retrieves Shopping cart items by CUSTOMER_ID.     
     //          
-            
+    
+
+    // ORDER_HISTORY
+    public static final String GET_ALL_ORDER_HISTORY = 
+        "SELECT * FROM " + DB_Constants.ORDER_HISTORY_TABLE;
 }
