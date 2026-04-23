@@ -22,6 +22,14 @@ public class DB_Queries {
     
     //
 
+    // shipping QUERIES
+    public static final String GET_ALL_SHIPPING = 
+        "SELECT * FROM " + DB_Constants.SHIPPING_TABLE;
+    public static final String UPDATE_SHIPPING_STATUS =
+        "UPDATE " + DB_Constants.SHIPPING_TABLE + " SET " + DB_Constants.SHIPPING_STATUS + 
+        " = ?, " + DB_Constants.SHIPPING_STATUS_UPDATED_AT + " = ? WHERE " + DB_Constants.SHIPPING_ID + " = ?";
+    //
+
     // CUSTOMER_QUERIES.
     public static final String GET_CUSTOMER_BY_ID = 
         "SELECT * FROM " + DB_Constants.CUSTOMER_TABLE + 

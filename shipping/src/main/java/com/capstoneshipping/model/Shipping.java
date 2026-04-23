@@ -6,32 +6,8 @@ package com.capstoneshipping.model;
 
 import java.time.LocalDateTime;
 
-//using these column names from the database to create the Order class, 
-// which will be used to map the data from the database to Java objects.
-    // Shipping_ID INT IDENTITY(1,1) PRIMARY KEY,
-    // Order_ID INT NOT NULL,
-    // Cost DECIMAL(8,2) NOT NULL CHECK (Cost >= 0),
-
-    // Shipped_On DATETIME2 NULL,
-    // Expected_By DATETIME2 NULL,
-
-    // Ship_Status VARCHAR(15) NOT NULL,
-    // Carrier VARCHAR(100) NOT NULL,
-    // Tracking_Number VARCHAR(50) NOT NULL,
-
-    // Created_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
-    // Updated_At DATETIME2 NULL,
-
-    // Status_Updated_At DATETIME2 NULL,
-    // Shipment_Notes VARCHAR(255) NULL,
-    // Return_Reason VARCHAR(255) NULL,
-
-    // Shipping_Address_ID INT NOT NULL,
-    // Billing_Address_ID INT NOT NULL,
-
 
 public class Shipping {
-    //Create class: full constructor, no-argument constructor, getters and setters for all fields. DO this one first.
 
     // Fields
     private int shippingId;
@@ -41,7 +17,7 @@ public class Shipping {
     private LocalDateTime shippedOn;
     private LocalDateTime expectedBy;
 
-    private String shipStatus;
+    private ShippingStatus shipStatus;
     private String carrier;
     private String trackingNumber;
 
@@ -60,7 +36,7 @@ public class Shipping {
     }
 
     // Full constructor
-    public Shipping(int shippingId, int orderId, double cost, LocalDateTime shippedOn, LocalDateTime expectedBy, String shipStatus, String carrier, String trackingNumber, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime statusUpdatedAt, String shipmentNotes, String returnReason, int shippingAddressId, int billingAddressId) {
+    public Shipping(int shippingId, int orderId, double cost, LocalDateTime shippedOn, LocalDateTime expectedBy, ShippingStatus shipStatus, String carrier, String trackingNumber, LocalDateTime createdAt, LocalDateTime updatedAt, LocalDateTime statusUpdatedAt, String shipmentNotes, String returnReason, int shippingAddressId, int billingAddressId) {
         this.shippingId = shippingId;
         this.orderId = orderId;
         this.cost = cost;
@@ -122,11 +98,11 @@ public class Shipping {
         this.expectedBy = expectedBy;
     }
 
-    public String getShipStatus() {
+    public ShippingStatus getShipStatus() {
         return shipStatus;
     }
 
-    public void setShipStatus(String shipStatus) {
+    public void setShipStatus(ShippingStatus shipStatus) {
         this.shipStatus = shipStatus;
     }
 

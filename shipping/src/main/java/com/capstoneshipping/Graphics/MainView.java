@@ -37,12 +37,7 @@ public class MainView extends BorderPane {
         logoutBtn = new Button("Logout");
 
         choiceBox = new ChoiceBox<>();
-        choiceBox.getItems().addAll(
-        "Order ID",
-            "Customer ID",
-            "Order Status",
-            "Fulfillment Status"
-        );
+        setOrderSearchFields(); // Default to order search fields, can be switched when navigating to shipping view.
 
         searchField = new TextField();
         searchField.setPromptText("Search...");
@@ -81,26 +76,110 @@ public class MainView extends BorderPane {
         //Default view = Orders
         setCenter(this.viewController.getOrderView());
         // Button action (only Orders works for now)
-        ordersBtn.setOnAction(e -> setCenter(this.viewController.getOrderView()));
+        ordersBtn.setOnAction(e -> {
+            setCenter(this.viewController.getOrderView());
+            setOrderSearchFields();
+            applySearchToCurrentView();
+        });
+
+
         logoutBtn.setOnAction(e -> this.viewController.logout());
-        orderHistoryBtn.setOnAction(e -> setCenter(this.viewController.getOrderHistoryView()));
+        orderHistoryBtn.setOnAction(e -> {
+            setCenter(this.viewController.getOrderHistoryView());
+            setOrderHistorySearchFields();
+            applySearchToCurrentView();
+        });
+        //orderHistoryBtn.setOnAction(e -> setCenter(this.viewController.getOrderHistoryView()));
         
-        // shippingBtn.setOnAction(e -> setCenter(viewController.getShippingView()));
-        // shippingHistoryBtn.setOnAction(e -> setCenter(viewController.getShippingHistoryView()));
+
+        shippingBtn.setOnAction(e -> {
+            setCenter(this.viewController.getShippingView());
+            setShippingSearchFields();
+            applySearchToCurrentView();
+        });
+
+
+        // shippingHistoryBtn.setOnAction(e -> setCenter(this.viewController.getShippingHistoryView()));
         
         // Optional: disable others for now
+        // searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+        //     OrderView ov = this.viewController.getOrderView();
+        //     if (ov != null) {
+        //         ov.applySearch(choiceBox.getValue(), newVal);
+        //     }
+        // });
+
+        // choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+        //     OrderView ov = this.viewController.getOrderView();
+        //     if (ov != null) {
+        //         ov.applySearch(newVal, searchField.getText());
+        //     }
+        // });
+
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            OrderView ov = this.viewController.getOrderView();
-            if (ov != null) {
-                ov.applySearch(choiceBox.getValue(), newVal);
-            }
+            applySearchToCurrentView();
         });
 
         choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            OrderView ov = this.viewController.getOrderView();
-            if (ov != null) {
-                ov.applySearch(newVal, searchField.getText());
-            }
+            applySearchToCurrentView();
         });
+    }
+
+    public void setOrderSearchFields() {
+        // Implementation for setting order search fields
+        choiceBox.getItems().clear();
+
+        choiceBox.getItems().addAll(
+            "Order ID",
+            "Customer ID",
+            "Order Status",
+            "Fulfillment Status"
+        );
+
+        // Optional: set default selection
+        choiceBox.setValue("Order ID");
+    }
+
+    public void setShippingSearchFields() {
+        // Implementation for setting shipping search fields
+        choiceBox.getItems().clear();
+
+        choiceBox.getItems().addAll(
+            "Shipping ID",
+            "Tracking Number",
+            "Order ID",
+            "Carrier",
+            "Ship Status"
+        );
+
+        // Optional: set default selection
+        choiceBox.setValue("Shipping ID");
+
+    }
+
+    //double check here
+    public void setOrderHistorySearchFields() {
+        choiceBox.getItems().clear();
+
+        choiceBox.getItems().addAll(
+            "Order ID",
+            "Customer ID",
+            "Old Order Status",
+            "New Order Status",
+            "Old Fulfillment Status",
+            "New Fulfillment Status"
+         );
+
+        // Optional: set default selection
+        choiceBox.setValue("Order ID");
+    }
+
+    public void applySearchToCurrentView() {
+        // Implementation for applying search to the current view
+        Object currentView = getCenter();
+
+        if (currentView instanceof SearchableView searchableView) {
+        searchableView.applySearch(choiceBox.getValue(), searchField.getText());
+        }
     }
 }
