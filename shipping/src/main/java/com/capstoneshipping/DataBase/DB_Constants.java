@@ -99,8 +99,17 @@ public class DB_Constants {
     public static final String SHIPPING_ORDER_ID           = "Order_ID";
     public static final String SHIPPING_ADDRESS_ID         = "Shipping_Address_ID";
     public static final String SHIPPING_BILLING_ADDRESS_ID = "Billing_Address_ID";
-    public static final String SHIPPING_CARRIER            = "carrier";
-    public static final String SHIPPING_TRACKING           = "tracking";
+    public static final String SHIPPING_CARRIER            = "Carrier";
+    public static final String SHIPPING_TRACKING           = "Tracking";
+    public static final String SHIPPING_COST               = "Cost";
+    public static final String SHIPPING_SHIPPED_ON         = "Shipped_on";
+    public static final String SHIPPING_EXPECTED_BY        = "Expected_By";
+    public static final String SHIPPING_STATUS             = "Ship_Status";
+    public static final String SHIPPING_CREATED_AT         = "Created_At";
+    public static final String SHIPPING_UPDATED_AT         = "Updated_At";
+    public static final String SHIPPING_STATUS_UPDATED_AT  = "Status_Updated_At";
+    public static final String SHIPPING_NOTES              = "Shipment_Notes";
+    public static final String SHIPPING_RETURN_REASON      = "Return_Reason";
     
 
     // DISCOUNT_COLUMNS

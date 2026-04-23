@@ -29,6 +29,9 @@ public class ViewController {
     private OrderHistoryView orderHistoryView;
     private OrderDetailView orderDetailView;
 
+    private ShippingView shippingView;
+    //private ShippingHistoryView shippingHistoryView;
+
     // Icon Image
     private Image image;
 
@@ -72,7 +75,11 @@ public class ViewController {
     public void logout() {
         // reset views.
         mainView = null;
+
         orderView = null;
+        orderHistoryView = null;
+        
+        shippingView = null;
         
         // Clear the DB connection.
         DB_Connection.resetConnection();
@@ -155,6 +162,15 @@ public class ViewController {
 
         return orderHistoryView;
     }
+
+    public ShippingView getShippingView() {
+        if (shippingView == null) {
+            shippingView = new ShippingView(this);
+        }
+
+            shippingView.loadShipments();
+            return shippingView;
+        }
     
     public MainView getMainView() {
         if (mainView == null) {
