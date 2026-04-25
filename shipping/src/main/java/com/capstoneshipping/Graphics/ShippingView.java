@@ -105,7 +105,7 @@ public class ShippingView extends BorderPane implements SearchableView {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {
                     Shipping selectedShipping = row.getItem();
                     System.out.println(selectedShipping.getShippingId() + " was double-clicked.");
-                    // this.viewController.openShippingDetailView(selectedShipping);
+                    this.viewController.openShippingDetailView(selectedShipping);
                 }
             });
 

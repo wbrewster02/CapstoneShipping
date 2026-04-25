@@ -8,6 +8,7 @@ import java.sql.Timestamp;
 import java.sql.Types;
 
 import java.time.LocalDateTime;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ import com.capstoneshipping.DataBase.DB_Constants;
 import com.capstoneshipping.DataBase.DB_Queries;
 import com.capstoneshipping.model.ShippingStatus;
 import com.capstoneshipping.model.Shipping;
+
+//add constants
 
 public class ShippingDAOImpl implements ShippingDAO {
     private Connection connection;
@@ -85,8 +88,7 @@ public class ShippingDAOImpl implements ShippingDAO {
 
     @Override
     public void updateShippingStatus(int shippingId, ShippingStatus status) {
-        try (Connection connection = DB_Connection.getConnection();
-             PreparedStatement stmt = connection.prepareStatement(DB_Queries.UPDATE_SHIPPING_STATUS)) {
+        try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.UPDATE_SHIPPING_STATUS)) {
 
             stmt.setString(1, status.toDbValue());
             stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
@@ -103,9 +105,7 @@ public class ShippingDAOImpl implements ShippingDAO {
     //NEEDED Queries for UodateExpectedBy and UpdateShippedOn.
     @Override
     public void updateShippedOn(int shippingId, LocalDateTime shippedOn) {
-        try (Connection connection = DB_Connection.getConnection();
-
-         PreparedStatement stmt = connection.prepareStatement(
+        try (PreparedStatement stmt = connection.prepareStatement(
              "UPDATE Shipping SET Shipped_On = ? WHERE Shipping_ID = ?")) {
 
             if (shippedOn != null) {
@@ -126,9 +126,7 @@ public class ShippingDAOImpl implements ShippingDAO {
     
     @Override
     public void updateExpectedBy(int shippingId, LocalDateTime expectedBy) {
-        try (Connection connection = DB_Connection.getConnection();
-
-         PreparedStatement stmt = connection.prepareStatement(
+        try ( PreparedStatement stmt = connection.prepareStatement(
              "UPDATE Shipping SET Expected_By = ? WHERE Shipping_ID = ?")) {
 
             if (expectedBy != null) {
