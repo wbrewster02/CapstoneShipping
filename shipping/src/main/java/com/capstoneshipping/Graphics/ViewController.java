@@ -6,6 +6,7 @@ package com.capstoneshipping.Graphics;
 
 import com.capstoneshipping.DataBase.DB_Connection;
 import com.capstoneshipping.model.Order;
+import com.capstoneshipping.model.Shipping;
 
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -17,10 +18,12 @@ public class ViewController {
     // Stages.
     private Stage primaryStage;
     private Stage orderDetailStage;
+    private Stage shippingDetailStage;
 
     // Layouts.
     private BorderPane layout;
     private BorderPane orderDetailLayout;
+    private BorderPane shippingDetailLayout;
     
     // View Attributes.
     private LoginView loginView;
@@ -28,6 +31,7 @@ public class ViewController {
     private OrderView orderView;
     private OrderHistoryView orderHistoryView;
     private OrderDetailView orderDetailView;
+    private ShippingDetailView shippingDetailView;
 
     private ShippingView shippingView;
     //private ShippingHistoryView shippingHistoryView;
@@ -38,9 +42,13 @@ public class ViewController {
     public ViewController(Stage stage) {
         // javafx stage/Layout Assignment.
         this.primaryStage = stage;
+
         this.orderDetailStage = new Stage();
+        this.shippingDetailStage = new Stage();
+
         this.layout = new BorderPane();
         this.orderDetailLayout = new BorderPane();
+        this.shippingDetailLayout = new BorderPane();
         
         // Create Main Scene.
         Scene scene = new Scene(layout, 400, 200);
@@ -48,8 +56,12 @@ public class ViewController {
         // Create Order Scene.
         Scene orderDetailScene = new Scene(orderDetailLayout, 300, 300);
 
+        // create Shipping Scene.
+        Scene shippingDetailScene = new Scene(shippingDetailLayout, 300, 300);
+
         primaryStage.setScene(scene);
         orderDetailStage.setScene(orderDetailScene);
+        shippingDetailStage.setScene(shippingDetailScene);
 
         // Views assignment.
         this.loginView = new LoginView(this);
@@ -144,6 +156,26 @@ public class ViewController {
 
         // Reset Order Detail View.
         orderDetailView = null;
+    }
+
+    public void openShippingDetailView(Shipping shipping){
+        shippingDetailView = new ShippingDetailView(
+            this,
+            shipping,
+            shippingDetailStage,
+            () -> this.shippingView.getTableView().refresh(),
+            shippingView.getShippingDAO()
+        );
+
+        shippingDetailLayout.setCenter(shippingDetailView);
+
+        shippingDetailStage.getIcons().add(this.image);
+        shippingDetailStage.setTitle("Shipping Details - #" + shipping.getShippingId());
+        shippingDetailStage.setResizable(false);
+        shippingDetailStage.show();
+
+        shippingDetailView = null;
+
     }
 
     // Get Methods.
