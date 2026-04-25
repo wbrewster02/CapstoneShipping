@@ -67,8 +67,8 @@ public class ViewController {
         layout.setCenter(loginView);
 
         // Size Properties.
-        primaryStage.setWidth(700);
-        primaryStage.setHeight(500);
+        primaryStage.setWidth(600);
+        primaryStage.setHeight(450);
         
         primaryStage.setResizable(false);
     }

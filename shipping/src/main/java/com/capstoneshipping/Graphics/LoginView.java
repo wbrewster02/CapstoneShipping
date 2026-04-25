@@ -136,7 +136,6 @@ public class LoginView extends VBox {
                         // Initialize database connection
                         database = new DB_Connection(); 
                     }
-
                     // Reset Text/Error fields.
                     user.setText("");
                     pass.setText("");
@@ -172,4 +171,6 @@ public class LoginView extends VBox {
         }
 
     }
+
+    
 }
