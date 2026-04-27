@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.Separator;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -49,9 +50,16 @@ public class LoginView extends VBox {
             BackgroundRepeat.NO_REPEAT,
             BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.CENTER,
-            new BackgroundSize(BackgroundSize.AUTO, BackgroundSize.AUTO, false, false, true, true)
+            new BackgroundSize(
+                BackgroundSize.AUTO, 
+                BackgroundSize.AUTO,
+                false,
+                false,
+                true,
+                true
+                )
         );
-        setBackground(new Background(background));
+        // setBackground(new Background(background));
         setAlignment(Pos.CENTER);
         
         // JavaFx ViewController
@@ -64,9 +72,9 @@ public class LoginView extends VBox {
         
 
         // Vertical box container that holds UI Elements for Login View.
-        VBox form = new VBox(12);
+        VBox form = new VBox(8);
         form.setAlignment(Pos.CENTER);
-        form.setPadding(new Insets(40));
+        form.setPadding(new Insets(15));
         form.setMaxWidth(360);
 
         
@@ -96,10 +104,21 @@ public class LoginView extends VBox {
         
 
         
-        // Add UI Elements to form Vbox and window Layout.
+        // Add style classes
+        titleLabel.getStyleClass().add("title-label");
+        subtitleLabel.getStyleClass().add("subtitle-label");
+        errorLabel.getStyleClass().add("error-label");
+        form.setId("login-form");
+
+        // Add a separator between subtitle and fields
+        Separator separator = new Separator();
+        separator.setMaxWidth(Double.MAX_VALUE);
+
+        // Add to form
         form.getChildren().addAll(
             titleLabel,
             subtitleLabel,
+            separator,
             usernameField,
             passwordField,
             loginBtn,

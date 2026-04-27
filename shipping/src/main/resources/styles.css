@@ -1,0 +1,267 @@
+/* General */
+* {
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.root {
+    -fx-background-color: #faf7f2;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #1b4332;
+    -fx-font-size: 14px;
+}
+
+.title-label {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+}
+
+.subtitle-label {
+    -fx-font-size: 13px;
+    -fx-text-fill: #52796f;
+}
+
+/* Buttons */
+.button {
+    -fx-background-color: #2d6a4f;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-padding: 6 14 6 14;
+    -fx-background-radius: 4;
+    -fx-cursor: hand;
+}
+
+.button:hover { -fx-background-color: #1b4332; }
+.button:pressed { -fx-background-color: #081c15; }
+
+/* Nav bar */
+.button-bar {
+    -fx-background-color: #1b4332;
+    -fx-padding: 12 15 12 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0, 0, 3);
+}
+
+.nav-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: #d8e8e1;
+    -fx-border-color: #52796f;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+}
+
+.nav-button:hover, .nav-button-active {
+    -fx-background-color: #2d6a4f;
+    -fx-text-fill: white;
+    -fx-border-color: #d8e8e1;
+}
+
+#logout-btn {
+    -fx-background-color: #bc4749;
+    -fx-text-fill: white;
+    -fx-border-color: #922b21;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+}
+
+#logout-btn:hover {
+    -fx-background-color: #922b21;
+    -fx-border-color: #7b1d1d;
+}
+
+/* Search bar */
+.search-bar {
+    -fx-background-color: #eef2ee;
+    -fx-padding: 10 15 10 15;
+    -fx-border-color: #b7c4bb;
+    -fx-border-width: 0 0 1 0;
+}
+
+/* Text fields */
+.text-field {
+    -fx-background-color: #fffef9;
+    -fx-border-color: #b7c4bb;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 6 10 6 10;
+    -fx-font-size: 13px;
+}
+
+.text-field:focused {
+    border-color: #2d6a4f;
+
+    -fx-border-color: #2d6a4f;
+    -fx-effect: dropshadow(gaussian, rgba(45,106,79,0.3), 4, 0, 0, 0);
+}
+
+#search-field {
+    -fx-pref-width: 250px;
+}
+/* // Background color of the whole context menu
+.choice-box .context-menu { -fx-background-color: black; }
+// Focused item background color in the list
+.choice-box .menu-item:focused { -fx-background-color: orange; }
+// Text color of non-focused items in the list
+.choice-box .menu-item > .label { -fx-text-fill: white; }
+// Text color of focused item in the list
+.choice-box .menu-item:focused > .label { -fx-text-fill: black;  */
+/* ChoiceBox and ComboBox */
+.choice-box {
+    background-color: #2d6a4f;
+    border-color: #1b4332;
+    border-radius: 4;
+    font-size: 13px;
+    cursor: hand;
+
+    -fx-background-color: #2d6a4f;
+    -fx-border-color: #1b4332;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-font-size: 13px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+}
+
+.list-cell > .choice-box .label {
+    background-color: #2d6a4f;
+    /* padding: 4 8 4 8; */
+    
+    -fx-text-fill: white;
+    -fx-background-color: #2d6a4f;
+    /* -fx-padding: 4 8 4 8; */
+}
+.choice-box:hover, .menu-item:focused{
+    background-color: #1b4332;
+    -fx-background-color: #1b4332;
+}
+
+/* Dropdowns */
+.choice-box-popup {
+    background-color: #2d6a4f;
+    -fx-background-color: #2d6a4f;
+}
+
+.choice-box-popup .list-view {
+    background-color: #2d6a4f;
+    background: #2d6a4f;
+    border-color: #1b4332;
+   
+    -fx-background-color: #2d6a4f;
+    -fx-background: #2d6a4f;
+    -fx-border-color: #1b4332;
+    /* -fx-fixed-cell-size: 34px; */
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
+}
+.choice-box-popup .list-view .list-cell {
+    background-color: #2d6a4f !important;
+    font-size: 13px;
+    /* padding: 6 12 6 12; */
+
+    -fx-background-color: #2d6a4f !important;
+    -fx-text-fill: white !important;
+    -fx-font-size: 13px;
+    /* -fx-padding: 6 12 6 12; */
+}
+
+.choice-box-popup .list-view .list-cell:hover {
+    -fx-background-color: #1b4332 !important;
+    -fx-text-fill: white !important;
+}
+
+.choice-box-popup .list-view .list-cell:selected {
+    -fx-background-color: #081c15 !important;
+    -fx-text-fill: white !important;
+}
+
+/* Table */
+.table-view {
+    -fx-background-color: #fffef9;
+    -fx-border-color: #d4ddd7;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);
+}
+
+.table-view .column-header-background,
+.table-view .column-header-background .filler,
+.table-view .column-header,
+.table-view .corner {
+    -fx-background-color: #1b4332;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:odd { -fx-background-color: #f0f4f1; }
+.table-row-cell:even { -fx-background-color: #fffef9; }
+.table-row-cell:hover { -fx-background-color: #e0ece5; }
+
+.table-row-cell:selected {
+    -fx-background-color: #249767;
+}
+
+.table-row-cell:selected .table-cell {
+    -fx-text-fill: white;
+}
+
+
+
+#login {
+    -fx-background-color: rgba(255, 255, 255, 0.12);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(255, 255, 255, 0.2);
+    -fx-border-radius: 10;
+    -fx-border-width: 1;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 20, 0, 0, 8);
+}
+
+#login .title-label {
+    -fx-text-fill: #2d6a4f;
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+}
+
+#login .subtitle-label {
+    -fx-text-fill: #2d6a4f;
+    -fx-font-size: 13px;
+}
+
+#login .text-field,
+#login .password-field {
+    -fx-background-color: rgba(255,255,255,0.15);
+    -fx-border-color: rgba(255,255,255,0.3);
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255,255,255,0.5);
+    -fx-font-size: 14px;
+}
+
+#login .text-field:focused,
+#login .password-field:focused {
+    -fx-border-color: white;
+    -fx-background-color: rgba(255,255,255,0.2);
+    -fx-effect: dropshadow(gaussian, rgba(255,255,255,0.2), 6, 0, 0, 0);
+}
+
+#login .button {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 4, 0, 0, 2);
+}
+
+#login .button:hover {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 6, 0, 0, 3);
+}
+
+.error-label {
+    -fx-text-fill: #ff6b6b;
+    -fx-font-size: 12px;
+}
+
+#login .separator .line {
+    -fx-border-color: rgba(255,255,255,0.2);
+}
