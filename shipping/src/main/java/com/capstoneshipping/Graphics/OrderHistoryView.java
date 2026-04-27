@@ -7,20 +7,25 @@
 
 package com.capstoneshipping.Graphics;
 
-import com.capstoneshipping.model.OrderHistory;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
+import com.capstoneshipping.model.OrderHistory;
+import com.capstoneshipping.util.ExportUtil;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.scene.control.TableView;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
-
-import java.util.List;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import javafx.scene.layout.HBox;
 public class OrderHistoryView extends BorderPane{
 
     private TableView<OrderHistory> tableView;
@@ -88,6 +93,25 @@ public class OrderHistoryView extends BorderPane{
                 notes
             )        
         );
+
+        //Add button 
+        HBox bottomBox = new HBox();
+        bottomBox.setAlignment(Pos.CENTER_RIGHT);
+        bottomBox.setPadding(new Insets(10));
+
+        Button exportBtn = new Button("Export CSV");
+
+        exportBtn.setOnAction(e -> {
+            //OrderHistoryDAO dao = new OrderHistoryDAOImpl(DatabaseConnection.getConnection());
+            //List<OrderHistory> list = getAllOrders();
+             List<OrderHistory> list =  orderHistoryDAO.getAllOrders();
+
+            ExportUtil.exportOrderHistoryToCSV(list, "exports/order_history.csv");
+        });
+
+        bottomBox.getChildren().add(exportBtn);
+
+        setBottom(bottomBox);
         
         loadOrders();
 
@@ -163,3 +187,5 @@ public class OrderHistoryView extends BorderPane{
         return this.orderHistoryDAO;
     }
 }
+
+
