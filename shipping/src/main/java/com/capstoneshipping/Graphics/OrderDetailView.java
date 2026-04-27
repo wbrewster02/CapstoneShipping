@@ -8,9 +8,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import com.capstoneshipping.dao.OrderDAO;
+import com.capstoneshipping.dao.OrderHistoryDAO;
+import com.capstoneshipping.dao.OrderHistoryDAOImpl;
+import com.capstoneshipping.dao.ShippingDAO;
 import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
+import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.OrderStatus;
+import com.capstoneshipping.model.ShippingStatus;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -28,6 +33,8 @@ public class OrderDetailView extends VBox {
     private final Runnable onUpdate;
 
     private final OrderDAO orderDAO;
+    private final OrderHistoryDAO orderHistoryDAO;
+    private final ShippingDAO shippingDAO;
 
     //choiceboxes for editing status
     private final ChoiceBox<OrderStatus> orderStatusBox = new ChoiceBox<>();
@@ -42,12 +49,14 @@ public class OrderDetailView extends VBox {
         DateTimeFormatter.ofPattern("M/d/yyyy h:mm a");
 
 
-    public OrderDetailView(ViewController viewController, Order order, Stage stage, Runnable onUpdate, OrderDAO orderDAO) {
+    public OrderDetailView(ViewController viewController, Order order, Stage stage, Runnable onUpdate, OrderDAO orderDAO, OrderHistoryDAO orderHistoryDAO, ShippingDAO shippingDAO) {
         this.viewController = viewController;
         this.order = order;
         this.stage = stage;
         this.onUpdate = onUpdate;
         this.orderDAO = orderDAO;
+        this.orderHistoryDAO = orderHistoryDAO;
+        this.shippingDAO = shippingDAO;
 
         setSpacing(10);
         setPadding(new Insets(10));
@@ -56,7 +65,7 @@ public class OrderDetailView extends VBox {
 
         // listeners for buttons (apply would save changes to the order object, submit would move to orderhistory)
         applyButton.setOnAction(e -> handleApply());
-        //submitButton.setOnAction(e -> handleSubmit());
+        submitButton.setOnAction(e -> handleSubmit());
     }
 
     private void buildUI() {
@@ -162,18 +171,67 @@ public class OrderDetailView extends VBox {
         }
     }
 
+    private void handleSubmit() {
+        OrderHistory history = new OrderHistory(
+            0, // orderHistoryId, DB will assign this
+            order.getOrderId(),
+
+            order.getOrderStatus() != null
+                ? order.getOrderStatus().toDbValue()
+                : null,
+
+            orderStatusBox.getValue() != null
+                ? orderStatusBox.getValue().toDbValue()
+                : null,
+
+            order.getFulfillmentStatus() != null
+                ? order.getFulfillmentStatus().toDbValue()
+                : null,
+
+            fulfillmentBox.getValue() != null
+                ? fulfillmentBox.getValue().toDbValue()
+                : null,
+
+            LocalDateTime.now(),
+            "Submitted from OrderDetailView",
+
+            // display-only joined fields
+            order.getCustomerId(),
+            order.getOrderDate(),
+            order.getFulfilledAt()
+        );
+
+        //orderHistoryDAO.insertOrderHistory(history);
+        // Check if order history already exists for this order ID before inserting
+        if (!orderHistoryDAO.orderHistoryExists(order.getOrderId())) {
+            orderHistoryDAO.insertOrderHistory(history);
+            System.out.println("Order history submitted for Order ID: " + order.getOrderId());
+        } else {
+            System.out.println("Order history already exists for Order ID: " + order.getOrderId());
+        }
+
+        shippingDAO.updateShippingStatusByOrderId(
+            order.getOrderId(),
+            ShippingStatus.PENDING
+        );
+
+        //potential addition to have reset timestamp for when shipping status updated and add "expected by" date to sync better (which would be handled in shippingDetailView -> apply).
+        // shippingDAO.resetShippingForOrder(order.getOrderId());
+
+        //check shipping exists for this order (DEBUG LINE, can remove later)
+        // if (shippingDAO.shippingExistsForOrder(order.getOrderId())) {
+        //     System.out.println("Shipping exists");
+        // } else {
+        //     System.out.println("Shipping not created yet");
+        // }
+
+        if (onUpdate != null) {
+            onUpdate.run(); // Notify the main view to refresh the order list
+        }
+
+        if (stage != null) {
+            stage.close();
+        }
+    }
+
 }
-
-
-
-//For labels horizontal with choiceboxes, we can use HBoxes to group them together. Then add those HBoxes to the main VBox. Example below:
-//HBox orderStatusRow = new HBox(10, orderStatusLabel, orderStatusBox);
-// HBox fulfillmentRow = new HBox(10, fulfillmentStatusLabel, fulfillmentBox);
-
-// getChildren().addAll(
-//     id,
-//     customer,
-//     date,
-//     orderStatusRow,
-//     fulfillmentRow
-// );

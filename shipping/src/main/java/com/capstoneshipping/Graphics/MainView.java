@@ -99,7 +99,6 @@ public class MainView extends BorderPane {
                 setOrderHistorySearchFields();
                 applySearchToCurrentView();
             });
-            //orderHistoryBtn.setOnAction(e -> setCenter(this.viewController.getOrderHistoryView()));
             
 
             shippingBtn.setOnAction(e -> {
@@ -108,24 +107,6 @@ public class MainView extends BorderPane {
                 applySearchToCurrentView();
             });
 
-
-            // shippingHistoryBtn.setOnAction(e -> setCenter(this.viewController.getShippingHistoryView()));
-            
-            // Optional: disable others for now
-            // searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            //     OrderView ov = this.viewController.getOrderView();
-            //     if (ov != null) {
-            //         ov.applySearch(choiceBox.getValue(), newVal);
-            //     }
-            // });
-
-            // choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            //     OrderView ov = this.viewController.getOrderView();
-            //     if (ov != null) {
-            //         ov.applySearch(newVal, searchField.getText());
-            //     }
-            // });
-
             searchField.textProperty().addListener((obs, oldVal, newVal) -> {
                 applySearchToCurrentView();
             });
@@ -133,7 +114,8 @@ public class MainView extends BorderPane {
             choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
                 applySearchToCurrentView();
             });
-        }
+            
+        } // End of Constructor
 
     public void setOrderSearchFields() {
         // Implementation for setting order search fields

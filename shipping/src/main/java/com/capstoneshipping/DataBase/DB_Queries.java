@@ -25,9 +25,27 @@ public class DB_Queries {
     // shipping QUERIES
     public static final String GET_ALL_SHIPPING = 
         "SELECT * FROM " + DB_Constants.SHIPPING_TABLE;
+
     public static final String UPDATE_SHIPPING_STATUS =
         "UPDATE " + DB_Constants.SHIPPING_TABLE + " SET " + DB_Constants.SHIPPING_STATUS + 
         " = ?, " + DB_Constants.SHIPPING_STATUS_UPDATED_AT + " = ? WHERE " + DB_Constants.SHIPPING_ID + " = ?";
+
+    public static final String SHIPPING_EXISTS =
+        "SELECT COUNT(*) FROM " + DB_Constants.SHIPPING_TABLE + " WHERE " + DB_Constants.ORDER_ID + " = ?";
+
+    public static final String UPDATE_SHIPPING_STATUS_BY_ORDER_ID =
+        "UPDATE " + DB_Constants.SHIPPING_TABLE +
+        " SET " + DB_Constants.SHIPPING_STATUS + " = ?, " +
+        DB_Constants.SHIPPING_STATUS_UPDATED_AT + " = ? " +
+        "WHERE " + DB_Constants.SHIPPING_ORDER_ID + " = ?";
+
+    public static final String RESET_SHIPPING_BY_ORDER_ID =
+        "UPDATE " + DB_Constants.SHIPPING_TABLE + " SET " +
+        DB_Constants.SHIPPING_STATUS + " = ?, " +
+        DB_Constants.SHIPPING_SHIPPED_ON + " = ?, " +
+        DB_Constants.SHIPPING_EXPECTED_BY + " = ?, " +
+        DB_Constants.SHIPPING_STATUS_UPDATED_AT + " = ? " +
+        "WHERE " + DB_Constants.SHIPPING_ORDER_ID + " = ?";
     //
 
     // CUSTOMER_QUERIES.
@@ -51,6 +69,40 @@ public class DB_Queries {
     
 
     // ORDER_HISTORY
-    public static final String GET_ALL_ORDER_HISTORY = 
-        "SELECT * FROM " + DB_Constants.ORDER_HISTORY_TABLE;
+    // public static final String GET_ALL_ORDER_HISTORY = 
+    //     "SELECT * FROM " + DB_Constants.ORDER_HISTORY_TABLE;
+
+    public static final String GET_ALL_ORDER_HISTORY =
+        "SELECT " +
+        "oh.Order_History_ID, " +
+        "oh.Order_ID, " +
+        "oh.Old_Order_Status, " +
+        "oh.New_Order_Status, " +
+        "oh.Old_Fulfillment_Status, " +
+        "oh.New_Fulfillment_Status, " +
+        "oh.Changed_At, " +
+        "oh.Notes, " +
+        "o.Customer_ID, " +
+        "o.Order_Date, " +
+        "o.Fulfilled_At " +
+        "FROM " + DB_Constants.ORDER_HISTORY_TABLE + " oh " +
+        "JOIN " + DB_Constants.ORDER_TABLE + " o " +
+        "ON oh.Order_ID = o.Order_ID";
+
+
+    public static final String INSERT_ORDER_HISTORY =
+        "INSERT INTO " + DB_Constants.ORDER_HISTORY_TABLE + " (" +
+        DB_Constants.ORDER_HISTORY_ORDER_ID + ", " +
+        DB_Constants.ORDER_HISTORY_OLD_ORDER_STATUS + ", " +
+        DB_Constants.ORDER_HISTORY_NEW_ORDER_STATUS + ", " +
+        DB_Constants.ORDER_HISTORY_OLD_FULFILLMENT_STATUS + ", " +
+        DB_Constants.ORDER_HISTORY_NEW_FULFILLMENT_STATUS + ", " +
+        DB_Constants.ORDER_HISTORY_CHANGED_AT + ", " +
+        DB_Constants.ORDER_HISTORY_NOTES +
+        ") VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+    public static final String ORDER_HISTORY_EXISTS =
+        "SELECT COUNT(*) FROM " + DB_Constants.ORDER_HISTORY_TABLE +
+        " WHERE " + DB_Constants.ORDER_HISTORY_ORDER_ID + " = ?";
+    //
 }
