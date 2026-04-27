@@ -5,6 +5,9 @@
 package com.capstoneshipping.Graphics;
 
 import com.capstoneshipping.DataBase.DB_Connection;
+import com.capstoneshipping.dao.OrderHistoryDAO;
+import com.capstoneshipping.dao.OrderHistoryDAOImpl;
+import com.capstoneshipping.dao.ShippingDAOImpl;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.Shipping;
 
@@ -141,7 +144,20 @@ public class ViewController {
     public void openOrderDetailView(Order order){
         // Creates new Order Detail View Each time method is called, allows for Detail View to properly update.
         if (orderDetailView == null){
-            orderDetailView = new OrderDetailView(this, order, orderDetailStage, () -> this.orderView.getTableView().refresh(), orderView.getOrderDAO());
+            orderDetailView = new OrderDetailView(this,
+                 order,
+                orderDetailStage,
+                // () -> this.orderView.getTableView().refresh(),
+                () -> {
+                    this.orderView.loadOrders();
+
+                    if (this.orderHistoryView != null) {
+                        this.orderHistoryView.loadOrders();
+                    }
+                },
+                orderView.getOrderDAO(),
+                new OrderHistoryDAOImpl(),
+                new ShippingDAOImpl());
         }
         
         orderDetailLayout.setCenter(this.orderDetailView);
@@ -192,6 +208,7 @@ public class ViewController {
             orderHistoryView = new OrderHistoryView(this);
         }
 
+        orderHistoryView.loadOrders();
         return orderHistoryView;
     }
 

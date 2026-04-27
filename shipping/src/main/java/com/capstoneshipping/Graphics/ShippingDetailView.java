@@ -101,11 +101,16 @@ public class ShippingDetailView extends VBox {
             shipping.setShipStatus(selectedShippingStatus);
             shippingDAO.updateShippingStatus(shipping.getShippingId(), selectedShippingStatus);
 
-            if (selectedShippingStatus == ShippingStatus.DELIVERED) {
-                // Handle delivered status specific logic
+            if (selectedShippingStatus == ShippingStatus.SHIPPED) {
+                // Handle shipped status specific logic
                 LocalDateTime now = LocalDateTime.now();
+                //LocalDateTime expectedBy = calculateExpectedBy(shipping.getCarrier(), now);
+
                 shipping.setShippedOn(now);
+                //shipping.setExpectedBy(expectedBy);
+
                 shippingDAO.updateShippedOn(shipping.getShippingId(), now);
+                //shippingDAO.updateExpectedBy(shipping.getShippingId(), expectedBy);
             }
 
             if (onUpdate != null) {
@@ -116,5 +121,19 @@ public class ShippingDetailView extends VBox {
                 stage.close(); // Close the detail view after applying changes
             }
         }
+    }
+
+    private LocalDateTime calculateExpectedBy(String carrier, LocalDateTime shippedOn) {
+        if (carrier == null) {
+            return shippedOn.plusDays(5);
+        }
+
+        return switch (carrier.toLowerCase()) {
+            case "ups" -> shippedOn.plusDays(3);
+            case "fedex" -> shippedOn.plusDays(2);
+            case "usps" -> shippedOn.plusDays(5);
+            case "dhl" -> shippedOn.plusDays(4);
+            default -> shippedOn.plusDays(5);
+        };
     }
 }

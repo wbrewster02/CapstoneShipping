@@ -9,5 +9,12 @@ public interface OrderHistoryDAO {
     //Get all orders
     List<OrderHistory> getAllOrders();
 
+    
+    //insert orders to order history when fulfilled
+    void insertOrderHistory(OrderHistory orderHistory);
+
+    //check if order history exists for a given order ID
+    boolean orderHistoryExists(int orderId);
+
 }
 

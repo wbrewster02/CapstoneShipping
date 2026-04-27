@@ -14,4 +14,10 @@ public interface ShippingDAO {
     void updateShippedOn(int shippingId, LocalDateTime shippedOn);
 
     void updateExpectedBy(int shippingId, LocalDateTime expectedBy);
+
+    boolean shippingExistsForOrder(int orderId); //method to check if shipping object exists for a given order ID
+
+    void updateShippingStatusByOrderId(int orderId, ShippingStatus status);
+
+    void resetShippingForOrder(int orderId);
 }
