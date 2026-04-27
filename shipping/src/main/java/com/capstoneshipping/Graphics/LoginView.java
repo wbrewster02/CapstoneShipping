@@ -137,10 +137,10 @@ public class LoginView extends VBox {
         String password = pass.getText();
         
         // Validate not empty
-        if (username.isEmpty() || password.isEmpty()) {
-            error.setText("Please fill in all fields.");
-            return;
-        }
+        // if (username.isEmpty() || password.isEmpty()) {
+        //     error.setText("Please fill in all fields.");
+        //     return;
+        // }
         
         // Validate credentials
         for (Employee employee : Credentials){
