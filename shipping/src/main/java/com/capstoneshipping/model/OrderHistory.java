@@ -4,17 +4,9 @@
 
 
 package com.capstoneshipping.model;
-    // Order_ID INT NOT NU
+
 import java.time.LocalDateTime;
 
-    // Old_Order_Status VARCHAR(50) NULL,
-    // New_Order_Status VARCHAR(50) NOT NULL,
-
-    // Old_Fulfillment_Status VARCHAR(50) NULL,
-    // New_Fulfillment_Status VARCHAR(50) NULL,
-
-    //Changed_At DATETIME2 NOT NULL DEFAULT GETUTCDATE(),
-    //Notes VARCHAR(255) NULL,
 
 public class OrderHistory {
     //Create class: full constructor, no-argument constructor, getters and setters for all fields
@@ -32,12 +24,26 @@ public class OrderHistory {
     private LocalDateTime changedAt;
     private String notes;
 
+    //Order Table fields, used for display purposes in the OrderHistoryView
+    private int customerId;
+    private LocalDateTime orderDate;
+    private LocalDateTime fulfilledAt;
+
+
     // No-argument constructor
     public OrderHistory() {
     }
 
     // Full constructor
-    public OrderHistory(int orderHistoryId, int orderId, String oldOrderStatus, String newOrderStatus, String oldFulfillmentStatus, String newFulfillmentStatus, LocalDateTime changedAt, String notes) {
+    public OrderHistory(
+        int orderHistoryId, int orderId, 
+        String oldOrderStatus, String newOrderStatus, 
+        String oldFulfillmentStatus, String newFulfillmentStatus, 
+        LocalDateTime changedAt, String notes,
+        int customerId, LocalDateTime orderDate, 
+        LocalDateTime fulfilledAt
+            ) 
+        {
         this.orderHistoryId = orderHistoryId;
         this.orderId = orderId;
         this.oldOrderStatus = oldOrderStatus;
@@ -46,6 +52,10 @@ public class OrderHistory {
         this.newFulfillmentStatus = newFulfillmentStatus;
         this.changedAt = changedAt;
         this.notes = notes;
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+        this.fulfilledAt = fulfilledAt;
+
     }
 
     // Getters and setters
@@ -111,5 +121,29 @@ public class OrderHistory {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public int getCustomerId() {
+        return customerId;
+    }
+
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public LocalDateTime getFulfilledAt() {
+        return fulfilledAt;
+    }
+
+    public void setFulfilledAt(LocalDateTime fulfilledAt) {
+        this.fulfilledAt = fulfilledAt;
     }
 }

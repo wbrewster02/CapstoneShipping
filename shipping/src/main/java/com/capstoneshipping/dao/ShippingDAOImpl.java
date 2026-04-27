@@ -144,6 +144,72 @@ public class ShippingDAOImpl implements ShippingDAO {
         }
     }
 
+    @Override
+    public boolean shippingExistsForOrder(int orderId) {
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.SHIPPING_EXISTS)) {
+
+                stmt.setInt(1, orderId);
+
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    @Override
+    public void updateShippingStatusByOrderId(int orderId, ShippingStatus status) {
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.UPDATE_SHIPPING_STATUS_BY_ORDER_ID)) {
+
+                stmt.setString(1, status.toDbValue());
+                stmt.setTimestamp(2, Timestamp.valueOf(LocalDateTime.now()));
+                stmt.setInt(3, orderId);
+
+                stmt.executeUpdate();
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void resetShippingForOrder(int orderId) {
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.RESET_SHIPPING_BY_ORDER_ID)) {
+                stmt.setString(1, ShippingStatus.PENDING.toDbValue());
+                stmt.setNull(2, Types.TIMESTAMP);
+                stmt.setNull(3, Types.TIMESTAMP);
+                stmt.setTimestamp(4, Timestamp.valueOf(LocalDateTime.now()));
+                stmt.setInt(5, orderId);
+
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

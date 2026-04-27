@@ -18,5 +18,5 @@ Credentials.json
 # Ignore target directory
 /shipping/target/
 
-# exports directory
+# ignore exports directory
 /shipping/exports/
