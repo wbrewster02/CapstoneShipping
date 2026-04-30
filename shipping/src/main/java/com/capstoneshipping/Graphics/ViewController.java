@@ -47,22 +47,26 @@ public class ViewController {
     public ViewController(Stage stage) {
         // javafx stage/Layout Assignment.
         this.primaryStage = stage;
-
+        
         this.orderDetailStage = new Stage();
         this.shippingDetailStage = new Stage();
-
+        
         this.layout = new BorderPane();
         this.orderDetailLayout = new BorderPane();
         this.shippingDetailLayout = new BorderPane();
         
         // Create Main Scene.
         Scene scene = new Scene(layout, 400, 200);
-
+        System.out.println(getClass().getResource("styles.css"));  // null = wrong location
+        scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
+        
         // Create Order Scene.
         Scene orderDetailScene = new Scene(orderDetailLayout, 300, 300);
+        orderDetailScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         // create Shipping Scene.
         Scene shippingDetailScene = new Scene(shippingDetailLayout, 300, 300);
+        shippingDetailScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         primaryStage.setScene(scene);
         orderDetailStage.setScene(orderDetailScene);
@@ -70,7 +74,7 @@ public class ViewController {
 
         // Views assignment.
         this.loginView = new LoginView(this);
-
+        loginView.setId("Login");
         showLoginView();
 
         // Icon Image set to Elevate Retail logo.
@@ -84,8 +88,8 @@ public class ViewController {
         layout.setCenter(loginView);
 
         // Size Properties.
-        primaryStage.setWidth(700);
-        primaryStage.setHeight(500);
+        primaryStage.setWidth(600);
+        primaryStage.setHeight(450);
         
         primaryStage.setResizable(false);
     }
@@ -115,6 +119,8 @@ public class ViewController {
         if (orderView == null) {
             orderView = new OrderView(this);
         }
+        mainView.setId("Main");
+        orderView.setId("Order");
 
         // Load Orders.
         orderView.loadOrders();
@@ -134,6 +140,9 @@ public class ViewController {
         if (orderHistoryView == null){
             orderHistoryView = new OrderHistoryView(this);
         }
+        mainView.setId("Main");
+        orderHistoryView.setId("OrderHistory");
+
         orderHistoryView.loadOrders();
 
         mainView.setCenter(orderHistoryView);
@@ -161,6 +170,7 @@ public class ViewController {
                 new OrderHistoryDAOImpl(),
                 new ShippingDAOImpl());
         }
+        orderDetailView.setId("OrderDetail");
         
         orderDetailLayout.setCenter(this.orderDetailView);
         
