@@ -180,11 +180,7 @@ public class OrderView extends BorderPane implements SearchableView {
             )        
         );
 
-// case PENDING -> PROCESSING;
-//             case PROCESSING -> PACKED;
-//             case PACKED -> READY_TO_SHIP;
-//             case READY_TO_SHIP -> FULFILLED;
-//             case FULFILLED -> FULFILLED; // No next status after fulfilled
+
         //---------------------- Selecting a row and opening details view ----------------------
         tableView.setRowFactory(tv -> {
             TableRow<Order> row = new TableRow<>();
