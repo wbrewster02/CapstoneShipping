@@ -17,10 +17,16 @@ public class ShippingHistory {
     // Fields
     private int shippingHistoryId;
     private int shippingId;
+    private int orderId;
 
     private String oldStatus;
     private String newStatus;
+    private String carrier;
+    private String trackingNumber;
+    private ShippingStatus shippingStatus;
 
+    private LocalDateTime shippedOn;
+    private LocalDateTime expectedBy;
     private LocalDateTime changedAt;
     private String notes;
 
@@ -29,13 +35,32 @@ public class ShippingHistory {
     }
 
     // Full constructor
-    public ShippingHistory(int shippingHistoryId, int shippingId, String oldStatus, String newStatus, LocalDateTime changedAt, String notes) {
+    public ShippingHistory(
+        int shippingHistoryId,
+        int shippingId,
+        String oldStatus,
+        String newStatus,
+        LocalDateTime changedAt,
+        String notes,
+        int orderId,
+        String carrier,
+        String trackingNumber,
+        ShippingStatus shippingStatus,
+        LocalDateTime shippedOn,
+        LocalDateTime expectedBy
+    ) {
         this.shippingHistoryId = shippingHistoryId;
         this.shippingId = shippingId;
         this.oldStatus = oldStatus;
         this.newStatus = newStatus;
         this.changedAt = changedAt;
         this.notes = notes;
+        this.orderId = orderId;
+        this.carrier = carrier;
+        this.trackingNumber = trackingNumber;
+        this.shippingStatus = shippingStatus;
+        this.shippedOn = shippedOn;
+        this.expectedBy = expectedBy;
     }
 
     // Getters and setters
@@ -85,5 +110,53 @@ public class ShippingHistory {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public int getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(int orderId) {
+        this.orderId = orderId;
+    }
+
+    public String getCarrier() {
+        return carrier;
+    }
+
+    public void setCarrier(String carrier) {
+        this.carrier = carrier;
+    }
+
+    public String getTrackingNumber() {
+        return trackingNumber;
+    }
+
+    public void setTrackingNumber(String trackingNumber) {
+        this.trackingNumber = trackingNumber;
+    }
+
+    public ShippingStatus getShippingStatus() {
+        return shippingStatus;
+    }
+
+    public void setShippingStatus(ShippingStatus shippingStatus) {
+        this.shippingStatus = shippingStatus;
+    }
+
+    public LocalDateTime getShippedOn() {
+        return shippedOn;
+    }
+
+    public void setShippedOn(LocalDateTime shippedOn) {
+        this.shippedOn = shippedOn;
+    }
+
+    public LocalDateTime getExpectedBy() {
+        return expectedBy;
+    }
+
+    public void setExpectedBy(LocalDateTime expectedBy) {
+        this.expectedBy = expectedBy;
     }
 }

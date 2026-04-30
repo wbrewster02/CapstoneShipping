@@ -75,7 +75,8 @@ public class MainView extends BorderPane {
 
         //Default view = Orders
         setCenter(this.viewController.getOrderView());
-        // Button action (only Orders works for now)
+
+
         ordersBtn.setOnAction(e -> {
             setCenter(this.viewController.getOrderView());
             setOrderSearchFields();
@@ -95,6 +96,11 @@ public class MainView extends BorderPane {
             setCenter(this.viewController.getShippingView());
             setShippingSearchFields();
             applySearchToCurrentView();
+        });
+
+        shippingHistoryBtn.setOnAction(e -> {
+            setCenter(viewController.getShippingHistoryView());
+            setShippingHistorySearchFields();
         });
 
         searchField.textProperty().addListener((obs, oldVal, newVal) -> {
@@ -145,14 +151,27 @@ public class MainView extends BorderPane {
         choiceBox.getItems().addAll(
             "Order ID",
             "Customer ID",
-            "Old Order Status",
-            "New Order Status",
-            "Old Fulfillment Status",
-            "New Fulfillment Status"
+            "Order Date",
+            "Fulfilled At"
          );
 
         // Optional: set default selection
         choiceBox.setValue("Order ID");
+    }
+
+    public void setShippingHistorySearchFields() {
+        choiceBox.getItems().clear();
+
+        choiceBox.getItems().addAll(
+            "Shipping ID",
+            "Order ID",
+            "Carrier",
+            "Tracking Number",
+            "Ship Status"
+         );
+
+        // Optional: set default selection
+        choiceBox.setValue("Shipping ID");
     }
 
     public void applySearchToCurrentView() {
