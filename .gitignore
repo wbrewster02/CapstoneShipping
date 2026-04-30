@@ -16,7 +16,7 @@ db.properties
 Credentials.json
 
 # Ignore target directory
-/shipping/target/
+shipping/target
 
 # ignore exports directory
 shipping/exports/

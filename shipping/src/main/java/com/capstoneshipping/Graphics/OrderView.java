@@ -4,7 +4,9 @@
 
 package com.capstoneshipping.Graphics;
 
+import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
+import com.capstoneshipping.model.OrderStatus;
 import com.capstoneshipping.dao.OrderDAOImpl;
 
 import javafx.collections.FXCollections;
@@ -66,14 +68,89 @@ public class OrderView extends BorderPane implements SearchableView {
         });
 
 
-        TableColumn<Order, String> orderStatusCol = new TableColumn<>("Order Status");
+        TableColumn<Order, OrderStatus> orderStatusCol = new TableColumn<>("Order Status");
         orderStatusCol.setCellValueFactory(new PropertyValueFactory<>("orderStatus"));
+        orderStatusCol.setCellFactory(col -> new TableCell<Order, OrderStatus>() {
+            @Override
+            protected void updateItem(OrderStatus item, boolean empty) {
+                super.updateItem(item, empty);
 
-        TableColumn<Order, String> fulfillmentStatusCol = new TableColumn<>("Fulfillment Status");
+                // Clear previous state
+                setId(null);
+                
+                if (empty || item == null){
+                    setText(null);
+                    return;
+                }
+                // Get the Order object from the row
+                Order order = getTableView().getItems().get(getIndex());
+                if (order == null) return;
+
+                switch (item) {
+                    case PENDING -> {
+                        setText(item.toDbValue()); 
+                        setId("status-pending");
+                    }
+                    case PAID -> { 
+                        setText(item.toDbValue()); 
+                        setId("status-paid");
+                    }
+                    case READY_FOR_FULFILLMENT -> {
+                        setText(item.toDbValue()); 
+                        setId("status-ready_for_fulfillment");
+                    }
+                    case FULFILLED ->{ 
+                        setText(item.toDbValue()); 
+                        setId("status-fulfilled");
+                    }
+                    case CANCELLED ->{ 
+                        setText(item.toDbValue()); 
+                        setId("status-cancelled");
+                    }
+                }
+            }
+        });
+        TableColumn<Order, FulfillmentStatus> fulfillmentStatusCol = new TableColumn<>("Fulfillment Status");
         fulfillmentStatusCol.setCellValueFactory(new PropertyValueFactory<>("fulfillmentStatus"));
+        fulfillmentStatusCol.setCellFactory(col -> new TableCell<Order, FulfillmentStatus>() {
+            @Override
+            protected void updateItem(FulfillmentStatus item, boolean empty) {
+                super.updateItem(item, empty);
 
-        //TableColumn<Order, Object> fulfilledAtCol = new TableColumn<>("Fulfilled At"); //here
-        //fulfilledAtCol.setCellValueFactory(new PropertyValueFactory<>("fulfilledAt"));
+                // Clear previous state
+                setId(null);
+                
+                if (empty || item == null){
+                    setText(null);
+                    return;
+                }
+                // Get the Order object from the row
+                Order order = getTableView().getItems().get(getIndex());
+                
+                if (order == null) return;
+
+                setText(item.toDbValue());
+
+                switch (item) {
+                    case PENDING -> { 
+                        setId("status-pending");
+                    }
+                    case PROCESSING -> { 
+                        setId("status-processing");
+                    }
+                    case PACKED -> { 
+                        setId("status-packed");
+                    }
+                    case READY_TO_SHIP ->{ 
+                        setId("status-ready");
+                    }
+                    case FULFILLED ->{ 
+                        setId("status-fulfilled");
+                    }
+                }
+            }
+        });
+
         TableColumn<Order, LocalDateTime> fulfilledAtCol = new TableColumn<>("Fulfilled At");
         fulfilledAtCol.setCellValueFactory(new PropertyValueFactory<>("fulfilledAt"));
         fulfilledAtCol.setCellFactory(col -> new TableCell<Order, LocalDateTime>() {
@@ -81,14 +158,17 @@ public class OrderView extends BorderPane implements SearchableView {
             protected void updateItem(LocalDateTime item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (empty || item == null) {
-                    setText(null);
-                } else {
-                    setText(item.format(FORMATTER));
-                }
+                // Clear previous state
+                setText(null);
+                setId(null);
+
+                if (empty || item == null) return;
+
+                setText(item.format(FORMATTER));
+                
             }
         });
-
+        
         tableView.getColumns().addAll(
             List.of(
                 orderIdCol,
@@ -100,18 +180,38 @@ public class OrderView extends BorderPane implements SearchableView {
             )        
         );
 
-
+// case PENDING -> PROCESSING;
+//             case PROCESSING -> PACKED;
+//             case PACKED -> READY_TO_SHIP;
+//             case READY_TO_SHIP -> FULFILLED;
+//             case FULFILLED -> FULFILLED; // No next status after fulfilled
         //---------------------- Selecting a row and opening details view ----------------------
         tableView.setRowFactory(tv -> {
             TableRow<Order> row = new TableRow<>();
-
+            
             // Highlight fulfilled orders in light green for easy identification
             row.itemProperty().addListener((obs, oldOrder, newOrder) -> {
-                if (newOrder != null && newOrder.getFulfilledAt() != null) {
-                    row.setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
-                } else {
-                    row.setStyle("");
+                
+                row.setId(null);
+                // Get the Order object from the row
+                if (newOrder == null) return;
+
+                FulfillmentStatus fulfillmentStatus = newOrder.getFulfillmentStatus();
+                OrderStatus orderStatus = newOrder.getOrderStatus();
+
+                if (orderStatus == OrderStatus.CANCELLED) {
+                    row.setId("status-cancelled");
+
+                } else if (fulfillmentStatus == FulfillmentStatus.FULFILLED
+                        && orderStatus == OrderStatus.FULFILLED) {
+                    row.setId("status-complete");
+
+                } else if (fulfillmentStatus == FulfillmentStatus.PENDING
+                        && orderStatus == OrderStatus.FULFILLED) {
+                    row.setId("status-pending");
                 }
+
+                
             });
 
             row.setOnMouseClicked(event -> {

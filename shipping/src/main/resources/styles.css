@@ -33,8 +33,8 @@
     -fx-cursor: hand;
 }
 
-.button:hover { -fx-background-color: #1b4332; }
-.button:pressed { -fx-background-color: #081c15; }
+.button:hover  { -fx-background-color: #1b4332; }
+.button:pressed { -fx-background-color: #10382a; }
 
 /* Nav bar */
 .button-bar {
@@ -72,7 +72,7 @@
 
 /* Search bar */
 .search-bar {
-    -fx-background-color: #eef2ee;
+    -fx-background-color: #e8ede9;
     -fx-padding: 10 15 10 15;
     -fx-border-color: #b7c4bb;
     -fx-border-width: 0 0 1 0;
@@ -80,17 +80,12 @@
 
 /* Text fields */
 .text-field {
-    -fx-background-color: #fffef9;
-    -fx-border-color: #b7c4bb;
-    -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-padding: 6 10 6 10;
     -fx-font-size: 13px;
 }
 
 .text-field:focused {
-    border-color: #2d6a4f;
-
     -fx-border-color: #2d6a4f;
     -fx-effect: dropshadow(gaussian, rgba(45,106,79,0.3), 4, 0, 0, 0);
 }
@@ -98,87 +93,38 @@
 #search-field {
     -fx-pref-width: 250px;
 }
-/* // Background color of the whole context menu
-.choice-box .context-menu { -fx-background-color: black; }
-// Focused item background color in the list
-.choice-box .menu-item:focused { -fx-background-color: orange; }
-// Text color of non-focused items in the list
-.choice-box .menu-item > .label { -fx-text-fill: white; }
-// Text color of focused item in the list
-.choice-box .menu-item:focused > .label { -fx-text-fill: black;  */
-/* ChoiceBox and ComboBox */
-.choice-box {
-    background-color: #2d6a4f;
-    border-color: #1b4332;
-    border-radius: 4;
-    font-size: 13px;
-    cursor: hand;
 
-    -fx-background-color: #2d6a4f;
-    -fx-border-color: #1b4332;
+.choice-box > .label, .choice-box .context-menu { 
+    -fx-text-fill: white;
+    -fx-fixed-cell-size: 80px;
+    -fx-background-color: #1b4332;
+    -fx-border-color: #2d6a4f;
     -fx-border-radius: 4;
     -fx-background-radius: 4;
     -fx-font-size: 13px;
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 3, 0, 0, 1);
+ }
+.context-menu > .choice-box:hover {
+    -fx-background-color: #2d6a4f; 
+    -fx-border-color: white;
 }
+.choice-box .menu-item:focused { 
+    -fx-background-color: #2d6a4f; 
+    -fx-border-color: white;
 
-.list-cell > .choice-box .label {
-    background-color: #2d6a4f;
-    /* padding: 4 8 4 8; */
-    
-    -fx-text-fill: white;
-    -fx-background-color: #2d6a4f;
-    /* -fx-padding: 4 8 4 8; */
-}
-.choice-box:hover, .menu-item:focused{
-    background-color: #1b4332;
-    -fx-background-color: #1b4332;
-}
 
-/* Dropdowns */
-.choice-box-popup {
-    background-color: #2d6a4f;
-    -fx-background-color: #2d6a4f;
 }
-
-.choice-box-popup .list-view {
-    background-color: #2d6a4f;
-    background: #2d6a4f;
-    border-color: #1b4332;
-   
-    -fx-background-color: #2d6a4f;
-    -fx-background: #2d6a4f;
-    -fx-border-color: #1b4332;
-    /* -fx-fixed-cell-size: 34px; */
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.25), 8, 0, 0, 3);
-}
-.choice-box-popup .list-view .list-cell {
-    background-color: #2d6a4f !important;
-    font-size: 13px;
-    /* padding: 6 12 6 12; */
-
-    -fx-background-color: #2d6a4f !important;
-    -fx-text-fill: white !important;
-    -fx-font-size: 13px;
-    /* -fx-padding: 6 12 6 12; */
-}
-
-.choice-box-popup .list-view .list-cell:hover {
-    -fx-background-color: #1b4332 !important;
-    -fx-text-fill: white !important;
-}
-
-.choice-box-popup .list-view .list-cell:selected {
-    -fx-background-color: #081c15 !important;
-    -fx-text-fill: white !important;
-}
+.choice-box .menu-item > .label { -fx-text-fill: white; }
+.choice-box .menu-item:focused > .label, .choice-box:hover > .label { -fx-text-fill: white; }
 
 /* Table */
 .table-view {
     -fx-background-color: #fffef9;
-    -fx-border-color: #d4ddd7;
+    -fx-border-color: #2d6a4f;
+    -fx-border-width: 1;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);
+    -fx-font-size: 13px;
 }
 
 .table-view .column-header-background,
@@ -189,25 +135,82 @@
 }
 
 .table-view .column-header .label {
-    -fx-text-fill: white;
+    -fx-text-fill: #d8e8e1;
     -fx-font-weight: bold;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
 }
 
-.table-row-cell:odd { -fx-background-color: #f0f4f1; }
+.table-cell {
+    -fx-font-size: 13px;
+    -fx-text-fill: #1b4332;
+}
+
+.table-row-cell {
+    -fx-border-color: transparent transparent #dde8e2 transparent;
+    -fx-border-width: 1;
+}
+
+.table-row-cell:odd  { -fx-background-color: #f4f8f5; }
 .table-row-cell:even { -fx-background-color: #fffef9; }
 .table-row-cell:hover { -fx-background-color: #e0ece5; }
 
-.table-row-cell:selected {
-    -fx-background-color: #249767;
+.table-row-cell:selected { -fx-background-color: #52796f; }
+.table-row-cell:selected .table-cell { -fx-text-fill: white; }
+
+/* Status cells — shared base */
+#status-pending, #status-processing, #status-packed,
+#status-ready, #status-fulfilled, #status-cancelled,
+#status-paid, #status-ready-for-fulfillment, #status-complete {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);
+
+    -fx-font-size: 12px;
+    -fx-border-width: 0 0 0 0;
 }
 
-.table-row-cell:selected .table-cell {
-    -fx-text-fill: white;
+/* Pending — warm cream, not started */
+#status-pending {
+    -fx-background-color: #f5f0e8;
+    -fx-text-fill: #6b5e45;
+    -fx-border-color: #c4b49a;
+}
+
+/* Processing / Paid — light sage, in motion */
+#status-processing, #status-paid {
+    -fx-background-color: #dde8e2;
+    -fx-text-fill: #3a6b52;
+    -fx-border-color: #7aaa8e;
+}
+
+/* Packed — warm sand, preparing */
+#status-packed {
+    -fx-background-color: #ede8dc;
+    -fx-text-fill: #5c4f30;
+    -fx-border-color: #a89870;
+}
+
+/* Ready — medium green, nearly there */
+#status-ready, #status-ready-for-fulfillment {
+    -fx-background-color: #9ed1b4;
+    -fx-text-fill: #1b4332;
+    -fx-border-color: #52796f;
+}
+
+/* Fulfilled / Complete — deep green, done */
+#status-fulfilled, #status-complete {
+    -fx-background-color: #a8cdb8;
+    -fx-text-fill: #1b4332;
+    -fx-border-color: #2d6a4f;
+}
+
+/* Cancelled — muted terracotta, earthy but distinct */
+#status-cancelled {
+    -fx-background-color: #e8d8d0;
+    -fx-text-fill: #6b3020;
+    -fx-border-color: #a8624a;
 }
 
 
-
+/* Login Styling */
 #login {
     -fx-background-color: rgba(255, 255, 255, 0.12);
     -fx-background-radius: 10;

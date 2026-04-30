@@ -75,7 +75,7 @@ public class MainView extends BorderPane {
                     choiceBox,
                     searchField
             );
-
+            searchBar.setId("Hbox");
             VBox topContainer = new VBox(5); // spacing between rows
             topContainer.setPadding(new Insets(5));
             topContainer.getChildren().addAll(buttonBar, searchBar);

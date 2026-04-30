@@ -8,13 +8,14 @@ package com.capstoneshipping.model;
 public class Employee {
     private String Username;
     private String Password;
-    
+    private String Access;
     // No-arg constructor required by Jackson
     public Employee() {}
     
-    public Employee(String Username, String Password){
+    public Employee(String Username, String Access, String Password){
         setUsername(Username);
         setPassword(Password);
+        setAccess(Access);
 
     }
 
@@ -25,6 +26,14 @@ public class Employee {
     public void setUsername(String Username){
         this.Username = Username;
     }
+    // set permissions/access.
+    public String getAccess(){
+        return this.Access;
+    }
+    public void setAccess(String Access){
+        this.Access = Access;
+    }
+
 
     // get/set Password
     public String getPassword(){
