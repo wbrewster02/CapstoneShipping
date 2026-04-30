@@ -105,7 +105,7 @@ public class OrderView extends BorderPane implements SearchableView {
         tableView.setRowFactory(tv -> {
             TableRow<Order> row = new TableRow<>();
 
-            // Highlight fulfilled orders in light green for easy identification
+            //Highlight fulfilled orders in light green for easy identification
             row.itemProperty().addListener((obs, oldOrder, newOrder) -> {
                 if (newOrder != null && newOrder.getFulfilledAt() != null) {
                     row.setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");

@@ -26,96 +26,91 @@ public class MainView extends BorderPane {
         private final TextField searchField;
 
         private ViewController viewController;
-        
-        public MainView(ViewController viewController) {
-            this.viewController = viewController;
-            
-            ordersBtn = new Button("Orders");
-            ordersBtn.getStyleClass().add("nav-button");
-            
-            orderHistoryBtn = new Button("Order History");
-            orderHistoryBtn.getStyleClass().add("nav-button");
-            
-            shippingBtn = new Button("Shipping");
-            shippingBtn.getStyleClass().add("nav-button");
 
-            shippingHistoryBtn = new Button("Shipping History");
-            shippingHistoryBtn.getStyleClass().add("nav-button");
+    public MainView(ViewController viewController) {
+        this.viewController = viewController;
 
-            logoutBtn = new Button("Logout");
-            logoutBtn.setId("logout-btn");
-            
-            choiceBox = new ChoiceBox<>();
-            choiceBox.getStyleClass().add("combo-box-popup");
-            setOrderSearchFields(); // Default to order search fields, can be switched when navigating to shipping view.
-            
-            searchField = new TextField();
-            searchField.setPromptText("Search...");
-            
-            //Hboxes for layout of buttons and search components. VBox to stack them vertically. 
-            //BorderPane to place the main content in the center and everything else at the top.
-            //left inside the constructor, local layount variables. We can adjust the spacing and padding as needed.
-            HBox buttonBar = new HBox(10);
-            Region spacer = new Region();
-            HBox.setHgrow(spacer, Priority.ALWAYS);
-            
-            buttonBar.getChildren().addAll(
-                ordersBtn,
-                orderHistoryBtn,
-                shippingBtn,
-                shippingHistoryBtn,
-                spacer,
-                logoutBtn
-            );
-            buttonBar.setId("button-bar");
-            buttonBar.getStyleClass().add("button-bar");
-            
-            HBox searchBar = new HBox(10);
-            searchBar.getChildren().addAll(
-                    choiceBox,
-                    searchField
-            );
+        ordersBtn = new Button("Orders");
+        orderHistoryBtn = new Button("Order History");
+        shippingBtn = new Button("Shipping");
+        shippingHistoryBtn = new Button("Shipping History");
+        logoutBtn = new Button("Logout");
 
-            VBox topContainer = new VBox(5); // spacing between rows
-            topContainer.setPadding(new Insets(5));
-            topContainer.getChildren().addAll(buttonBar, searchBar);
+        choiceBox = new ChoiceBox<>();
+        setOrderSearchFields(); // Default to order search fields, can be switched when navigating to shipping view.
 
-            setTop(topContainer);
+        searchField = new TextField();
+        searchField.setPromptText("Search...");
+
+        //Hboxes for layout of buttons and search components. VBox to stack them vertically. 
+        //BorderPane to place the main content in the center and everything else at the top.
+        //left inside the constructor, local layount variables. We can adjust the spacing and padding as needed.
+        HBox buttonBar = new HBox(10);
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        buttonBar.getChildren().addAll(
+            ordersBtn,
+            orderHistoryBtn,
+            shippingBtn,
+            shippingHistoryBtn,
+            spacer,
+            logoutBtn
+        );
+
+        HBox searchBar = new HBox(10);
+        searchBar.getChildren().addAll(
+                choiceBox,
+                searchField
+        );
+
+        VBox topContainer = new VBox(5); // spacing between rows
+        topContainer.setPadding(new Insets(5));
+        topContainer.getChildren().addAll(buttonBar, searchBar);
+
+        setTop(topContainer);
 
 
-            //Default view = Orders
+
+
+        //Default view = Orders
+        setCenter(this.viewController.getOrderView());
+
+
+        ordersBtn.setOnAction(e -> {
             setCenter(this.viewController.getOrderView());
-            // Button action (only Orders works for now)
-            ordersBtn.setOnAction(e -> {
-                setCenter(this.viewController.getOrderView());
-                setOrderSearchFields();
-                applySearchToCurrentView();
-            });
+            setOrderSearchFields();
+            applySearchToCurrentView();
+        });
 
 
-            logoutBtn.setOnAction(e -> this.viewController.logout());
-            orderHistoryBtn.setOnAction(e -> {
-                setCenter(this.viewController.getOrderHistoryView());
-                setOrderHistorySearchFields();
-                applySearchToCurrentView();
-            });
-            
+        logoutBtn.setOnAction(e -> this.viewController.logout());
+        orderHistoryBtn.setOnAction(e -> {
+            setCenter(this.viewController.getOrderHistoryView());
+            setOrderHistorySearchFields();
+            applySearchToCurrentView();
+        });
+        
 
-            shippingBtn.setOnAction(e -> {
-                setCenter(this.viewController.getShippingView());
-                setShippingSearchFields();
-                applySearchToCurrentView();
-            });
+        shippingBtn.setOnAction(e -> {
+            setCenter(this.viewController.getShippingView());
+            setShippingSearchFields();
+            applySearchToCurrentView();
+        });
 
-            searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-                applySearchToCurrentView();
-            });
+        shippingHistoryBtn.setOnAction(e -> {
+            setCenter(viewController.getShippingHistoryView());
+            setShippingHistorySearchFields();
+        });
 
-            choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-                applySearchToCurrentView();
-            });
-            
-        } // End of Constructor
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
+            applySearchToCurrentView();
+        });
+
+        choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
+            applySearchToCurrentView();
+        });
+    }
 
     public void setOrderSearchFields() {
         // Implementation for setting order search fields
@@ -156,14 +151,27 @@ public class MainView extends BorderPane {
         choiceBox.getItems().addAll(
             "Order ID",
             "Customer ID",
-            "Old Order Status",
-            "New Order Status",
-            "Old Fulfillment Status",
-            "New Fulfillment Status"
+            "Order Date",
+            "Fulfilled At"
          );
 
         // Optional: set default selection
         choiceBox.setValue("Order ID");
+    }
+
+    public void setShippingHistorySearchFields() {
+        choiceBox.getItems().clear();
+
+        choiceBox.getItems().addAll(
+            "Shipping ID",
+            "Order ID",
+            "Carrier",
+            "Tracking Number",
+            "Ship Status"
+         );
+
+        // Optional: set default selection
+        choiceBox.setValue("Shipping ID");
     }
 
     public void applySearchToCurrentView() {

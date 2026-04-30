@@ -172,17 +172,17 @@ public class OrderDetailView extends VBox {
     }
 
     private void handleSubmit() {
-        
+
         OrderStatus selectedOrderStatus = orderStatusBox.getValue();
         FulfillmentStatus selectedFulfillmentStatus = fulfillmentBox.getValue();
- 
+
         if (selectedOrderStatus != OrderStatus.FULFILLED ||
             selectedFulfillmentStatus != FulfillmentStatus.FULFILLED) {
- 
+
             System.out.println("Order must be fully fulfilled before submitting to Order History.");
             return;
         }
- 
+        
         OrderHistory history = new OrderHistory(
             0, // orderHistoryId, DB will assign this
             order.getOrderId(),

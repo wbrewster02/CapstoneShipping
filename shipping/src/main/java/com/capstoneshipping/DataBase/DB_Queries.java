@@ -105,4 +105,39 @@ public class DB_Queries {
         "SELECT COUNT(*) FROM " + DB_Constants.ORDER_HISTORY_TABLE +
         " WHERE " + DB_Constants.ORDER_HISTORY_ORDER_ID + " = ?";
     //
+
+    // SHIPPING_HISTORY
+
+    public static final String GET_ALL_SHIPPING_HISTORY =
+        "SELECT " +
+        "sh.Shipping_History_ID, " +
+        "sh.Shipping_ID, " +
+        "sh.Old_Status, " +
+        "sh.New_Status, " +
+        "sh.Changed_At, " +
+        "sh.Notes, " +
+        "s.Order_ID, " +
+        "s.Carrier, " +
+        "s.Tracking_Number, " +
+        "s.Ship_Status, " +
+        "s.Shipped_On, " +
+        "s.Expected_By " +
+        "FROM " + DB_Constants.SHIPPING_HISTORY_TABLE + " sh " +
+        "JOIN " + DB_Constants.SHIPPING_TABLE + " s " +
+        "ON sh.Shipping_ID = s.Shipping_ID";
+
+
+    public static final String INSERT_SHIPPING_HISTORY =
+        "INSERT INTO " + DB_Constants.SHIPPING_HISTORY_TABLE + " (" +
+        DB_Constants.SHIPPING_HISTORY_SHIPPING_ID + ", " +
+        DB_Constants.SHIPPING_HISTORY_OLD_STATUS + ", " +
+        DB_Constants.SHIPPING_HISTORY_NEW_STATUS + ", " +
+        DB_Constants.SHIPPING_HISTORY_CHANGED_AT + ", " +
+        DB_Constants.SHIPPING_HISTORY_NOTES +
+        ") VALUES (?, ?, ?, ?, ?)";
+
+    public static final String SHIPPING_HISTORY_EXISTS =
+        "SELECT COUNT(*) FROM " + DB_Constants.SHIPPING_HISTORY_TABLE +
+        " WHERE " + DB_Constants.SHIPPING_HISTORY_SHIPPING_ID + " = ?";
+    //
 }

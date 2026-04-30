@@ -10,11 +10,12 @@ package com.capstoneshipping.Graphics;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import com.capstoneshipping.util.ExportUtil;
 
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
-
 import com.capstoneshipping.model.OrderHistory;
-import com.capstoneshipping.util.ExportUtil;
+//import com.capstoneshipping.model.Order;
+//import com.capstoneshipping.dao.OrderDAOImpl;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -28,10 +29,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+
+
 import java.time.Duration;
 
 
-public class OrderHistoryView extends BorderPane{
+public class OrderHistoryView extends BorderPane implements SearchableView {
 
     private TableView<OrderHistory> tableView;
     private OrderHistoryDAOImpl orderHistoryDAO;
@@ -126,6 +129,46 @@ public class OrderHistoryView extends BorderPane{
         System.out.println(filteredList);
         // ObservableList<Order> orderList = FXCollections.observableArrayList(orders);
         // tableView.setItems(orderList);
+    }
+
+    @Override
+    public void applySearch(String selectedField, String searchText) {
+        filteredList.setPredicate(history -> {
+
+            if (searchText == null || searchText.isEmpty()) {
+                return true;
+            }
+
+            String lowerCaseFilter = searchText.toLowerCase();
+
+            if (selectedField == null || selectedField.isEmpty()) {
+                return (history.getOrderId() + "").contains(lowerCaseFilter)
+                        || (history.getCustomerId() + "").contains(lowerCaseFilter)
+                        || (history.getOrderDate() != null &&
+                            history.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter))
+                        || (history.getFulfilledAt() != null &&
+                            history.getFulfilledAt().toString().toLowerCase().contains(lowerCaseFilter));
+            }
+
+            switch (selectedField) {
+                case "Order ID":
+                    return (history.getOrderId() + "").contains(lowerCaseFilter);
+
+                case "Customer ID":
+                    return (history.getCustomerId() + "").contains(lowerCaseFilter);
+
+                case "Order Date":
+                    return history.getOrderDate() != null &&
+                            history.getOrderDate().toString().toLowerCase().contains(lowerCaseFilter);
+
+                case "Fulfilled At":
+                    return history.getFulfilledAt() != null &&
+                            history.getFulfilledAt().toString().toLowerCase().contains(lowerCaseFilter);
+
+                default:
+                    return true;
+            }
+        });
     }
 
     public TableView<OrderHistory> getTableView(){
