@@ -10,6 +10,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.mindrot.jbcrypt.BCrypt;
+import java.io.File;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
@@ -190,6 +194,24 @@ public class LoginView extends VBox {
         }
 
     }
+    public void createCredentials(String user, String access, String pass) {
+        String hashed = BCrypt.hashpw(pass, BCrypt.gensalt()); // hash before storing
+        
+        ObjectMapper mapper = new ObjectMapper();
+        
+        // Read existing employees first
+        List<Employee> employees = new ArrayList<>();
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("credentials.json")) {
+            if (in != null) {
+                employees = mapper.readValue(in, new TypeReference<ArrayList<Employee>>() {});
+                employees.add(new Employee(user, access, hashed));
+                mapper.writerWithDefaultPrettyPrinter()
+                      .writeValue(new File("src/main/resources/credentials.json"), employees);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-    
 }
+    

@@ -61,7 +61,7 @@ public class ViewController {
         scene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
         
         // Create Order Scene.
-        Scene orderDetailScene = new Scene(orderDetailLayout, 300, 300);
+        Scene orderDetailScene = new Scene(orderDetailLayout, 300, 350);
         orderDetailScene.getStylesheets().add(getClass().getResource("/styles.css").toExternalForm());
 
         // create Shipping Scene.
@@ -156,7 +156,7 @@ public class ViewController {
         // Creates new Order Detail View Each time method is called, allows for Detail View to properly update.
         if (orderDetailView == null){
             orderDetailView = new OrderDetailView(this,
-                 order,
+                order,
                 orderDetailStage,
                 // () -> this.orderView.getTableView().refresh(),
                 () -> {
@@ -170,7 +170,7 @@ public class ViewController {
                 new OrderHistoryDAOImpl(),
                 new ShippingDAOImpl());
         }
-        orderDetailView.setId("OrderDetail");
+        orderDetailView.setId("order-detail");
         
         orderDetailLayout.setCenter(this.orderDetailView);
         
@@ -195,6 +195,7 @@ public class ViewController {
             shippingView.getShippingDAO(),
             new ShippingHistoryDAOImpl()
         );
+        shippingDetailView.setId("order-detail");
 
         shippingDetailLayout.setCenter(shippingDetailView);
 

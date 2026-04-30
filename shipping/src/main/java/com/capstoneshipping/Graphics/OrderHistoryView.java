@@ -106,7 +106,7 @@ public class OrderHistoryView extends BorderPane implements SearchableView {
             //List<OrderHistory> list = getAllOrders();
              List<OrderHistory> list =  orderHistoryDAO.getAllOrders();
 
-            ExportUtil.exportOrderHistoryToCSV(list, "exports/order_history.csv");
+            ExportUtil.exportOrderHistoryToCSV(list, "exports/order_history_", LocalDateTime.now());
         });
 
         bottomBox.getChildren().add(exportBtn);

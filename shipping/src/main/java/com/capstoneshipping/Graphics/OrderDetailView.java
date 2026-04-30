@@ -144,7 +144,7 @@ public class OrderDetailView extends VBox {
         OrderStatus selectedOrderStatus = orderStatusBox.getValue();
         FulfillmentStatus selectedFulfillmentStatus = fulfillmentBox.getValue();
 
-        if (selectedOrderStatus != null) {
+        if (selectedOrderStatus != null && selectedFulfillmentStatus != null) {
             // Process the selected order status
             order.setOrderStatus(selectedOrderStatus);
             orderDAO.updateOrderStatus(order.getOrderId(), selectedOrderStatus); // Update in database

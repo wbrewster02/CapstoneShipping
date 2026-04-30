@@ -4,7 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import com.capstoneshipping.DataBase.DB_Connection;
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
+import com.capstoneshipping.dao.ShippingHistoryDAO;
 import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
 import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.ShippingHistory;
@@ -90,17 +92,16 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
         bottomBox.setPadding(new Insets(10));
 
-        // Button exportBtn = new Button("Export CSV");
+        Button exportBtn = new Button("Export CSV");
 
-        // exportBtn.setOnAction(e -> {
-        //     //OrderHistoryDAO dao = new OrderHistoryDAOImpl(DatabaseConnection.getConnection());
-        //     //List<OrderHistory> list = getAllOrders();
-        //      List<ShippingHistory> list =  shippingHistoryDAO.getAllOrders();
+        exportBtn.setOnAction(e -> {
+            ShippingHistoryDAO dao = new ShippingHistoryDAOImpl();
+             List<ShippingHistory> list =  shippingHistoryDAO.getAllShippingHistory();
 
-        //     ExportUtil.exportShippingHistoryToCSV(list, "exports/shipping_history.csv");
-        // // });
+            ExportUtil.exportShippingHistoryToCSV(list, "exports/shipping_history_", LocalDateTime.now());
+        });
 
-        // bottomBox.getChildren().add(exportBtn);
+        bottomBox.getChildren().add(exportBtn);
 
         setBottom(bottomBox);
         

@@ -10,6 +10,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
@@ -27,27 +28,37 @@ public class MainView extends BorderPane {
 
         private ViewController viewController;
 
-    public MainView(ViewController viewController) {
+        public MainView(ViewController viewController) {
         this.viewController = viewController;
-
+        
         ordersBtn = new Button("Orders");
         orderHistoryBtn = new Button("Order History");
         shippingBtn = new Button("Shipping");
         shippingHistoryBtn = new Button("Shipping History");
         logoutBtn = new Button("Logout");
 
+        // Nav button styles — transparent with border, green on hover
+        ordersBtn.getStyleClass().add("nav-button");
+        orderHistoryBtn.getStyleClass().add("nav-button");
+        shippingBtn.getStyleClass().add("nav-button");
+        shippingHistoryBtn.getStyleClass().add("nav-button");
+        logoutBtn.setId("logout-btn"); // unique red styling via CSS ID
+
+        // MinWidth prevents choicebox collapsing to just the arrow
         choiceBox = new ChoiceBox<>();
-        setOrderSearchFields(); // Default to order search fields, can be switched when navigating to shipping view.
+        choiceBox.setMinWidth(120);
 
         searchField = new TextField();
         searchField.setPromptText("Search...");
+        searchField.setId("search-field");
 
-        //Hboxes for layout of buttons and search components. VBox to stack them vertically. 
-        //BorderPane to place the main content in the center and everything else at the top.
-        //left inside the constructor, local layount variables. We can adjust the spacing and padding as needed.
+        // HBoxes for layout of buttons and search components. VBox to stack them vertically.
+        // BorderPane to place the main content in the center and everything else at the top.
         HBox buttonBar = new HBox(10);
+        buttonBar.setAlignment(Pos.CENTER_LEFT); // vertically center nav items
         Region spacer = new Region();
-        HBox.setHgrow(spacer, Priority.ALWAYS);
+        HBox.setHgrow(spacer, Priority.ALWAYS); // pushes logout to the right
+        buttonBar.getStyleClass().add("button-bar");
 
         buttonBar.getChildren().addAll(
             ordersBtn,
@@ -59,38 +70,32 @@ public class MainView extends BorderPane {
         );
 
         HBox searchBar = new HBox(10);
-        searchBar.getChildren().addAll(
-                choiceBox,
-                searchField
-        );
+        searchBar.setAlignment(Pos.CENTER_LEFT); // vertically center search items
+        searchBar.getChildren().addAll(choiceBox, searchField);
+        searchBar.getStyleClass().add("search-bar");
 
-        VBox topContainer = new VBox(5); // spacing between rows
-        topContainer.setPadding(new Insets(5));
+        // VBox spacing 0 and no padding — prevents gap between nav bar and search bar
+        VBox topContainer = new VBox();
         topContainer.getChildren().addAll(buttonBar, searchBar);
 
         setTop(topContainer);
 
-
-
-
-        //Default view = Orders
+        // Default search fields and view on startup
+        setOrderSearchFields();
         setCenter(this.viewController.getOrderView());
 
-
+        // Button actions — switch center view and update search fields accordingly
         ordersBtn.setOnAction(e -> {
             setCenter(this.viewController.getOrderView());
             setOrderSearchFields();
             applySearchToCurrentView();
         });
 
-
-        logoutBtn.setOnAction(e -> this.viewController.logout());
         orderHistoryBtn.setOnAction(e -> {
             setCenter(this.viewController.getOrderHistoryView());
             setOrderHistorySearchFields();
             applySearchToCurrentView();
         });
-        
 
         shippingBtn.setOnAction(e -> {
             setCenter(this.viewController.getShippingView());
@@ -103,14 +108,13 @@ public class MainView extends BorderPane {
             setShippingHistorySearchFields();
         });
 
-        searchField.textProperty().addListener((obs, oldVal, newVal) -> {
-            applySearchToCurrentView();
-        });
+        logoutBtn.setOnAction(e -> this.viewController.logout());
 
-        choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> {
-            applySearchToCurrentView();
-        });
-    }
+        // Re-apply search on every keystroke or choicebox change
+        searchField.textProperty().addListener((obs, oldVal, newVal) -> applySearchToCurrentView());
+
+        choiceBox.valueProperty().addListener((obs, oldVal, newVal) -> applySearchToCurrentView());
+}   
 
     public void setOrderSearchFields() {
         // Implementation for setting order search fields
