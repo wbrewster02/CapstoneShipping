@@ -184,13 +184,8 @@ public class OrderView extends BorderPane implements SearchableView {
         //---------------------- Selecting a row and opening details view ----------------------
         tableView.setRowFactory(tv -> {
             TableRow<Order> row = new TableRow<>();
-<<<<<<< HEAD
-            
-            // Highlight fulfilled orders in light green for easy identification
-=======
 
             //Highlight fulfilled orders in light green for easy identification
->>>>>>> main
             row.itemProperty().addListener((obs, oldOrder, newOrder) -> {
                 
                 row.setId(null);
@@ -201,18 +196,35 @@ public class OrderView extends BorderPane implements SearchableView {
                 OrderStatus orderStatus = newOrder.getOrderStatus();
 
                 if (orderStatus == OrderStatus.CANCELLED) {
-                    row.setId("status-cancelled");
+                    row.setId("row-cancelled");
 
                 } else if (fulfillmentStatus == FulfillmentStatus.FULFILLED
                         && orderStatus == OrderStatus.FULFILLED) {
-                    row.setId("status-complete");
+                    row.setId("row-complete");
 
                 } else if (fulfillmentStatus == FulfillmentStatus.PENDING
                         && orderStatus == OrderStatus.FULFILLED) {
-                    row.setId("status-pending");
+                    row.setId("row-awaiting");
                 }
 
                 
+            });
+            
+            // Override background on selection
+            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    row.setStyle("-fx-background-color: #52796f;");
+                    // Override status cell backgrounds on selection
+                    row.lookupAll(".table-cell").forEach(cell -> 
+                        cell.setStyle("-fx-background-color: #52796f; -fx-text-fill: white;")
+                    );
+                } else {
+                    row.setStyle("");
+                    // Revert cell styles so CSS ID rules apply again
+                    row.lookupAll(".table-cell").forEach(cell -> 
+                        cell.setStyle("")
+                    );
+                }
             });
 
             row.setOnMouseClicked(event -> {

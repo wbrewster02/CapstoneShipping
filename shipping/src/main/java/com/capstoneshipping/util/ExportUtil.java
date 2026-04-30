@@ -2,15 +2,19 @@ package com.capstoneshipping.util;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import com.capstoneshipping.model.OrderHistory;
+import com.capstoneshipping.model.ShippingHistory;
 
 public class ExportUtil {
 
-    public static void exportOrderHistoryToCSV(List<OrderHistory> list, String filePath) {
-
-        try (FileWriter writer = new FileWriter(filePath)) {
+    public static void exportOrderHistoryToCSV(List<OrderHistory> list, String filePath, LocalDateTime date) {
+        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("M_d_yyyy");
+        try (FileWriter writer = new FileWriter(filePath + date.format(FORMATTER) + ".csv")) {
 
             // Header row
             writer.append("OrderHistoryID, OrderID, OldOrderStatus, NewOrderStatus, OldFulfillmentStatus, NewFulfillmentStatus, ChangedAt, Notes\n");
@@ -28,6 +32,32 @@ public class ExportUtil {
             }
 
             System.out.println("Order history exported successfully to " + filePath);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void exportShippingHistoryToCSV(List<ShippingHistory> list, String filePath, LocalDateTime date) {
+        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("M_d_yyyy");
+
+        try (FileWriter writer = new FileWriter(filePath + date.format(FORMATTER) + ".csv")) {
+
+            // Header row
+            writer.append("shippingId, orderId, Carrier, TrackingNumber, ShippingStatus, ShippedOn, ExpectedBy\n");
+
+            // Data rows
+            for (ShippingHistory o : list) {
+                writer.append(String.valueOf(o.getShippingId())).append(",");
+                writer.append(String.valueOf(o.getOrderId())).append(",");
+                writer.append(String.valueOf(o.getCarrier())).append(",");
+                writer.append(String.valueOf(o.getTrackingNumber())).append(",");
+                writer.append(String.valueOf(o.getShippingStatus())).append(",");
+                writer.append(String.valueOf(o.getShippedOn())).append(",");
+                writer.append(String.valueOf(o.getExpectedBy())).append("\n");
+            }
+
+            System.out.println("Shipping history exported successfully to " + filePath);
 
         } catch (IOException e) {
             e.printStackTrace();

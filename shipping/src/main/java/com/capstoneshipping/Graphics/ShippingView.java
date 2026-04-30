@@ -104,10 +104,30 @@ public class ShippingView extends BorderPane implements SearchableView {
 
             //Highlight completed shipments in light green for easy identification
             row.itemProperty().addListener((obs, oldShipping, newShipping) -> {
-                if (newShipping != null && newShipping.getShipStatus() == ShippingStatus.DELIVERED) {
-                    row.setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
+                row.setId(null);
+                if (newShipping == null) return;
+
+                switch (newShipping.getShipStatus()) {
+                    case DELIVERED -> row.setId("row-complete");
+                    case RETURNED  -> row.setId("row-cancelled");
+                    case SHIPPED   -> row.setId("row-awaiting");
+                    case PENDING   -> row.setId("row-pending");
+                    default        -> row.setId(null);
+                }
+            });
+            row.selectedProperty().addListener((obs, wasSelected, isSelected) -> {
+                if (isSelected) {
+                    row.setStyle("-fx-background-color: #52796f;");
+                    // Override status cell backgrounds on selection
+                    row.lookupAll(".table-cell").forEach(cell -> 
+                        cell.setStyle("-fx-background-color: #52796f; -fx-text-fill: white;")
+                    );
                 } else {
                     row.setStyle("");
+                    // Revert cell styles so CSS ID rules apply again
+                    row.lookupAll(".table-cell").forEach(cell -> 
+                        cell.setStyle("")
+                    );
                 }
             });
 
