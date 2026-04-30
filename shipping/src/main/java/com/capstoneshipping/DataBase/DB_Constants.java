@@ -123,9 +123,13 @@ public class DB_Constants {
 
     
     // SHIPPING_HISTORY_COLUMNS
+    public static final String SHIPPING_HISTORY_TABLE = "Shipping_History";
 
-    
-
-    //Additional columns that may be needed for OrderDAO methods. Placed in order table. 
+    public static final String SHIPPING_HISTORY_ID = "Shipping_History_ID";
+    public static final String SHIPPING_HISTORY_SHIPPING_ID = "Shipping_ID";
+    public static final String SHIPPING_HISTORY_OLD_STATUS = "Old_Status";
+    public static final String SHIPPING_HISTORY_NEW_STATUS = "New_Status";
+    public static final String SHIPPING_HISTORY_CHANGED_AT = "Changed_At";
+    public static final String SHIPPING_HISTORY_NOTES = "Notes";
 
 }

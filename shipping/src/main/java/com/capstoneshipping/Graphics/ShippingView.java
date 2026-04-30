@@ -2,6 +2,7 @@ package com.capstoneshipping.Graphics;
 
 import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.dao.ShippingDAOImpl;
+import com.capstoneshipping.model.ShippingStatus;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -100,6 +101,15 @@ public class ShippingView extends BorderPane implements SearchableView {
         
         tableView.setRowFactory(tv -> {
             TableRow<Shipping> row = new TableRow<>();
+
+            //Highlight completed shipments in light green for easy identification
+            row.itemProperty().addListener((obs, oldShipping, newShipping) -> {
+                if (newShipping != null && newShipping.getShipStatus() == ShippingStatus.DELIVERED) {
+                    row.setStyle("-fx-background-color: lightgreen; -fx-border-color: lightgray; -fx-border-width: 0 0 1 0;");
+                } else {
+                    row.setStyle("");
+                }
+            });
 
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && !row.isEmpty()) {

@@ -8,6 +8,9 @@ import com.capstoneshipping.model.ShippingStatus;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.dao.OrderDAO;
+import com.capstoneshipping.dao.ShippingHistoryDAO;
+import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
+import com.capstoneshipping.model.ShippingHistory;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -24,6 +27,7 @@ public class ShippingDetailView extends VBox {
     private final Runnable onUpdate;
 
     private final ShippingDAO shippingDAO;
+    private final ShippingHistoryDAO shippingHistoryDAO;
 
     //choicebox for editing shipping status
     private final ChoiceBox<ShippingStatus> shippingStatusBox = new ChoiceBox<>();
@@ -36,12 +40,14 @@ public class ShippingDetailView extends VBox {
     private static final DateTimeFormatter FORMATTER =
         DateTimeFormatter.ofPattern("M/d/yyyy h:mm a");
 
-    public ShippingDetailView(ViewController viewController, Shipping shipping, Stage stage, Runnable onUpdate, ShippingDAO shippingDAO) {
+    public ShippingDetailView(ViewController viewController, Shipping shipping, Stage stage, Runnable onUpdate, ShippingDAO shippingDAO, ShippingHistoryDAO shippingHistoryDAO) {
         this.viewController = viewController;
         this.shipping = shipping;
         this.stage = stage;
         this.onUpdate = onUpdate;
         this.shippingDAO = shippingDAO;
+        this.shippingHistoryDAO = shippingHistoryDAO;
+
 
         setSpacing(10);
         setPadding(new Insets(10));
@@ -50,7 +56,7 @@ public class ShippingDetailView extends VBox {
 
         // listeners for buttons (apply would save changes to the order object, submit would move to orderhistory)
         applyButton.setOnAction(e -> handleApply());
-        //submitButton.setOnAction(e -> handleSubmit());
+        submitButton.setOnAction(e -> handleSubmit());
     }
 
     private void buildUI() {
@@ -90,7 +96,9 @@ public class ShippingDetailView extends VBox {
             expectedByLabel, 
             shippingStatusLabel, 
             shippingStatusBox, 
-            applyButton);
+            applyButton,
+            submitButton
+        );
     }
 
     private void handleApply() {
@@ -120,6 +128,57 @@ public class ShippingDetailView extends VBox {
             if (stage != null) {
                 stage.close(); // Close the detail view after applying changes
             }
+        }
+    }
+
+    private void handleSubmit() {
+        ShippingStatus selectedStatus = shippingStatusBox.getValue();
+
+        if (selectedStatus != ShippingStatus.DELIVERED) {
+            System.out.println("Shipping must be delivered before submitting to Shipping History.");
+            return;
+        }
+
+
+        if (selectedStatus == null) {
+            System.out.println("No shipping status selected.");
+            return;
+        }
+
+        ShippingHistory history = new ShippingHistory(
+            0, // DB assigns ID
+            shipping.getShippingId(),
+
+            shipping.getShipStatus() != null
+                ? shipping.getShipStatus().toDbValue()
+                : null,
+
+            selectedStatus.toDbValue(),
+
+            LocalDateTime.now(),
+            "Submitted from ShippingDetailView",
+
+            shipping.getOrderId(),
+            shipping.getCarrier(),
+            shipping.getTrackingNumber(),
+            selectedStatus,
+            shipping.getShippedOn(),
+            shipping.getExpectedBy()
+        );
+
+        if (!shippingHistoryDAO.shippingHistoryExists(shipping.getShippingId())) {
+            shippingHistoryDAO.insertShippingHistory(history);
+            System.out.println("Shipping history submitted for Shipping ID: " + shipping.getShippingId());
+        } else {
+            System.out.println("Shipping history already exists for Shipping ID: " + shipping.getShippingId());
+        }
+
+        if (onUpdate != null) {
+            onUpdate.run();
+        }
+
+        if (stage != null) {
+            stage.close();
         }
     }
 

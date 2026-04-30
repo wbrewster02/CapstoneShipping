@@ -8,6 +8,8 @@ import com.capstoneshipping.DataBase.DB_Connection;
 import com.capstoneshipping.dao.OrderHistoryDAO;
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.dao.ShippingDAOImpl;
+import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
+
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.Shipping;
 
@@ -37,7 +39,7 @@ public class ViewController {
     private ShippingDetailView shippingDetailView;
 
     private ShippingView shippingView;
-    //private ShippingHistoryView shippingHistoryView;
+    private ShippingHistoryView shippingHistoryView;
 
     // Icon Image
     private Image image;
@@ -190,7 +192,8 @@ public class ViewController {
             shipping,
             shippingDetailStage,
             () -> this.shippingView.getTableView().refresh(),
-            shippingView.getShippingDAO()
+            shippingView.getShippingDAO(),
+            new ShippingHistoryDAOImpl()
         );
 
         shippingDetailLayout.setCenter(shippingDetailView);
@@ -237,5 +240,13 @@ public class ViewController {
         }
 
         return mainView;
+    }
+
+    public ShippingHistoryView getShippingHistoryView() {
+        if (shippingHistoryView == null) {
+            shippingHistoryView = new ShippingHistoryView(this);
+        }
+        shippingHistoryView.loadShippingHistory();
+        return shippingHistoryView;
     }
 }

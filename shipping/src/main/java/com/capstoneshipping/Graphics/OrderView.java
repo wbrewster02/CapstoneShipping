@@ -184,8 +184,13 @@ public class OrderView extends BorderPane implements SearchableView {
         //---------------------- Selecting a row and opening details view ----------------------
         tableView.setRowFactory(tv -> {
             TableRow<Order> row = new TableRow<>();
+<<<<<<< HEAD
             
             // Highlight fulfilled orders in light green for easy identification
+=======
+
+            //Highlight fulfilled orders in light green for easy identification
+>>>>>>> main
             row.itemProperty().addListener((obs, oldOrder, newOrder) -> {
                 
                 row.setId(null);
