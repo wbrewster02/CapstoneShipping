@@ -9,6 +9,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+
+import com.capstoneshipping.DataBase.DB_Connection;
+
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -19,6 +22,7 @@ import javafx.scene.control.TextField;
 public class MainView extends BorderPane {
         // ADDED proper Instantiation of buttons and search components outside of the constructor so they can be accessed in the listeners.
         private final Button ordersBtn;
+        private final Button refreshBtn;
         private final Button orderHistoryBtn;
         private final Button shippingBtn;
         private final Button shippingHistoryBtn;
@@ -32,6 +36,8 @@ public class MainView extends BorderPane {
         this.viewController = viewController;
         
         ordersBtn = new Button("Orders");
+        refreshBtn = new Button("Refresh dataBase");
+
         orderHistoryBtn = new Button("Order History");
         shippingBtn = new Button("Shipping");
         shippingHistoryBtn = new Button("Shipping History");
@@ -71,7 +77,7 @@ public class MainView extends BorderPane {
 
         HBox searchBar = new HBox(10);
         searchBar.setAlignment(Pos.CENTER_LEFT); // vertically center search items
-        searchBar.getChildren().addAll(choiceBox, searchField);
+        searchBar.getChildren().addAll(choiceBox, searchField, refreshBtn);
         searchBar.getStyleClass().add("search-bar");
 
         // VBox spacing 0 and no padding — prevents gap between nav bar and search bar
@@ -89,6 +95,10 @@ public class MainView extends BorderPane {
             setCenter(this.viewController.getOrderView());
             setOrderSearchFields();
             applySearchToCurrentView();
+        });
+        refreshBtn.setOnAction(e -> {
+            viewController.refreshTables();
+            DB_Connection connection = new DB_Connection();    
         });
 
         orderHistoryBtn.setOnAction(e -> {

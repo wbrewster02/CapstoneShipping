@@ -129,7 +129,7 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
                     || (history.getTrackingNumber() != null &&
                         history.getTrackingNumber().toLowerCase().contains(lowerCaseFilter))
                     || (history.getShippingStatus() != null &&
-                        history.getShippingStatus().toString().toLowerCase().contains(lowerCaseFilter));
+                        history.getShippingStatus().toString().toLowerCase().contains(lowerCaseFilter)); 
         }
 
         switch (selectedField) {

@@ -34,12 +34,13 @@ public class ViewController {
     private LoginView loginView;
     private MainView mainView;
     private OrderView orderView;
+    private ShippingView shippingView;
+
     private OrderHistoryView orderHistoryView;
+    private ShippingHistoryView shippingHistoryView;
+    
     private OrderDetailView orderDetailView;
     private ShippingDetailView shippingDetailView;
-
-    private ShippingView shippingView;
-    private ShippingHistoryView shippingHistoryView;
 
     // Icon Image
     private Image image;
@@ -207,7 +208,22 @@ public class ViewController {
         shippingDetailView = null;
 
     }
-
+    public void refreshTables(){
+        DB_Connection.resetConnection();
+        
+        if (orderView != null){
+            orderView.loadOrders();
+        }
+        if (shippingView != null){
+            shippingView.loadShipments();
+        }
+        if (orderHistoryView != null){
+            orderHistoryView.loadOrders();
+        }
+        if (shippingHistoryView != null){
+            shippingHistoryView.loadShippingHistory();
+        }
+    }
     // Get Methods.
     public OrderView getOrderView() {
         if (orderView == null) {
@@ -250,4 +266,5 @@ public class ViewController {
         shippingHistoryView.loadShippingHistory();
         return shippingHistoryView;
     }
+
 }
