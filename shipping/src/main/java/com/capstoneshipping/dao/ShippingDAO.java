@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.model.ShippingStatus;
+import com.capstoneshipping.model.ShippingLabelData;
 
 public interface ShippingDAO {
     List<Shipping> getAllShipments();
@@ -20,4 +21,6 @@ public interface ShippingDAO {
     void updateShippingStatusByOrderId(int orderId, ShippingStatus status);
 
     void resetShippingForOrder(int orderId);
+
+    ShippingLabelData getShippingLabelData(int shippingId);
 }

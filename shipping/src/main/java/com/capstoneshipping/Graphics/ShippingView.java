@@ -7,10 +7,13 @@ import com.capstoneshipping.model.ShippingStatus;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -143,6 +146,14 @@ public class ShippingView extends BorderPane implements SearchableView {
         });
         
         // ----------------------
+        //add bottom hbox for consisteny
+        HBox bottomBox = new HBox();
+        bottomBox.setAlignment(Pos.CENTER_RIGHT);
+        bottomBox.setPadding(new Insets(10));
+        bottomBox.setPrefHeight(50);
+
+        setBottom(bottomBox);
+
 
         loadShipments();
 
@@ -161,7 +172,7 @@ public class ShippingView extends BorderPane implements SearchableView {
     @Override
     public void applySearch(String selectedField, String searchText) {
         filteredList.setPredicate(shipping -> {
-            System.out.println("Checking shipment: " + shipping.getShippingId() + " against search text: " + searchText);
+            //System.out.println("Checking shipment: " + shipping.getShippingId() + " against search text: " + searchText);
 
             if (searchText == null || searchText.isEmpty()) {
                 return true;

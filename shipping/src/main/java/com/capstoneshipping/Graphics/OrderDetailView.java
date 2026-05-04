@@ -21,6 +21,7 @@ import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -59,7 +60,7 @@ public class OrderDetailView extends VBox {
         this.shippingDAO = shippingDAO;
 
         setSpacing(10);
-        setPadding(new Insets(10));
+        setPadding(new Insets(5));
 
         buildUI();
 
@@ -73,6 +74,7 @@ public class OrderDetailView extends VBox {
         // READ ONLY INFO
         Label id = new Label("Order ID: " + order.getOrderId());
         Label customer = new Label("Customer ID: " + order.getCustomerId());
+        Label customerName = new Label("Customer Name: " + order.getCustomerName());
         Label date = new Label("Order Date: " + (order.getOrderDate() != null ? order.getOrderDate().format(FORMATTER) : ""));
 
         //choiceboxes to edit status + label
@@ -112,6 +114,10 @@ public class OrderDetailView extends VBox {
         FulfillmentStatus currentFulfillment = order.getFulfillmentStatus();
         FulfillmentStatus nextFulfillment = currentFulfillment.next();
 
+                HBox buttonRow = new HBox(5);
+        buttonRow.getChildren().add(applyButton);
+        buttonRow.getChildren().add(submitButton);
+
         if (currentFulfillment == nextFulfillment) {
             // terminal state (FULFILLED)
             fulfillmentBox.getItems().setAll(currentFulfillment);
@@ -127,6 +133,7 @@ public class OrderDetailView extends VBox {
         getChildren().addAll(
                 id,
                 customer,
+                customerName,
                 date,
                 orderStatusLabel,
                 orderStatusBox,
@@ -134,8 +141,7 @@ public class OrderDetailView extends VBox {
                 fulfillmentBox
         );
         getChildren().addAll(
-            applyButton,
-            submitButton
+            buttonRow
         );
     }
 

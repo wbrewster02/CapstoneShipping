@@ -18,13 +18,16 @@ public class Order {
     //private String fulfillmentStatus;
     private LocalDateTime fulfilledAt;
 
+    private String customerName;
+
     public Order() {
         
     }
 
-    public Order(int orderId, int customerId, LocalDateTime orderDate, OrderStatus orderStatus, FulfillmentStatus fulfillmentStatus, LocalDateTime fulfilledAt) {
+    public Order(int orderId, int customerId, String customerName, LocalDateTime orderDate, OrderStatus orderStatus, FulfillmentStatus fulfillmentStatus, LocalDateTime fulfilledAt) {
         this.orderId = orderId;
         this.customerId = customerId;
+        this.customerName = customerName;
         this.orderDate = orderDate;
         this.orderStatus = orderStatus;
         this.fulfillmentStatus = fulfillmentStatus;
@@ -77,6 +80,14 @@ public class Order {
 
     public void setFulfilledAt(LocalDateTime fulfilledAt) {
         this.fulfilledAt = fulfilledAt;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
 
