@@ -209,20 +209,10 @@ public class ViewController {
 
     }
     public void refreshTables(){
-        DB_Connection.resetConnection();
-        
-        if (orderView != null){
-            orderView.loadOrders();
-        }
-        if (shippingView != null){
-            shippingView.loadShipments();
-        }
-        if (orderHistoryView != null){
-            orderHistoryView.loadOrders();
-        }
-        if (shippingHistoryView != null){
-            shippingHistoryView.loadShippingHistory();
-        }
+        getOrderView();
+        getShippingView();
+        getOrderHistoryView();
+        getShippingHistoryView();
     }
     // Get Methods.
     public OrderView getOrderView() {
