@@ -43,10 +43,14 @@ public class OrderDAOImpl implements OrderDAO {
             ResultSet rs = stmt.executeQuery()) {
 
             while(rs.next()) {
+                String firstName = rs.getString("First_Name");
+                String lastName = rs.getString("Last_Name");
+                String customerName = firstName.charAt(0) + ". " + lastName;
                 
                 Order order = new Order(
                 rs.getInt(DB_Constants.ORDER_ID),
                 rs.getInt(DB_Constants.CUSTOMER_ID),
+                customerName,
                 rs.getTimestamp(DB_Constants.ORDER_DATE).toLocalDateTime(),
                 mapOrderStatus(rs.getString(DB_Constants.ORDER_STATUS)),
                 mapFulfillmentStatus(rs.getString(DB_Constants.FULFILLMENT_STATUS)),
@@ -54,9 +58,10 @@ public class OrderDAOImpl implements OrderDAO {
                     ? rs.getTimestamp(DB_Constants.FULFILLED_AT).toLocalDateTime()
                     : null
                 );
+
                 orders.add(order);
 
-                }
+            }
  
             stmt.close();
             rs.close();

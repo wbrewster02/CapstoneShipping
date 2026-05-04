@@ -1,22 +1,27 @@
 package com.capstoneshipping.Graphics;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import com.capstoneshipping.dao.ShippingDAO;
 import com.capstoneshipping.model.ShippingStatus;
-import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.Shipping;
-import com.capstoneshipping.dao.OrderDAO;
 import com.capstoneshipping.dao.ShippingHistoryDAO;
-import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
 import com.capstoneshipping.model.ShippingHistory;
+import com.capstoneshipping.model.ShippingLabelData;
+import com.capstoneshipping.util.WebhookService;
+import com.capstoneshipping.util.ShippingLabelPDFUtil;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.io.File;
+
 
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 public class ShippingDetailView extends VBox {
@@ -36,6 +41,11 @@ public class ShippingDetailView extends VBox {
     private final Button applyButton = new Button("Apply");
     //button for confirming changed and submitting to records
     private final Button submitButton = new Button("Submit");
+    //button for generating shipping label (bonus feature)
+    private final Button shippingLabelButton = new Button("Print Label");
+
+    //webhook service for notifying mobile app of status changes
+    private final WebhookService webhookService = new WebhookService();
 
     private static final DateTimeFormatter FORMATTER =
         DateTimeFormatter.ofPattern("M/d/yyyy h:mm a");
@@ -50,13 +60,16 @@ public class ShippingDetailView extends VBox {
 
 
         setSpacing(10);
-        setPadding(new Insets(10));
+        setPadding(new Insets(5));
 
         buildUI();
 
         // listeners for buttons (apply would save changes to the order object, submit would move to orderhistory)
         applyButton.setOnAction(e -> handleApply());
         submitButton.setOnAction(e -> handleSubmit());
+
+        //shipping label button
+        shippingLabelButton.setOnAction(e -> handleShippingLabel());
     }
 
     private void buildUI() {
@@ -80,6 +93,11 @@ public class ShippingDetailView extends VBox {
         ShippingStatus current = shipping.getShipStatus();
         ShippingStatus next = current.next();
 
+        HBox buttonRow = new HBox(5);
+        buttonRow.getChildren().add(applyButton);
+        buttonRow.getChildren().add(submitButton);
+        buttonRow.getChildren().add(shippingLabelButton);
+
         if (current == next) {
             shippingStatusBox.getItems().setAll(current);
         } else {
@@ -95,9 +113,8 @@ public class ShippingDetailView extends VBox {
             shippedOnLabel, 
             expectedByLabel, 
             shippingStatusLabel, 
-            shippingStatusBox, 
-            applyButton,
-            submitButton
+            shippingStatusBox,
+            buttonRow
         );
     }
 
@@ -108,6 +125,10 @@ public class ShippingDetailView extends VBox {
             // Update the shipping status
             shipping.setShipStatus(selectedShippingStatus);
             shippingDAO.updateShippingStatus(shipping.getShippingId(), selectedShippingStatus);
+
+            
+            //push notification to webhook for mobile app
+            webhookService.notifyShippingStatusUpdated(shipping.getOrderId());
 
             if (selectedShippingStatus == ShippingStatus.SHIPPED) {
                 // Handle shipped status specific logic
@@ -182,17 +203,54 @@ public class ShippingDetailView extends VBox {
         }
     }
 
-    private LocalDateTime calculateExpectedBy(String carrier, LocalDateTime shippedOn) {
-        if (carrier == null) {
-            return shippedOn.plusDays(5);
+    private void handleShippingLabel() {
+        ShippingLabelData labelData = shippingDAO.getShippingLabelData(shipping.getShippingId());
+
+        if (labelData == null) {
+            System.out.println("No shipping label data found for Shipping ID: " + shipping.getShippingId());
+            return;
         }
 
-        return switch (carrier.toLowerCase()) {
-            case "ups" -> shippedOn.plusDays(3);
-            case "fedex" -> shippedOn.plusDays(2);
-            case "usps" -> shippedOn.plusDays(5);
-            case "dhl" -> shippedOn.plusDays(4);
-            default -> shippedOn.plusDays(5);
-        };
+        File pdf = ShippingLabelPDFUtil.createLabel(labelData);
+        if (pdf != null) {
+            ShippingLabelPDFUtil.openPDF(pdf);
+            System.out.println("Shipping label PDF generated and opened for Shipping ID: " + shipping.getShippingId());
+        }
+
+
+        //console print for testing
+        // if (labelData == null) {
+        //     System.out.println("No shipping label data found for Shipping ID: " + shipping.getShippingId());
+        //     return;
+        // }
+
+        // System.out.println("===== SHIPPING LABEL =====");
+        // System.out.println("FROM:");
+        // System.out.println(labelData.getReturnAddress());
+
+        // System.out.println("\nTO:");
+        // System.out.println(labelData.getCustomerName());
+        // System.out.println(labelData.getShippingAddress());
+
+        // System.out.println("\nORDER ID: " + labelData.getOrderId());
+        // System.out.println("CARRIER: " + labelData.getCarrier());
+        // System.out.println("TRACKING #: " + labelData.getTrackingNumber());
+        // System.out.println("==========================");
     }
+
+
+
+    // private LocalDateTime calculateExpectedBy(String carrier, LocalDateTime shippedOn) {
+    //     if (carrier == null) {
+    //         return shippedOn.plusDays(5);
+    //     }
+
+    //     return switch (carrier.toLowerCase()) {
+    //         case "ups" -> shippedOn.plusDays(3);
+    //         case "fedex" -> shippedOn.plusDays(2);
+    //         case "usps" -> shippedOn.plusDays(5);
+    //         case "dhl" -> shippedOn.plusDays(4);
+    //         default -> shippedOn.plusDays(5);
+    //     };
+    // }
 }

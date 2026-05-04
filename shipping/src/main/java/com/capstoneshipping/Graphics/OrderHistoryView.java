@@ -91,13 +91,14 @@ public class OrderHistoryView extends BorderPane implements SearchableView {
                 orderDateCol,
                 fulfilledAtCol,
                 timeToCompleteCol
-            )        
+            )
         );
 
         //Add button 
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
-        bottomBox.setPadding(new Insets(10));
+        bottomBox.setPadding(new Insets(10)); 
+        bottomBox.setPrefHeight(50);
 
         Button exportBtn = new Button("Export CSV");
 
@@ -126,7 +127,7 @@ public class OrderHistoryView extends BorderPane implements SearchableView {
         filteredList = new FilteredList<>(masterList, p -> true); //no filter applied, so all orders are shown
 
         tableView.setItems(filteredList);
-        System.out.println(filteredList);
+        //System.out.println(filteredList);
         // ObservableList<Order> orderList = FXCollections.observableArrayList(orders);
         // tableView.setItems(orderList);
     }

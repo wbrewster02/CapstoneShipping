@@ -123,6 +123,7 @@ public class MainView extends BorderPane {
         choiceBox.getItems().addAll(
             "Order ID",
             "Customer ID",
+            "Customer Name",
             "Order Status",
             "Fulfillment Status"
         );

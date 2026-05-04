@@ -12,10 +12,13 @@ import com.capstoneshipping.dao.OrderDAOImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
@@ -44,11 +47,15 @@ public class OrderView extends BorderPane implements SearchableView {
         tableView = new TableView<>();
         orderDAO = new OrderDAOImpl();
 
-        TableColumn<Order, Integer> orderIdCol = new TableColumn<>("Order ID");
+        TableColumn<Order, Integer> orderIdCol = new TableColumn<>("OrderID");
         orderIdCol.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 
-        TableColumn<Order, Integer> customerIdCol = new TableColumn<>("Customer ID");
+        TableColumn<Order, Integer> customerIdCol = new TableColumn<>("CustomerID");
         customerIdCol.setCellValueFactory(new PropertyValueFactory<>("customerId"));
+
+        TableColumn<Order, String> customerNameCol = new TableColumn<>("Customer");
+        customerNameCol.setCellValueFactory(new PropertyValueFactory<>("customerName"));
+
 
         //TableColumn<Order, Object> orderDateCol = new TableColumn<>("Order Date"); //here
         //orderDateCol.setCellValueFactory(new PropertyValueFactory<>("orderDate"));
@@ -173,12 +180,14 @@ public class OrderView extends BorderPane implements SearchableView {
             List.of(
                 orderIdCol,
                 customerIdCol,
+                customerNameCol,
                 orderDateCol,
                 orderStatusCol,
                 fulfillmentStatusCol,
                 fulfilledAtCol
             )        
         );
+
 
 
         //---------------------- Selecting a row and opening details view ----------------------
@@ -239,7 +248,13 @@ public class OrderView extends BorderPane implements SearchableView {
         });
         //----------------------
 
-        
+        //add bottom hbox for consisteny
+        HBox bottomBox = new HBox();
+        bottomBox.setAlignment(Pos.CENTER_RIGHT);
+        bottomBox.setPadding(new Insets(10));
+        bottomBox.setPrefHeight(50);
+
+        setBottom(bottomBox);
 
         loadOrders();
 
@@ -265,7 +280,7 @@ public class OrderView extends BorderPane implements SearchableView {
          //filter condition to filtered list based on search text and selected field
         filteredList.setPredicate(order -> {
             // If search text is empty, show all orders
-            System.out.println("Checking order: " + order.getOrderId() + " against search text: " + searchText); //debugging line to confirm predicate is being evaluated
+            //System.out.println("Checking order: " + order.getOrderId() + " against search text: " + searchText); //debugging line to confirm predicate is being evaluated
 
             if (searchText == null || searchText.isEmpty()) {
                 return true;
@@ -276,11 +291,13 @@ public class OrderView extends BorderPane implements SearchableView {
             //If no field selected, search everything
             if (selectedField == null || selectedField.isEmpty()) {
                 return (order.getOrderId() + "").contains(lowerCaseFilter)
-                        || (order.getCustomerId() + "").contains(lowerCaseFilter)
-                        || (order.getOrderStatus() != null && 
-                            order.getOrderStatus().toString().toLowerCase().contains(lowerCaseFilter))
-                        || (order.getFulfillmentStatus() != null && 
-                            order.getFulfillmentStatus().toString().toLowerCase().contains(lowerCaseFilter));
+                || (order.getCustomerId() + "").contains(lowerCaseFilter)
+                || (order.getCustomerName() != null && 
+                    order.getCustomerName().toLowerCase().contains(lowerCaseFilter))
+                || (order.getOrderStatus() != null && 
+                    order.getOrderStatus().toString().toLowerCase().contains(lowerCaseFilter))
+                || (order.getFulfillmentStatus() != null && 
+                    order.getFulfillmentStatus().toString().toLowerCase().contains(lowerCaseFilter));
             }
 
             // Field specific filtering
@@ -298,6 +315,9 @@ public class OrderView extends BorderPane implements SearchableView {
                 case "Fulfillment Status":
                     return order.getFulfillmentStatus() != null &&
                             order.getFulfillmentStatus().toString().toLowerCase().contains(lowerCaseFilter);
+                case "Customer Name":
+                    return order.getCustomerName() != null &&
+                        order.getCustomerName().toLowerCase().contains(lowerCaseFilter);
 
                 default:
                     return true;
