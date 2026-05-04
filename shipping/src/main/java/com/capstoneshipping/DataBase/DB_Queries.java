@@ -9,7 +9,9 @@ public class DB_Queries {
 
     // ORDER_QUERIES
     public static final String GET_ALL_ORDERS = 
-        "SELECT * FROM " + DB_Constants.ORDER_TABLE;
+        "SELECT o.*, c.First_Name, c.Last_Name " +
+        "FROM " + DB_Constants.ORDER_TABLE + " o " +
+        "JOIN Customer c ON o.Customer_ID = c.Customer_ID";
 
     public static final String UPDATE_ORDER_STATUS =
         "UPDATE `Order` SET Order_Status = ? WHERE Order_ID = ?";
@@ -46,6 +48,27 @@ public class DB_Queries {
         DB_Constants.SHIPPING_EXPECTED_BY + " = ?, " +
         DB_Constants.SHIPPING_STATUS_UPDATED_AT + " = ? " +
         "WHERE " + DB_Constants.SHIPPING_ORDER_ID + " = ?";
+
+    //for shipping label data
+    public static final String GET_SHIPPING_LABEL_DATA =
+        "SELECT " +
+        "s.Order_ID, " +
+        "s.Tracking_Number, " +
+        "s.Carrier, " +
+        "c.First_Name, " +
+        "c.Last_Name, " +
+        "ca.Address_Line_l AS Street, " +
+        "ca.City, " +
+        "ca.`State` AS State, " +
+        "ca.Zip_Code " +
+        "FROM " + DB_Constants.SHIPPING_TABLE + " s " +
+        "JOIN " + DB_Constants.ORDER_TABLE + " o " +
+        "ON s.Order_ID = o.Order_ID " +
+        "JOIN Customer c " +
+        "ON o.Customer_ID = c.Customer_ID " +
+        "JOIN Customer_Address ca " +
+        "ON s.Shipping_Address_ID = ca.Address_ID " +
+        "WHERE s.Shipping_ID = ?";
     //
 
     // CUSTOMER_QUERIES.

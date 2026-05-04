@@ -90,7 +90,8 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
         //Add button 
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
-        bottomBox.setPadding(new Insets(10));
+        bottomBox.setPadding(new Insets(10));  
+        bottomBox.setPrefHeight(50);
 
         Button exportBtn = new Button("Export CSV");
 

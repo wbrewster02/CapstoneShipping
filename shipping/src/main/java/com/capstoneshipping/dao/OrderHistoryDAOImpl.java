@@ -39,7 +39,7 @@ public class OrderHistoryDAOImpl implements OrderHistoryDAO{
                     rs.getString(DB_Constants.ORDER_HISTORY_NEW_ORDER_STATUS),
                     rs.getString(DB_Constants.ORDER_HISTORY_OLD_FULFILLMENT_STATUS),
                     rs.getString(DB_Constants.ORDER_HISTORY_NEW_FULFILLMENT_STATUS),
-                        rs.getTimestamp(DB_Constants.ORDER_HISTORY_CHANGED_AT) != null
+                    rs.getTimestamp(DB_Constants.ORDER_HISTORY_CHANGED_AT) != null
                     ? rs.getTimestamp(DB_Constants.ORDER_HISTORY_CHANGED_AT).toLocalDateTime()
                     : null,
                     rs.getString(DB_Constants.ORDER_HISTORY_NOTES),

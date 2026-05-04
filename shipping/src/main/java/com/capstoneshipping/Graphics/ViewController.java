@@ -181,6 +181,9 @@ public class ViewController {
         
         orderDetailStage.setResizable(false);
 
+        orderDetailStage.setHeight(350);
+        orderDetailStage.setWidth(350);
+
         orderDetailStage.show();
 
         // Reset Order Detail View.
@@ -201,9 +204,15 @@ public class ViewController {
         shippingDetailLayout.setCenter(shippingDetailView);
 
         shippingDetailStage.getIcons().add(this.image);
+
         shippingDetailStage.setTitle("Shipping Details - #" + shipping.getShippingId());
+
         shippingDetailStage.setResizable(false);
+
         shippingDetailStage.show();
+
+        shippingDetailStage.setHeight(300);
+        shippingDetailStage.setWidth(350);
 
         shippingDetailView = null;
 

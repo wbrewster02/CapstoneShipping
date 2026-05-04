@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.sql.ResultSetMetaData;
 
 import java.time.LocalDateTime;
 
@@ -17,6 +18,7 @@ import com.capstoneshipping.DataBase.DB_Constants;
 import com.capstoneshipping.DataBase.DB_Queries;
 import com.capstoneshipping.model.ShippingStatus;
 import com.capstoneshipping.model.Shipping;
+import com.capstoneshipping.model.ShippingLabelData;
 
 //add constants
 
@@ -210,6 +212,85 @@ public class ShippingDAOImpl implements ShippingDAO {
             e.printStackTrace();
         }
     }
+
+    public ShippingLabelData getShippingLabelData(int shippingId) {
+        ShippingLabelData labelData = null;
+
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
+            }
+
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.GET_SHIPPING_LABEL_DATA)) {
+
+                stmt.setInt(1, shippingId);
+
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next()) {
+
+                String customerName = rs.getString("First_Name") + " " + rs.getString("Last_Name");
+
+                String shippingAddress =
+                    rs.getString("Street") + "\n" +
+                    rs.getString("City") + ", " +
+                    rs.getString("State") + " " +
+                    rs.getString("Zip_Code");
+
+                String returnAddress = """
+                    Elevate Retail
+                    123 Warehouse Lane
+                    Winston-Salem, NC 27101
+                    """;
+
+                labelData = new ShippingLabelData(
+                    rs.getInt("Order_ID"),
+                    customerName,
+                    shippingAddress,
+                    returnAddress,
+                    rs.getString("Tracking_Number"),
+                    rs.getString("Carrier")
+                );
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+        return labelData;
+    }
+    // @Override
+    // public ShippingLabelData getShippingLabelData(int shippingId) {
+
+    //     try {
+    //         if (this.connection == null || this.connection.isClosed()) {
+    //             this.connection = DB_Connection.getConnection();
+    //         }
+
+    //         // TEMP DEBUG CODE
+    //         PreparedStatement stmt = connection.prepareStatement(
+    //             "SELECT * FROM Customer_Address LIMIT 1"
+    //         );
+
+    //         ResultSet rs = stmt.executeQuery();
+
+    //         ResultSetMetaData meta = rs.getMetaData();
+    //         int columnCount = meta.getColumnCount();
+
+    //         System.out.println("Customer_Address columns:");
+
+    //         for (int i = 1; i <= columnCount; i++) {
+    //             System.out.println(meta.getColumnName(i));
+    //         }
+
+    //     } catch (SQLException e) {
+    //         e.printStackTrace();
+    //     }
+
+    //     return null;
+    // }
+
 }
 
 
