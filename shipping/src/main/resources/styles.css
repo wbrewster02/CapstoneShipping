@@ -42,6 +42,12 @@
     -fx-padding: 12 15 12 15;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 6, 0, 0, 3);
 }
+#side-bar {
+    -fx-background-color: #e8ede9;
+    /* -fx-padding: 5 15 10 15; */
+    -fx-border-color: #b7c4bb;
+    -fx-border-width: 0 0 1 0;
+}
 
 .nav-button {
     -fx-background-color: transparent;
@@ -119,7 +125,8 @@
 .table-view {
     -fx-background-color: #fffef9;
     -fx-border-color: #2d6a4f;
-    -fx-border-width: 1;
+    -fx-border-width: 2;
+    -fx-padding: 0;
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.08), 4, 0, 0, 2);
     -fx-font-size: 13px;
 }

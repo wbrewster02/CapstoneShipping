@@ -14,19 +14,28 @@ public class DB_Connection{
 
     // Connection/Config Attributes
     private static Connection connection = null;
-    private DB_Config config = null;
+    private static DB_Config config = null;
     
     // Establish DB_Connection
     public DB_Connection(){
         
         try{
-            // Establish Configuration values.
-            this.config = new DB_Config();
-            System.out.println("DB_Config.Instance.Complete");
+            if (config == null){
+                // Establish Configuration values.
+                config = new DB_Config();
 
+                System.out.println("DB_Config.Instance.Complete");
+            }
+            if (connection == null || connection.isClosed()) {
+                // Establish Connection, utilizing DB_Config Attributes: (DB_Url, DB_User, DB_Password).
+                connection = DriverManager.getConnection(this.config.getDB_Url(), 
+                                                         this.config.getDB_User(), 
+                                                         this.config.getDB_Password()
+                                                        );
+                System.out.println("DB connection established");
+            }
             // Establish Connection, utilizing DB_Config Attributes: (DB_Url, DB_User, DB_Password).
-            connection = DriverManager.getConnection(this.config.getDB_Url(), this.config.getDB_User(), this.config.getDB_Password());
-            System.out.println("DB connection established");
+            
         } 
         catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -40,13 +49,17 @@ public class DB_Connection{
 
     // Get Connection.   
     public static Connection getConnection(){
-        // Get Connection if != null.
-        if (connection != null){
-            return connection;
+        try {
+            // Check if connection is null, closed, or no longer valid (2 sec timeout)
+            if (connection == null || connection.isClosed() || !connection.isValid(2)) {
+                System.out.println("Connection invalid or timed out. Reconnecting...");
+                new DB_Connection();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            new DB_Connection();
         }
-        
-        new DB_Connection();
-        
+        System.out.println("Connection Stable.");
         return connection;
     }
     public static void resetConnection() {

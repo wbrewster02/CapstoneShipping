@@ -6,19 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.sql.ResultSetMetaData;
-
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.capstoneshipping.DataBase.DB_Connection;
-import com.capstoneshipping.DataBase.DB_Constants;
 import com.capstoneshipping.DataBase.DB_Queries;
-import com.capstoneshipping.model.ShippingStatus;
 import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.model.ShippingLabelData;
+import com.capstoneshipping.model.ShippingStatus;
 
 //add constants
 
@@ -32,59 +28,62 @@ public class ShippingDAOImpl implements ShippingDAO {
     public List<Shipping> getAllShipments() {
         List<Shipping> shipments = new ArrayList<>();
 
-        if (this.connection == null){
-            this.connection = DB_Connection.getConnection();
-        }
-
-        try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.GET_ALL_SHIPPING);
-        
-            ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-
-                Shipping shipping = new Shipping(
-                    rs.getInt("Shipping_ID"),
-                    rs.getInt("Order_ID"),
-                    rs.getDouble("Cost"),
-
-                    rs.getTimestamp("Shipped_On") != null
-                        ? rs.getTimestamp("Shipped_On").toLocalDateTime()
-                        : null,
-
-                    rs.getTimestamp("Expected_By") != null
-                        ? rs.getTimestamp("Expected_By").toLocalDateTime()
-                        : null,
-
-                    ShippingStatus.fromDbValue(rs.getString("Ship_Status")),
-                    rs.getString("Carrier"),
-                    rs.getString("Tracking_Number"),
-
-                    rs.getTimestamp("Created_At") != null
-                        ? rs.getTimestamp("Created_At").toLocalDateTime()
-                        : null,
-
-                    rs.getTimestamp("Updated_At") != null
-                        ? rs.getTimestamp("Updated_At").toLocalDateTime()
-                        : null,
-
-                    rs.getTimestamp("Status_Updated_At") != null
-                        ? rs.getTimestamp("Status_Updated_At").toLocalDateTime()
-                        : null,
-
-                    rs.getString("Shipment_Notes"),
-                    rs.getString("Return_Reason"),
-
-                    rs.getInt("Shipping_Address_ID"),
-                    rs.getInt("Billing_Address_ID")
-                );
-
-                shipments.add(shipping);
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
             }
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.GET_ALL_SHIPPING);
+            
+                ResultSet rs = stmt.executeQuery()) {
 
+                while (rs.next()) {
+
+                    Shipping shipping = new Shipping(
+                        rs.getInt("Shipping_ID"),
+                        rs.getInt("Order_ID"),
+                        rs.getDouble("Cost"),
+
+                        rs.getTimestamp("Shipped_On") != null
+                            ? rs.getTimestamp("Shipped_On").toLocalDateTime()
+                            : null,
+
+                        rs.getTimestamp("Expected_By") != null
+                            ? rs.getTimestamp("Expected_By").toLocalDateTime()
+                            : null,
+
+                        ShippingStatus.fromDbValue(rs.getString("Ship_Status")),
+                        rs.getString("Carrier"),
+                        rs.getString("Tracking_Number"),
+
+                        rs.getTimestamp("Created_At") != null
+                            ? rs.getTimestamp("Created_At").toLocalDateTime()
+                            : null,
+
+                        rs.getTimestamp("Updated_At") != null
+                            ? rs.getTimestamp("Updated_At").toLocalDateTime()
+                            : null,
+
+                        rs.getTimestamp("Status_Updated_At") != null
+                            ? rs.getTimestamp("Status_Updated_At").toLocalDateTime()
+                            : null,
+
+                        rs.getString("Shipment_Notes"),
+                        rs.getString("Return_Reason"),
+
+                        rs.getInt("Shipping_Address_ID"),
+                        rs.getInt("Billing_Address_ID")
+                    );
+
+                    shipments.add(shipping);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     return shipments;
     }
 

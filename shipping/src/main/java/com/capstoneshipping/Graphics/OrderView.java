@@ -4,27 +4,27 @@
 
 package com.capstoneshipping.Graphics;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import com.capstoneshipping.dao.OrderDAOImpl;
 import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.OrderStatus;
-import com.capstoneshipping.dao.OrderDAOImpl;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.cell.PropertyValueFactory;
-
-import java.util.List;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 
 public class OrderView extends BorderPane implements SearchableView {
@@ -46,7 +46,6 @@ public class OrderView extends BorderPane implements SearchableView {
 
         tableView = new TableView<>();
         orderDAO = new OrderDAOImpl();
-
         TableColumn<Order, Integer> orderIdCol = new TableColumn<>("OrderID");
         orderIdCol.setCellValueFactory(new PropertyValueFactory<>("orderId"));
 
@@ -252,7 +251,8 @@ public class OrderView extends BorderPane implements SearchableView {
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
         bottomBox.setPadding(new Insets(10));
-        bottomBox.setPrefHeight(50);
+        bottomBox.setPrefHeight(30);
+        bottomBox.setId("side-bar");
 
         setBottom(bottomBox);
 

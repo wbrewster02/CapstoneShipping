@@ -4,12 +4,6 @@
 
 package com.capstoneshipping.Graphics;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
 import com.capstoneshipping.DataBase.DB_Connection;
 
 import javafx.geometry.Insets;
@@ -17,6 +11,11 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 
 
 public class MainView extends BorderPane {
@@ -43,12 +42,14 @@ public class MainView extends BorderPane {
         shippingHistoryBtn = new Button("Shipping History");
         logoutBtn = new Button("Logout");
 
+
         // Nav button styles — transparent with border, green on hover
         ordersBtn.getStyleClass().add("nav-button");
         orderHistoryBtn.getStyleClass().add("nav-button");
         shippingBtn.getStyleClass().add("nav-button");
         shippingHistoryBtn.getStyleClass().add("nav-button");
-        logoutBtn.setId("logout-btn"); // unique red styling via CSS ID
+
+        logoutBtn.setId("logout-btn");
 
         // MinWidth prevents choicebox collapsing to just the arrow
         choiceBox = new ChoiceBox<>();
@@ -62,6 +63,7 @@ public class MainView extends BorderPane {
         // BorderPane to place the main content in the center and everything else at the top.
         HBox buttonBar = new HBox(10);
         buttonBar.setAlignment(Pos.CENTER_LEFT); // vertically center nav items
+
         Region spacer = new Region();
         HBox.setHgrow(spacer, Priority.ALWAYS); // pushes logout to the right
         buttonBar.getStyleClass().add("button-bar");
@@ -76,15 +78,34 @@ public class MainView extends BorderPane {
         );
 
         HBox searchBar = new HBox(10);
+        Region spacer2 = new Region();
+        HBox.setHgrow(spacer2, Priority.ALWAYS); // pushes logout to the right
+
         searchBar.setAlignment(Pos.CENTER_LEFT); // vertically center search items
-        searchBar.getChildren().addAll(choiceBox, searchField, refreshBtn);
+        searchBar.getChildren().addAll(choiceBox, searchField, spacer2, refreshBtn);
         searchBar.getStyleClass().add("search-bar");
 
         // VBox spacing 0 and no padding — prevents gap between nav bar and search bar
         VBox topContainer = new VBox();
+        VBox leftContainer = new VBox(5);
+        VBox rightContainer = new VBox(5);
+
+        leftContainer.setAlignment(Pos.CENTER_LEFT);
+        leftContainer.setPadding(new Insets(7.5));  
+        leftContainer.setPrefHeight(30);
+        leftContainer.setId("side-bar");
+
+        rightContainer.setAlignment(Pos.CENTER_RIGHT);
+        rightContainer.setPadding(new Insets(7.5));  
+        rightContainer.setPrefHeight(30);
+        rightContainer.setId("side-bar");
+        
         topContainer.getChildren().addAll(buttonBar, searchBar);
 
         setTop(topContainer);
+
+        setLeft(leftContainer);
+        setRight(rightContainer);
 
         // Default search fields and view on startup
         setOrderSearchFields();

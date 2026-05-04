@@ -9,16 +9,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-
 import java.time.LocalDateTime;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import com.capstoneshipping.DataBase.DB_Connection;
 import com.capstoneshipping.DataBase.DB_Constants;
 import com.capstoneshipping.DataBase.DB_Queries;
-
 import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.OrderStatus;
@@ -34,38 +31,41 @@ public class OrderDAOImpl implements OrderDAO {
     public List<Order> getAllOrders() {
         List<Order> orders = new ArrayList<>();
         
-        if (this.connection == null){
-            this.connection = DB_Connection.getConnection();
-        }
-
-        try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.GET_ALL_ORDERS);
-
-            ResultSet rs = stmt.executeQuery()) {
-
-            while(rs.next()) {
-                String firstName = rs.getString("First_Name");
-                String lastName = rs.getString("Last_Name");
-                String customerName = firstName.charAt(0) + ". " + lastName;
-                
-                Order order = new Order(
-                rs.getInt(DB_Constants.ORDER_ID),
-                rs.getInt(DB_Constants.CUSTOMER_ID),
-                customerName,
-                rs.getTimestamp(DB_Constants.ORDER_DATE).toLocalDateTime(),
-                mapOrderStatus(rs.getString(DB_Constants.ORDER_STATUS)),
-                mapFulfillmentStatus(rs.getString(DB_Constants.FULFILLMENT_STATUS)),
-                rs.getTimestamp(DB_Constants.FULFILLED_AT) != null
-                    ? rs.getTimestamp(DB_Constants.FULFILLED_AT).toLocalDateTime()
-                    : null
-                );
-
-                orders.add(order);
-
+        try {
+            if (this.connection == null || this.connection.isClosed()) {
+                this.connection = DB_Connection.getConnection();
             }
- 
-            stmt.close();
-            rs.close();
+            try (PreparedStatement stmt = connection.prepareStatement(DB_Queries.GET_ALL_ORDERS);
 
+                ResultSet rs = stmt.executeQuery()) {
+
+                while(rs.next()) {
+                    String firstName = rs.getString("First_Name");
+                    String lastName = rs.getString("Last_Name");
+                    String customerName = firstName.charAt(0) + ". " + lastName;
+                    
+                    Order order = new Order(
+                    rs.getInt(DB_Constants.ORDER_ID),
+                    rs.getInt(DB_Constants.CUSTOMER_ID),
+                    customerName,
+                    rs.getTimestamp(DB_Constants.ORDER_DATE).toLocalDateTime(),
+                    mapOrderStatus(rs.getString(DB_Constants.ORDER_STATUS)),
+                    mapFulfillmentStatus(rs.getString(DB_Constants.FULFILLMENT_STATUS)),
+                    rs.getTimestamp(DB_Constants.FULFILLED_AT) != null
+                        ? rs.getTimestamp(DB_Constants.FULFILLED_AT).toLocalDateTime()
+                        : null
+                    );
+
+                    orders.add(order);
+
+                }
+    
+                stmt.close();
+                rs.close();
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

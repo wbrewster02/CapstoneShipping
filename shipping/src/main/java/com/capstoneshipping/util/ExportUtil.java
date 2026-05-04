@@ -2,7 +2,6 @@ package com.capstoneshipping.util;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
