@@ -66,7 +66,6 @@ public class DB_Connection{
         // Close Connection if != null
         if (connection != null){
             connection.close();
-            connection.
             System.out.println(connection + " Closed.");
         }
 
