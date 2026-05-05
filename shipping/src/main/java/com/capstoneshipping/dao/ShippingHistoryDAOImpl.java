@@ -1,6 +1,7 @@
 package com.capstoneshipping.dao;
 
 import com.capstoneshipping.DataBase.DB_Connection;
+import com.capstoneshipping.DataBase.DB_Constants;
 import com.capstoneshipping.DataBase.DB_Queries;
 import com.capstoneshipping.model.ShippingHistory;
 import com.capstoneshipping.model.ShippingStatus;
@@ -11,7 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,30 +37,30 @@ public class ShippingHistoryDAOImpl implements ShippingHistoryDAO {
                 while (rs.next()) {
 
                     ShippingHistory history = new ShippingHistory(
-                        rs.getInt("Shipping_History_ID"),
-                        rs.getInt("Shipping_ID"),
+                        rs.getInt(DB_Constants.SHIPPING_HISTORY_ID),
+                        rs.getInt(DB_Constants.SHIPPING_HISTORY_SHIPPING_ID),
 
-                        rs.getString("Old_Status"),
-                        rs.getString("New_Status"),
+                        rs.getString(DB_Constants.SHIPPING_HISTORY_OLD_STATUS),
+                        rs.getString(DB_Constants.SHIPPING_HISTORY_NEW_STATUS),
 
-                        rs.getTimestamp("Changed_At") != null
-                            ? rs.getTimestamp("Changed_At").toLocalDateTime()
+                        rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_CHANGED_AT) != null
+                            ? rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_CHANGED_AT).toLocalDateTime()
                             : null,
 
-                        rs.getString("Notes"),
+                        rs.getString(DB_Constants.SHIPPING_HISTORY_NOTES),
 
-                        rs.getInt("Order_ID"),
-                        rs.getString("Carrier"),
-                        rs.getString("Tracking_Number"),
+                        rs.getInt(DB_Constants.SHIPPING_HISTORY_ORDER_ID),
+                        rs.getString(DB_Constants.SHIPPING_HISTORY_CARRIER),
+                        rs.getString(DB_Constants.SHIPPING_HISTORY_TRACKING_NUMBER),
 
-                        ShippingStatus.fromDbValue(rs.getString("Ship_Status")),
+                        ShippingStatus.fromDbValue(rs.getString(DB_Constants.SHIPPING_HISTORY_SHIPPED_STATUS)),
 
-                        rs.getTimestamp("Shipped_On") != null
-                            ? rs.getTimestamp("Shipped_On").toLocalDateTime()
+                        rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_SHIPPED_ON) != null
+                            ? rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_SHIPPED_ON).toLocalDateTime()
                             : null,
 
-                        rs.getTimestamp("Expected_By") != null
-                            ? rs.getTimestamp("Expected_By").toLocalDateTime()
+                        rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_EXPECTED_BY) != null
+                            ? rs.getTimestamp(DB_Constants.SHIPPING_HISTORY_EXPECTED_BY).toLocalDateTime()
                             : null
                     );
 

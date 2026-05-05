@@ -103,7 +103,7 @@ public class OrderView extends BorderPane implements SearchableView {
                     }
                     case READY_FOR_FULFILLMENT -> {
                         setText(item.toDbValue()); 
-                        setId("status-ready_for_fulfillment");
+                        setId("status-ready-for-fulfillment");
                     }
                     case FULFILLED ->{ 
                         setText(item.toDbValue()); 
@@ -335,14 +335,3 @@ public class OrderView extends BorderPane implements SearchableView {
 
 
 }
-
-
-
-
-// psuedocode for handling row selection. Check testing file in resources as well!
-//setRowFactory() -> click listener
-//event.getClickCount() == 2 (double click) -> get selected order -> open new window with order details and option to update status.
-//row.getItem() -> get the order associated with the clicked row.
-//handleRowSelection(Order order) -> open new window (OrderDetailView) passing the selected order as a parameter.
-
-// ensure that state changes happen in the database and not just locally.

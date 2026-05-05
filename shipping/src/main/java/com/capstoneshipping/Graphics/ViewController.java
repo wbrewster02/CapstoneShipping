@@ -181,7 +181,7 @@ public class ViewController {
         orderDetailStage.setResizable(false);
 
         orderDetailStage.setHeight(350);
-        orderDetailStage.setWidth(350);
+        orderDetailStage.setWidth(410);
 
         orderDetailStage.show();
 

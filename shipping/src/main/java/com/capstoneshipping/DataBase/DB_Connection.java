@@ -28,9 +28,9 @@ public class DB_Connection{
             }
             if (connection == null || connection.isClosed()) {
                 // Establish Connection, utilizing DB_Config Attributes: (DB_Url, DB_User, DB_Password).
-                connection = DriverManager.getConnection(this.config.getDB_Url(), 
-                                                         this.config.getDB_User(), 
-                                                         this.config.getDB_Password()
+                connection = DriverManager.getConnection(config.getDB_Url(), 
+                                                         config.getDB_User(), 
+                                                         config.getDB_Password()
                                                         );
                 System.out.println("DB connection established");
             }

@@ -3,8 +3,6 @@
 // Date Modified: 4/17/2026
 
 
-// NEEDS FIXING
-
 package com.capstoneshipping.Graphics;
 
 import java.time.Duration;

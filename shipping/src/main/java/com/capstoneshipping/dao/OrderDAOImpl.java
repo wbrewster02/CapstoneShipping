@@ -134,17 +134,3 @@ public class OrderDAOImpl implements OrderDAO {
         }
     }
 }
-
-
-
-
-    //Check OrderDAO for clarity on why these methods are currently unused and commented out.
-    // @Override
-    // public List<Order> getOrdersByOrderStatus(String orderStatus) {
-    //     return new ArrayList<>();
-    // }
-
-    // @Override
-    // public List<Order> getOrdersByFulfillmentStatus(String fulfillmentStatus) {
-    //     return new ArrayList<>();
-    // }
