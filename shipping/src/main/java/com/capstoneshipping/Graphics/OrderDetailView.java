@@ -6,15 +6,18 @@ package com.capstoneshipping.Graphics;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.capstoneshipping.dao.OrderDAO;
 import com.capstoneshipping.dao.OrderHistoryDAO;
-import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.dao.ShippingDAO;
+import com.capstoneshipping.dao.ShippingDAOImpl;
 import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.OrderStatus;
+import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.model.ShippingStatus;
 
 import javafx.geometry.Insets;
@@ -41,10 +44,12 @@ public class OrderDetailView extends VBox {
     private final ChoiceBox<OrderStatus> orderStatusBox = new ChoiceBox<>();
     private final ChoiceBox<FulfillmentStatus> fulfillmentBox = new ChoiceBox<>();
 
-    //button for applying status
+    // Button for applying status
     private final Button applyButton = new Button("Apply");
-    //button for confirming changed and submitting to records
+    // Button for confirming changed and submitting to records
     private final Button submitButton = new Button("Submit");
+    // Button for creating a shipping label if one doesnt exist already for an order, only usable if shipping does not contain a valid entry.
+    private final Button createShippingButton = new Button("Create Shipping Label");
 
     private static final DateTimeFormatter FORMATTER =
         DateTimeFormatter.ofPattern("M/d/yyyy h:mm a");
@@ -67,6 +72,7 @@ public class OrderDetailView extends VBox {
         // listeners for buttons (apply would save changes to the order object, submit would move to orderhistory)
         applyButton.setOnAction(e -> handleApply());
         submitButton.setOnAction(e -> handleSubmit());
+        createShippingButton.setOnAction(e -> handleShipping());
     }
 
     private void buildUI() {
@@ -114,9 +120,22 @@ public class OrderDetailView extends VBox {
         FulfillmentStatus currentFulfillment = order.getFulfillmentStatus();
         FulfillmentStatus nextFulfillment = currentFulfillment.next();
 
-                HBox buttonRow = new HBox(5);
+        HBox buttonRow = new HBox(5);
         buttonRow.getChildren().add(applyButton);
         buttonRow.getChildren().add(submitButton);
+        buttonRow.getChildren().add(createShippingButton);
+        createShippingButton.setDisable(true);
+        ShippingDAOImpl shipments = new ShippingDAOImpl();
+        
+        if (current == OrderStatus.FULFILLED && currentFulfillment == FulfillmentStatus.FULFILLED){
+            createShippingButton.setDisable(false);
+        }
+
+        if (shipments.shippingExistsForOrder(order.getOrderId())){
+            createShippingButton.setDisable(true);
+        }
+        
+
 
         if (currentFulfillment == nextFulfillment) {
             // terminal state (FULFILLED)
@@ -249,6 +268,9 @@ public class OrderDetailView extends VBox {
         if (stage != null) {
             stage.close();
         }
+    }
+    private void handleShipping(){
+
     }
 
 }

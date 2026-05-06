@@ -4,36 +4,22 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import com.capstoneshipping.DataBase.DB_Connection;
-import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.dao.ShippingHistoryDAO;
 import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
-import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.ShippingHistory;
 import com.capstoneshipping.util.ExportUtil;
 
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Region;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
-
-import javafx.beans.property.SimpleStringProperty;
-
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-
-import javafx.scene.control.TableView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableCell;
-import javafx.collections.FXCollections;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 
 public class ShippingHistoryView extends BorderPane implements SearchableView {
 
@@ -90,8 +76,9 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
         //Add button 
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
-        bottomBox.setPadding(new Insets(10));  
-        bottomBox.setPrefHeight(50);
+        bottomBox.setPadding(new Insets(5));  
+        bottomBox.setPrefHeight(30);
+        bottomBox.setId("side-bar");
 
         Button exportBtn = new Button("Export CSV");
 
@@ -130,7 +117,7 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
                     || (history.getTrackingNumber() != null &&
                         history.getTrackingNumber().toLowerCase().contains(lowerCaseFilter))
                     || (history.getShippingStatus() != null &&
-                        history.getShippingStatus().toString().toLowerCase().contains(lowerCaseFilter));
+                        history.getShippingStatus().toString().toLowerCase().contains(lowerCaseFilter)); 
         }
 
         switch (selectedField) {

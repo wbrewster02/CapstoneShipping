@@ -217,25 +217,6 @@ public class ShippingDetailView extends VBox {
             System.out.println("Shipping label PDF generated and opened for Shipping ID: " + shipping.getShippingId());
         }
 
-
-        //console print for testing
-        // if (labelData == null) {
-        //     System.out.println("No shipping label data found for Shipping ID: " + shipping.getShippingId());
-        //     return;
-        // }
-
-        // System.out.println("===== SHIPPING LABEL =====");
-        // System.out.println("FROM:");
-        // System.out.println(labelData.getReturnAddress());
-
-        // System.out.println("\nTO:");
-        // System.out.println(labelData.getCustomerName());
-        // System.out.println(labelData.getShippingAddress());
-
-        // System.out.println("\nORDER ID: " + labelData.getOrderId());
-        // System.out.println("CARRIER: " + labelData.getCarrier());
-        // System.out.println("TRACKING #: " + labelData.getTrackingNumber());
-        // System.out.println("==========================");
     }
 
 

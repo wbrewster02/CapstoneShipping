@@ -3,7 +3,7 @@
 // Date Modified: 4/3/2026
 
 package com.capstoneshipping.DataBase;
-
+import com.capstoneshipping.DataBase.DB_Constants;
 // this class Stores SQL Queries as Constants to be used within java.com.capstoneshipping.dao.* .
 public class DB_Queries {
 

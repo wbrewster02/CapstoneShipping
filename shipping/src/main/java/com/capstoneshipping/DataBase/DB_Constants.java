@@ -6,7 +6,7 @@ package com.capstoneshipping.DataBase;
 
 // DB_Constants creates all static final constants for DataBase Package.
 public class DB_Constants {
-
+    
     
     // TABLE_NAMES
     public static final String CUSTOMER_TABLE           = "Customer";
@@ -16,6 +16,7 @@ public class DB_Constants {
     public static final String SHOPPING_CART_TABLE      = "Shopping_Cart";
     public static final String SHOPPING_CART_ITEM_TABLE = "Shopping_Cart_Item";
     public static final String ORDER_HISTORY_TABLE      = "Order_History";
+    public static final String SHIPPING_HISTORY_TABLE   = "Shipping_History";
     public static final String ORDER_TABLE              = "`Order`";
     public static final String ORDER_ITEM_TABLE         = "Order_Item";
     public static final String PAYMENT_TABLE            = "Payment";
@@ -112,6 +113,21 @@ public class DB_Constants {
     public static final String SHIPPING_RETURN_REASON      = "Return_Reason";
     
 
+    // SHIPPING_HISTORY_COLUMNS
+    public static final String SHIPPING_HISTORY_ID               = "Shipping_History_ID";
+    public static final String SHIPPING_HISTORY_SHIPPING_ID      = "Shipping_ID";
+    public static final String SHIPPING_HISTORY_OLD_STATUS       = "Old_Status";
+    public static final String SHIPPING_HISTORY_NEW_STATUS       = "New_Status";
+    public static final String SHIPPING_HISTORY_CHANGED_AT       = "Changed_At";
+    public static final String SHIPPING_HISTORY_NOTES            = "Notes";
+    public static final String SHIPPING_HISTORY_ORDER_ID         = "Order_ID";
+    public static final String SHIPPING_HISTORY_CARRIER          = "Carrier";
+    public static final String SHIPPING_HISTORY_TRACKING_NUMBER  = "Tracking_Number";
+    public static final String SHIPPING_HISTORY_SHIPPED_STATUS   = "Ship_Status";
+    public static final String SHIPPING_HISTORY_SHIPPED_ON       = "Shipped_On";
+    public static final String SHIPPING_HISTORY_EXPECTED_BY      = "Expected_By";
+    
+
     // DISCOUNT_COLUMNS
     public static final String DISCOUNT_ID         = "Discount_ID";
     public static final String DISCOUNT_PRODUCT_ID = "Product_ID";
@@ -120,16 +136,5 @@ public class DB_Constants {
     public static final String DISCOUNT_AMOUNT     = "amount";
     public static final String DISCOUNT_START_DATE = "start_date";
     public static final String DISCOUNT_END_DATE   = "end_date";
-
-    
-    // SHIPPING_HISTORY_COLUMNS
-    public static final String SHIPPING_HISTORY_TABLE = "Shipping_History";
-
-    public static final String SHIPPING_HISTORY_ID = "Shipping_History_ID";
-    public static final String SHIPPING_HISTORY_SHIPPING_ID = "Shipping_ID";
-    public static final String SHIPPING_HISTORY_OLD_STATUS = "Old_Status";
-    public static final String SHIPPING_HISTORY_NEW_STATUS = "New_Status";
-    public static final String SHIPPING_HISTORY_CHANGED_AT = "Changed_At";
-    public static final String SHIPPING_HISTORY_NOTES = "Notes";
 
 }

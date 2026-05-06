@@ -3,19 +3,16 @@
 // Date Modified: 4/17/2026
 
 
-// NEEDS FIXING
-
 package com.capstoneshipping.Graphics;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import com.capstoneshipping.util.ExportUtil;
 
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.model.OrderHistory;
-//import com.capstoneshipping.model.Order;
-//import com.capstoneshipping.dao.OrderDAOImpl;
+import com.capstoneshipping.util.ExportUtil;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -29,9 +26,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-
-
-import java.time.Duration;
 
 
 public class OrderHistoryView extends BorderPane implements SearchableView {
@@ -97,8 +91,9 @@ public class OrderHistoryView extends BorderPane implements SearchableView {
         //Add button 
         HBox bottomBox = new HBox();
         bottomBox.setAlignment(Pos.CENTER_RIGHT);
-        bottomBox.setPadding(new Insets(10)); 
-        bottomBox.setPrefHeight(50);
+        bottomBox.setPadding(new Insets(5)); 
+        bottomBox.setPrefHeight(30);
+        bottomBox.setId("side-bar");
 
         Button exportBtn = new Button("Export CSV");
 

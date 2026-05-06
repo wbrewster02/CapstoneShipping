@@ -70,7 +70,7 @@ public class LoginView extends VBox {
         this.viewController = controller;
         
         // Labels: title, subtitle, error: invalid login/login != "".
-        Label titleLabel = new Label("Capstone Shipping");
+        Label titleLabel = new Label("Elevate Retail");
         Label subtitleLabel = new Label("Employee sign in.");
         Label errorLabel = new Label();
         

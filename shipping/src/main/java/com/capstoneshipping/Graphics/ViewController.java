@@ -5,18 +5,16 @@
 package com.capstoneshipping.Graphics;
 
 import com.capstoneshipping.DataBase.DB_Connection;
-import com.capstoneshipping.dao.OrderHistoryDAO;
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.dao.ShippingDAOImpl;
 import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
-
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.Shipping;
 
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 
 // ViewController manages the creation, modification, instantiation, and access of Graphics.Views.
 public class ViewController {
@@ -34,12 +32,13 @@ public class ViewController {
     private LoginView loginView;
     private MainView mainView;
     private OrderView orderView;
+    private ShippingView shippingView;
+
     private OrderHistoryView orderHistoryView;
+    private ShippingHistoryView shippingHistoryView;
+    
     private OrderDetailView orderDetailView;
     private ShippingDetailView shippingDetailView;
-
-    private ShippingView shippingView;
-    private ShippingHistoryView shippingHistoryView;
 
     // Icon Image
     private Image image;
@@ -90,8 +89,10 @@ public class ViewController {
         // Size Properties.
         primaryStage.setWidth(600);
         primaryStage.setHeight(450);
-        
         primaryStage.setResizable(false);
+        
+        primaryStage.centerOnScreen();
+
     }
     public void logout() {
         // reset views.
@@ -121,17 +122,16 @@ public class ViewController {
         }
         mainView.setId("Main");
         orderView.setId("Order");
-
+        
         // Load Orders.
         orderView.loadOrders();
         
         // Set the mainView Default to orderView to center.
         mainView.setCenter(orderView);
         layout.setCenter(mainView);
-
+        
         // assign Stage width/lenght.
-        primaryStage.setWidth(800);
-        primaryStage.setHeight(600);
+        primaryStage.setMaximized(true);
     }
     public void showOrderHistory(){
         if (mainView == null){
@@ -140,6 +140,7 @@ public class ViewController {
         if (orderHistoryView == null){
             orderHistoryView = new OrderHistoryView(this);
         }
+        
         mainView.setId("Main");
         orderHistoryView.setId("OrderHistory");
 
@@ -148,8 +149,7 @@ public class ViewController {
         mainView.setCenter(orderHistoryView);
         layout.setCenter(mainView);
 
-        primaryStage.setWidth(1200);
-        primaryStage.setHeight(800);
+        primaryStage.setMaximized(true);
     }
 
     public void openOrderDetailView(Order order){
@@ -181,7 +181,7 @@ public class ViewController {
         orderDetailStage.setResizable(false);
 
         orderDetailStage.setHeight(350);
-        orderDetailStage.setWidth(350);
+        orderDetailStage.setWidth(410);
 
         orderDetailStage.show();
 
@@ -216,7 +216,13 @@ public class ViewController {
         shippingDetailView = null;
 
     }
-
+    public void refreshTables(){
+        DB_Connection.getConnection();
+        getOrderView();
+        getShippingView();
+        getOrderHistoryView();
+        getShippingHistoryView();
+    }
     // Get Methods.
     public OrderView getOrderView() {
         if (orderView == null) {
@@ -259,4 +265,5 @@ public class ViewController {
         shippingHistoryView.loadShippingHistory();
         return shippingHistoryView;
     }
+
 }
