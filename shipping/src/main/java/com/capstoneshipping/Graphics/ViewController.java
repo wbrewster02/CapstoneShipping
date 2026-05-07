@@ -4,6 +4,8 @@
 
 package com.capstoneshipping.Graphics;
 
+import java.io.File;
+
 import com.capstoneshipping.DataBase.DB_Connection;
 import com.capstoneshipping.dao.OrderHistoryDAOImpl;
 import com.capstoneshipping.dao.ShippingDAOImpl;
@@ -14,6 +16,7 @@ import com.capstoneshipping.model.Shipping;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 // ViewController manages the creation, modification, instantiation, and access of Graphics.Views.
@@ -215,6 +218,20 @@ public class ViewController {
 
         shippingDetailView = null;
 
+    }
+
+    public String fileChooser(String filename){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save File");
+        fileChooser.setInitialFileName(filename);
+
+        File selectedFile = fileChooser.showSaveDialog(this.primaryStage);
+        if (selectedFile != null) {
+            String filePath = selectedFile.getAbsolutePath();
+            // Code to save the file at filePath
+            return filePath;
+        }
+        return null;
     }
     public void refreshTables(){
         DB_Connection.getConnection();

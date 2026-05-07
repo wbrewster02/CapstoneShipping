@@ -5,6 +5,7 @@
 
 package com.capstoneshipping.Graphics;
 
+import java.io.File;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -20,12 +21,15 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 
 
 public class OrderHistoryView extends BorderPane implements SearchableView {
@@ -98,11 +102,22 @@ public class OrderHistoryView extends BorderPane implements SearchableView {
         Button exportBtn = new Button("Export CSV");
 
         exportBtn.setOnAction(e -> {
-            //OrderHistoryDAO dao = new OrderHistoryDAOImpl(DatabaseConnection.getConnection());
-            //List<OrderHistory> list = getAllOrders();
-             List<OrderHistory> list =  orderHistoryDAO.getAllOrders();
+            DateTimeFormatter ExportFormat = DateTimeFormatter.ofPattern("M_d_yyyy");
 
-            ExportUtil.exportOrderHistoryToCSV(list, "exports/order_history_", LocalDateTime.now());
+            List<OrderHistory> list =  orderHistoryDAO.getAllOrders();
+            String filePath = this.viewController.fileChooser("order_history_" + LocalDateTime.now().format(ExportFormat) + ".csv");
+
+            if (filePath != null){
+                ExportUtil.exportOrderHistoryToCSV(list, filePath);
+
+            } else{
+                Alert FileError = new Alert(AlertType.ERROR);
+                FileError.setTitle("File selection Error.");
+                FileError.setHeaderText("An Error Occurred");
+                FileError.setContentText("Please check your input and try again.");
+                FileError.showAndWait();
+            }
+            
         });
 
         bottomBox.getChildren().add(exportBtn);
