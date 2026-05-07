@@ -23,7 +23,6 @@ import javafx.scene.control.Separator;
 import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundRepeat;
@@ -141,10 +140,10 @@ public class LoginView extends VBox {
         String password = pass.getText();
         
         // Validate not empty
-        // if (username.isEmpty() || password.isEmpty()) {
-        //     error.setText("Please fill in all fields.");
-        //     return;
-        // }
+        if (username.isEmpty() || password.isEmpty()) {
+            error.setText("Please fill in all fields.");
+            return;
+        }
         
         // Validate credentials
         for (Employee employee : Credentials){
@@ -194,6 +193,7 @@ public class LoginView extends VBox {
         }
 
     }
+
     public void createCredentials(String user, String access, String pass) {
         String hashed = BCrypt.hashpw(pass, BCrypt.gensalt()); // hash before storing
         

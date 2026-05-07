@@ -6,8 +6,6 @@ package com.capstoneshipping.Graphics;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.capstoneshipping.dao.OrderDAO;
 import com.capstoneshipping.dao.OrderHistoryDAO;
@@ -17,7 +15,6 @@ import com.capstoneshipping.model.FulfillmentStatus;
 import com.capstoneshipping.model.Order;
 import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.OrderStatus;
-import com.capstoneshipping.model.Shipping;
 import com.capstoneshipping.model.ShippingStatus;
 
 import javafx.geometry.Insets;
