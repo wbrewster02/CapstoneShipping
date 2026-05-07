@@ -1,26 +1,25 @@
 package com.capstoneshipping.Graphics;
 
 
-import com.capstoneshipping.dao.ShippingDAO;
-import com.capstoneshipping.model.ShippingStatus;
-import com.capstoneshipping.model.Shipping;
-import com.capstoneshipping.dao.ShippingHistoryDAO;
-import com.capstoneshipping.model.ShippingHistory;
-import com.capstoneshipping.model.ShippingLabelData;
-import com.capstoneshipping.util.WebhookService;
-import com.capstoneshipping.util.ShippingLabelPDFUtil;
-
+import java.io.File;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.io.File;
 
+import com.capstoneshipping.dao.ShippingDAO;
+import com.capstoneshipping.dao.ShippingHistoryDAO;
+import com.capstoneshipping.model.Shipping;
+import com.capstoneshipping.model.ShippingHistory;
+import com.capstoneshipping.model.ShippingLabelData;
+import com.capstoneshipping.model.ShippingStatus;
+import com.capstoneshipping.util.ShippingLabelPDFUtil;
+import com.capstoneshipping.util.WebhookService;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ShippingDetailView extends VBox {
@@ -132,13 +131,13 @@ public class ShippingDetailView extends VBox {
             if (selectedShippingStatus == ShippingStatus.SHIPPED) {
                 // Handle shipped status specific logic
                 LocalDateTime now = LocalDateTime.now();
-                //LocalDateTime expectedBy = calculateExpectedBy(shipping.getCarrier(), now);
+                LocalDateTime expectedBy = calculateExpectedBy(shipping.getCarrier(), now);
 
                 shipping.setShippedOn(now);
-                //shipping.setExpectedBy(expectedBy);
+                shipping.setExpectedBy(expectedBy);
 
                 shippingDAO.updateShippedOn(shipping.getShippingId(), now);
-                //shippingDAO.updateExpectedBy(shipping.getShippingId(), expectedBy);
+                shippingDAO.updateExpectedBy(shipping.getShippingId(), expectedBy);
             }
 
             if (onUpdate != null) {
@@ -220,17 +219,17 @@ public class ShippingDetailView extends VBox {
 
 
 
-    // private LocalDateTime calculateExpectedBy(String carrier, LocalDateTime shippedOn) {
-    //     if (carrier == null) {
-    //         return shippedOn.plusDays(5);
-    //     }
+    private LocalDateTime calculateExpectedBy(String carrier, LocalDateTime shippedOn) {
+        if (carrier == null) {
+            return shippedOn.plusDays(5);
+        }
 
-    //     return switch (carrier.toLowerCase()) {
-    //         case "ups" -> shippedOn.plusDays(3);
-    //         case "fedex" -> shippedOn.plusDays(2);
-    //         case "usps" -> shippedOn.plusDays(5);
-    //         case "dhl" -> shippedOn.plusDays(4);
-    //         default -> shippedOn.plusDays(5);
-    //     };
-    // }
+        return switch (carrier.toLowerCase()) {
+            case "ups" -> shippedOn.plusDays(3);
+            case "fedex" -> shippedOn.plusDays(2);
+            case "usps" -> shippedOn.plusDays(5);
+            case "dhl" -> shippedOn.plusDays(4);
+            default -> shippedOn.plusDays(5);
+        };
+    }
 }
