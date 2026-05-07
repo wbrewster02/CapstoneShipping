@@ -11,9 +11,8 @@ import com.capstoneshipping.model.ShippingHistory;
 
 public class ExportUtil {
 
-    public static void exportOrderHistoryToCSV(List<OrderHistory> list, String filePath, LocalDateTime date) {
-        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("M_d_yyyy");
-        try (FileWriter writer = new FileWriter(filePath + date.format(FORMATTER) + ".csv")) {
+    public static void exportOrderHistoryToCSV(List<OrderHistory> list, String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
 
             // Header row
             writer.append("OrderHistoryID, OrderID, OldOrderStatus, NewOrderStatus, OldFulfillmentStatus, NewFulfillmentStatus, ChangedAt, Notes\n");
@@ -37,10 +36,8 @@ public class ExportUtil {
         }
     }
 
-    public static void exportShippingHistoryToCSV(List<ShippingHistory> list, String filePath, LocalDateTime date) {
-        DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("M_d_yyyy");
-
-        try (FileWriter writer = new FileWriter(filePath + date.format(FORMATTER) + ".csv")) {
+    public static void exportShippingHistoryToCSV(List<ShippingHistory> list, String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
 
             // Header row
             writer.append("shippingId, orderId, Carrier, TrackingNumber, ShippingStatus, ShippedOn, ExpectedBy\n");
@@ -62,5 +59,7 @@ public class ExportUtil {
             e.printStackTrace();
         }
     }
+
+
 
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.capstoneshipping.dao.ShippingHistoryDAO;
 import com.capstoneshipping.dao.ShippingHistoryDAOImpl;
+import com.capstoneshipping.model.OrderHistory;
 import com.capstoneshipping.model.ShippingHistory;
 import com.capstoneshipping.util.ExportUtil;
 
@@ -14,6 +15,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -83,10 +86,23 @@ public class ShippingHistoryView extends BorderPane implements SearchableView {
         Button exportBtn = new Button("Export CSV");
 
         exportBtn.setOnAction(e -> {
+            DateTimeFormatter ExportFormat = DateTimeFormatter.ofPattern("M_d_yyyy");
             ShippingHistoryDAO dao = new ShippingHistoryDAOImpl();
-             List<ShippingHistory> list =  shippingHistoryDAO.getAllShippingHistory();
 
-            ExportUtil.exportShippingHistoryToCSV(list, "exports/shipping_history_", LocalDateTime.now());
+            List<ShippingHistory> list =  shippingHistoryDAO.getAllShippingHistory();
+            String filePath = this.viewController.fileChooser("shipping_history_" + LocalDateTime.now().format(ExportFormat) + ".csv");
+
+            if (filePath != null){
+                ExportUtil.exportShippingHistoryToCSV(list, filePath);
+                
+            } else{
+                Alert FileError = new Alert(AlertType.ERROR);
+                FileError.setTitle("File selection Error.");
+                FileError.setHeaderText("An Error Occurred");
+                FileError.setContentText("Please check your input and try again.");
+                FileError.showAndWait();
+            }
+
         });
 
         bottomBox.getChildren().add(exportBtn);
